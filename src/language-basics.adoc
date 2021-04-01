@@ -1,16 +1,8 @@
 === First steps with Lisp syntax
 
-Invented by John McCarthy in 1958, Lisp is one of the oldest programming languages
-that is still around. It has evolved into many derivatives called dialects,
-ClojureScript being one of them. It is a programming language written in its own
-data structures — originally lists enclosed in parentheses — but Clojure(Script) has
-evolved the Lisp syntax with more data structures, making it more pleasant to write
-and read.
+1958年にJohn McCarthyによって発明されたLispは、現存する最も古いプログラミング言語の一つです。Lispは方言と呼ばれる多くの派生言語に進化しており、ClojureScriptもその一つです。Lispは独自のデータ構造で書かれたプログラミング言語で、当初は括弧で囲まれたリストでしたが、Clojure(Script)はLispの構文をより多くのデータ構造で進化させ、書くのも読むのもより快適になりました。
 
-A list with a function in the first position is used for calling a function in
-ClojureScript. In the example below, we apply the addition function to three
-arguments. Note that unlike in other languages, `+` is not an operator but a
-function. Lisp has no operators; it only has functions.
+ClojureScriptで関数を呼び出すには、最初の位置に関数を持つリストを使います。以下の例では，3つの引数に加算関数を適用している．他の言語と異なり、`+`は演算子ではなく関数であることに注意してください。Lispには演算子はなく、関数しかありません。
 
 [source, clojure]
 ----
@@ -18,9 +10,7 @@ function. Lisp has no operators; it only has functions.
 ;; => 6
 ----
 
-In the example above, we're applying the addition function `+` to the arguments `1`,
-`2` and `3`. ClojureScript allows many unusual characters like `?` or `-` in symbol
-names, which makes it easier to read:
+上の例では、引数 `1`, `2`, `3` に対して、加算関数 `+` を適用しています。ClojureScriptでは、シンボル名に `? `や`-`のような変わった文字をシンボル名に使うことができ、読みやすくなっています。
 
 [source, clojure]
 ----
@@ -28,9 +18,7 @@ names, which makes it easier to read:
 ;; => true
 ----
 
-To distinguish function calls from lists of data items, we can quote lists to keep
-them from being evaluated.  The quoted lists will be treated as data instead of as a
-function call:
+関数呼び出しとデータ項目のリストを区別するために、リストを引用符で囲み、評価されないようにすることができます。 引用符で囲まれたリストは、関数呼び出しとしてではなく、データとして扱われます。
 
 [source, clojure]
 ----
@@ -38,9 +26,7 @@ function call:
 ;; => (+ 1 2 3)
 ----
 
-ClojureScript uses more than lists for its syntax. The full details will be covered
-later, but here is an example of the usage of a vector (enclosed in brackets) for
-defining local bindings:
+ClojureScriptでは、その構文にリスト以外のものも使用します。詳細は後ほど説明しますが、ここではローカルバインディングを定義するためのベクター（括弧で囲まれたもの）の使い方の例を示します。
 
 [source, clojure]
 ----
@@ -51,34 +37,21 @@ defining local bindings:
 ;; => 6
 ----
 
-This is practically all the syntax we need to know for using not only ClojureScript,
-but any Lisp. Being written in its own data structures (often referred to as
-_homoiconicity_) is a great property since the syntax is uniform and simple; also,
-code generation via xref:macros-section[macros] is easier than in any other
-language, giving us plenty of power to extend the language to suit our needs.
+これは、ClojureScriptだけでなく、あらゆるLispを使用するために知っておく必要のある構文のほぼすべてです。また、xref:macros-section[macros]によるコード生成は他のどの言語よりも簡単で、必要に応じて言語を拡張する力が十分にあります。
 
 
 === The base data types
 
-The ClojureScript language has a rich set of data types like most programming
-languages. It provides scalar data types that will be very familiar to you, such as
-numbers, strings, and floats. Beyond these, it also provides a great number of
-others that might be less familiar, such as symbols, keywords, regexes (regular
-expressions), vars, atoms, and volatiles.
+ClojureScript言語には、他のプログラミング言語と同様に豊富なデータ型が用意されています。数字、文字列、浮動小数点数など、おなじみのスカラーデータ型が用意されています。そのほかにも、シンボル、キーワード、正規表現、変数、アトム、揮発性物質(volatiles)など、あまり馴染みのないデータ型が多数用意されています。
 
-_ClojureScript_ embraces the host language, and where possible, uses the host's
-provided types. For example: numbers and strings are used as is and behave in the
-same way as in JavaScript.
+_ClojureScript_はホスト言語を採用しており、可能な限りホストが提供する型を使用します。例えば、数字や文字列はそのまま使用され、JavaScriptと同じように動作します。
 
 
 ==== Numbers
 
-In _ClojureScript_, numbers include both integers and floating points. Keeping in
-mind that _ClojureScript_ is a guest language that compiles to JavaScript, integers
-are actually JavaScript's native floating points under the hood.
+_ClojureScript_では、数字には整数と浮動小数点の両方が含まれます。_ClojureScript_はJavaScriptにコンパイルされたゲスト言語であることを考慮すると、整数は実際にはJavaScriptのネイティブな浮動小数点であることがわかります。
 
-As in any other language, numbers in _ClojureScript_ are represented in the
-following ways:
+他の言語と同様に、_ClojureScript_の数字は以下の方法で表されます。
 
 [source, clojure]
 ----
@@ -95,9 +68,7 @@ following ways:
 
 ==== Keywords
 
-Keywords in _ClojureScript_ are objects that always evaluate to themselves. They are
-usually used in <<maps-section,map data structures>> to efficiently represent the
-keys.
+_ClojureScript_におけるキーワードは、常に自分自身に評価されるオブジェクトです。これらは通常、キーを効率的に表現するために<<maps-section,map data structures>>で使用されます。
 
 [source, clojure]
 ----
@@ -106,12 +77,9 @@ keys.
 :?
 ----
 
-As you can see, the keywords are all prefixed with `:`, but this character is
-only part of the literal syntax and is not part of the name of the object.
+ご覧のように、キーワードの先頭にはすべて `:` が付いていますが、この文字はリテラル構文の一部に過ぎず、オブジェクトの名前の一部ではありません。
 
-You can also create a keyword by calling the `keyword` function. Don't worry if
-you don't understand or are unclear about anything in the following example;
-<<function-section,functions>> are discussed in a later section.
+また、`keyword`関数を呼び出してキーワードを作成することもできます。以下の例で理解できない点や不明な点があっても気にしないでください。<<function-section,functions>>については、後のセクションで説明します。
 
 [source, clojure]
 ----
@@ -121,9 +89,7 @@ you don't understand or are unclear about anything in the following example;
 
 ===== Namespaced keywords
 
-When prefixing keywords with a double colon `::`, the keyword will be prepended
-by the name of the current namespace.  Note that namespacing keywords affects
-equality comparisons.
+キーワードの前にダブルコロン `::` を付けると、そのキーワードの前に現在の名前空間の名前が付けられます。 キーワードの名前付けは、等値比較に影響することに注意してください。
 
 [source, clojure]
 ----
@@ -134,9 +100,7 @@ equality comparisons.
 ;; => false
 ----
 
-Another alternative is to include the namespace in the keyword
-literal, this is useful when creating namespaced keywords for other
-namespaces:
+また、キーワードリテラルに名前空間を含める方法もあります。これは、他の名前空間のための名前空間キーワードを作成する際に便利です。
 
 [source, clojure]
 ----
@@ -144,7 +108,7 @@ namespaces:
 ;; => :cljs.unraveled/foo
 ----
 
-The `keyword` function has an arity-2 variant where we can specify the namespace as the first parameter:
+`keyword`関数には、最初のパラメータとして名前空間を指定できるarity-2のバリエーションがあります。
 
 [source, clojure]
 ----
@@ -155,12 +119,9 @@ The `keyword` function has an arity-2 variant where we can specify the namespace
 
 ==== Symbols
 
-Symbols in _ClojureScript_ are very, very similar to *keywords* (which you now know
-about). But instead of evaluating to themselves, symbols are evaluated to something
-that they refer to, which can be functions, variables, etc.
+_ClojureScript_のシンボルは、(ご存知の)*キーワード*と非常によく似ています。しかし、シンボルは自分自身に対して評価されるのではなく、シンボルが参照しているものに対して評価されます。
 
-Symbols start with a non numeric character and can contain alphanumeric characters
-as well as *, +, !, -, _, ', and ? such as :
+シンボルは数字以外の文字で始まり、英数字、*、+、!、-、_、'、?を含むことができます。
 
 [source, clojure]
 ----
@@ -170,8 +131,7 @@ f1
 my-special-swap!
 ----
 
-Don't worry if you don't understand right away; symbols are used in almost all of
-our examples, which will give you the opportunity to learn more as we go on.
+すぐには理解できなくても心配ありません。シンボルはほとんどすべての例で使用されていますので、理解を深めていくことができます。
 
 
 ==== Strings
