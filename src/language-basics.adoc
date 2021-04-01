@@ -119,7 +119,7 @@ _ClojureScript_におけるキーワードは、常に自分自身に評価さ�
 
 ==== Symbols
 
-_ClojureScript_のシンボルは、(ご存知の)*キーワード*と非常によく似ています。しかし、シンボルは自分自身に対して評価されるのではなく、シンボルが参照しているものに対して評価されます。
+_ClojureScript_のシンボルは、(ご存知の) *キーワード* と非常によく似ています。しかし、シンボルは自分自身に対して評価されるのではなく、シンボルが参照しているものに対して評価されます。
 
 シンボルは数字以外の文字で始まり、英数字、*、+、!、-、_、'、?を含むことができます。
 
@@ -136,19 +136,16 @@ my-special-swap!
 
 ==== Strings
 
-There is almost nothing new we can explain about strings that you don't already
-know. In _ClojureScript_, they work the same as in any other language. One point of
-interest, however, is that they are immutable.
+文字列については、まだ知られていないことを説明することはほとんどありません。_ClojureScript_では、文字列は他の言語と同じように動作します。しかし、興味深い点として、文字列が不変であることが挙げられます。
 
-In this case they are the same as in JavaScript:
+この場合、文字列は JavaScript と同じです。
 
 [source, clojure]
 ----
 "An example of a string"
 ----
 
-One peculiar aspect of strings in _ClojureScript_ is due to the language's Lisp
-syntax: single and multiline strings have the same syntax:
+_ClojureScript_における文字列の特異な点の一つは、言語のLisp構文によるものです。
 
 [source, clojure]
 ----
@@ -158,8 +155,7 @@ syntax: single and multiline strings have the same syntax:
 
 ==== Characters
 
-_ClojureScript_ also lets you write single characters using Clojure's character
-literal syntax.
+_ClojureScript_では、Clojureの文字リテラル構文を使って単一の文字を書くこともできます。
 
 [source, clojure]
 ----
@@ -167,31 +163,23 @@ literal syntax.
 \newline  ; The newline character
 ----
 
-Since the host language doesn't contain character literals, _ClojureScript_
-characters are transformed behind the scenes into single character JavaScript
-strings.
+ホスト言語には文字リテラルが含まれていないため、_ClojureScript_の文字は、舞台裏で一文字のJavaScript文字列に変換されます。
 
 
 ==== Collections
 
-Another big step in explaining a language is to explain its collections and
-collection abstractions. _ClojureScript_ is not an exception to this rule.
+ある言語を説明するためのもう一つの大きなステップは、その言語のコレクションとコレク ションの抽象化を説明することです。_clojureScript_もこのルールの例外ではありません。
 
-_ClojureScript_ comes with many types of collections. The main difference between
-_ClojureScript_ collections and collections in other languages is that they are
-persistent and immutable.
+_clojureScript_ には多くの種類のコレクションがあります。_clojureScript_ のコレクションと他の言語のコレクションとの主な違いは、コレクションが永続的で不変であるということです。
 
-Before moving on to these (possibly) unknown concepts, we'll present a high-level
-overview of existing collection types in _ClojureScript_.
+これらの(おそらく)未知の概念に進む前に、_ClojureScript_の既存のコレクションタイプのハイレベルな概要を紹介します。
 
 
 ===== Lists
 
-This is a classic collection type in languages based on Lisp. Lists are the simplest
-type of collection in _ClojureScript_. Lists can contain items of any type,
-including other collections.
+これは Lisp をベースにした言語では古典的なコレクションタイプです。リストは、_ClojureScript_では最もシンプルなタイプのコレクションです。リストは他のコレクションを含め、あらゆるタイプのアイテムを含むことができます。
 
-Lists in _ClojureScript_ are represented by items enclosed between parentheses:
+_ClojureScript_のリストは、カッコで囲まれたアイテムで表現されます。
 
 [source, clojure]
 ----
@@ -199,15 +187,9 @@ Lists in _ClojureScript_ are represented by items enclosed between parentheses:
 '(:foo :bar 2)
 ----
 
-As you can see, all list examples are prefixed with the `'` char. This is because
-lists in Lisp-like languages are often used to express things like function or macro
-calls. In that case, the first item should be a symbol that will evaluate to
-something callable, and the rest of the list elements will be function
-arguments. However, in the preceding examples, we don't want the first item as a
-symbol; we just want a list of items.
+ご覧のように、すべてのリストの例では、先頭に `'` という文字が付いています。これは、Lisp系言語のリストは、関数やマクロの呼び出しなどを表現するために使われることが多いからです。その場合、最初の項目は呼び出し可能なものとして評価されるシンボルとし、残りのリスト要素は関数の引数とします。しかし、前述の例では、最初の項目はシンボルではなく、単に項目のリストにしています。
 
-The following example shows the difference between a list without and with the
-preceding single quote mark:
+次の例では、リストにシングルクォートマークが付いていない場合と付いている場合の違いを示しています。
 
 [source, clojure]
 ----
@@ -218,11 +200,9 @@ preceding single quote mark:
 ;; => (inc 1)
 ----
 
-As you can see, if you evaluate `(inc 1)` without prefixing it with `'`, it will
-resolve the `inc` symbol to the *inc* function and will execute it with `1` as the
-first argument, returning the value `2`.
+ご覧のように，`(inc 1)` をプレフィックス `'`を付けずに評価すると，`inc` シンボルを *inc* 関数に解決し，`1` を第 1 引数として実行して，`2` という値を返します．
 
-You can also explicitly create a list with the `list` function:
+また，`list`関数を使って明示的にリストを作成することもできます．
 
 [source, clojure]
 ----
@@ -233,19 +213,14 @@ You can also explicitly create a list with the `list` function:
 ;; => (:foo :bar 2)
 ----
 
-Lists have the peculiarity that they are very efficient if you access them
-sequentially or access their first elements, but a list is not a very good option if
-you need random (index) access to its elements.
+リストには、順番にアクセスしたり、最初の要素にアクセスする場合は非常に効率的ですが、要素にランダム（インデックス）にアクセスする必要がある場合は、リストはあまり良い選択肢ではありません。
 
 
 ===== Vectors
 
-Like lists, *vectors* store a series of values, but in this case, with very
-efficient index access to their elements, as opposed to lists, which are evaluated
-in order. Don't worry; in the following sections we'll go in depth with details, but
-at this moment, this simple explanation is more than enough.
+リストと同様、*vector* は一連の値を格納しますが、リストが順番に評価されるのに対し、*vector* はその要素に非常に効率的なインデックスアクセスを行います。心配しないでください。次のセクションでは詳細を説明しますが、現時点では、この簡単な説明で十分です。
 
-Vectors use square brackets for the literal syntax; let's see some examples:
+ベクトルのリテラル構文には角括弧が使われていますが，いくつかの例を見てみましょう．
 
 [source, clojure]
 ----
@@ -253,11 +228,9 @@ Vectors use square brackets for the literal syntax; let's see some examples:
 [3 4 5 nil]
 ----
 
-Like lists, vectors can contain objects of any type, as you can observe in the
-preceding example.
+リストと同様に、ベクターも任意の型のオブジェクトを含むことができますが、これは前述の例でわかります。
 
-You can also explicitly create a vector with the `vector` function, but this is not
-commonly used in ClojureScript programs:
+また、`vector`関数を使って明示的にベクターを作成することもできますが、ClojureScriptプログラムではあまり使われません。
 
 [source, clojure]
 ----
@@ -272,10 +245,7 @@ commonly used in ClojureScript programs:
 [[maps-section]]
 ===== Maps
 
-Maps are a collection abstraction that allow you to store key/value pairs. In other
-languages, this type of structure is commonly known as a hash-map or dict
-(dictionary). Map literals in _ClojureScript_ are written with the pairs between
-curly braces.
+マップは、キーと値のペアを格納することができるコレクションの抽象化です。他の言語では、この種の構造は一般的にハッシュマップやディクショナリー（辞書）として知られています。_ClojureScript_のマップリテラルは、中括弧でペアを挟んで書きます。
 
 [source, clojure]
 ----
@@ -283,21 +253,16 @@ curly braces.
 {:alphabet [:a :b :c]}
 ----
 
-NOTE: Commas are frequently used to separate a key-value pair, but they are
-completely optional. In _ClojureScript_ syntax, commas are treated like spaces.
+注: カンマはキーと値のペアを区切るためによく使われますが、完全に任意です。_ClojureScript_の構文では、カンマはスペースのように扱われます。
 
-Like vectors, every item in a map literal is evaluated before the result is stored
-in a map, but the order of evaluation is not guaranteed.
+ベクターのように、マップリテラルの各項目は結果がマップに格納される前に評価されますが、評価の順番は保証されていません。
 
 
 ===== Sets
 
-And finally, *sets*.
+そして最後に、*セット* です。
 
-Sets store zero or more unique items of any type and are unordered. Like maps, they
-use curly braces for their literal syntax, with the difference being that they use a
-`#` as the leading character. You can also use the `set` function to convert a
-collection to a set:
+セットは、任意のタイプの0個以上のユニークなアイテムを格納し、順序付けされていません。マップと同様、リテラルの構文には中括弧を使用しますが、違いは先頭の文字に `#` を使用することです。また、`set`関数を使って、コレクションをセットに変換することもできます。
 
 [source, clojure]
 ----
@@ -307,22 +272,16 @@ collection to a set:
 ;; => #{1 2 3 4 5}
 ----
 
-In subsequent sections, we'll go in depth about sets and the other collection types
-you've seen in this section.
+この後のセクションでは、セットやその他のコレクションタイプについて詳しく説明します。
 
 
 === Vars
 
-_ClojureScript_ is a mostly functional language that focuses on
-immutability. Because of that, it does not have the concept of variables as you know
-them in most other programming languages. The closest analogy to variables are the
-variables you define in algebra; when you say `x = 6` in mathematics, you are saying
-that you want the symbol `x` to stand for the number six.
+_ClojureScript_は、不変性に重点を置いた関数型言語です。そのため、他の多くのプログラミング言語で知られているような変数の概念はありません。変数に最も近いものは、代数学で定義する変数です。数学で「x = 6」と言うとき、それは「x」という記号が6という数字を表すことを意味しています。
 
-In _ClojureScript_, vars are represented by symbols and store a single value
-together with metadata.
+_ClojureScript_では、変数はシンボルで表され、1つの値をメタデータと一緒に格納します。
 
-You can define a var using the `def` special form:
+varを定義するには、`def`という特殊な形式を使います。
 
 [source, clojure]
 ----
@@ -330,10 +289,7 @@ You can define a var using the `def` special form:
 (def y [1 2 3])
 ----
 
-Vars are always top level in the namespace (<<namespace-section,which we will
-explain later>>). If you use `def` in a function call, the var will be defined at
-the namespace level, but we do not recommend this - instead, you should use `let` to
-define variables within a function.
+変数は常に名前空間（<<namespace-section,これについては後で説明します>>）のトップレベルにあります。関数呼び出しの中で `def` を使用すると、var は名前空間レベルで定義されますが、これはお勧めできません。代わりに、`let` を使用して関数内で変数を定義してください。
 
 
 [[function-section]]
@@ -341,17 +297,11 @@ define variables within a function.
 
 ==== The first contact
 
-It's time to make things happen. _ClojureScript_ has what are known as first class
-functions. They behave like any other type; you can pass them as parameters and you
-can return them as values, always respecting the lexical scope. _ClojureScript_ also
-has some features of dynamic scoping, but this will be discussed in another section.
+物事を実現するための時間です。_ClojureScript_には、ファーストクラス関数と呼ばれるものがあります。これらは他の型と同じように動作します。パラメータとして渡したり、値として返したりすることができ、常にレキシカル・スコープを尊重します。_ClojureScript_には動的スコープの機能もありますが、これについては別のセクションで説明します。
 
-If you want to know more about scopes, this
-link:http://en.wikipedia.org/wiki/Scope_(computer_science)[Wikipedia article] is
-very extensive and explains different types of scoping.
+スコープについてもっと知りたい方は、こちらのリンク:http://en.wikipedia.org/wiki/Scope_(computer_science)[Wikipedia article] が非常に充実しており、様々なタイプのスコープについて説明されています。
 
-As _ClojureScript_ is a Lisp dialect, it uses the prefix notation for calling a
-function:
+_ClojureScript_はLispの方言なので、関数を呼び出す際にはプレフィックス記法を使用します。
 
 [source, clojure]
 ----
@@ -359,8 +309,7 @@ function:
 ;; => 2
 ----
 
-In the example above, `inc` is a function and is part of the _ClojureScript_
-runtime, and `1` is the first argument for the `inc` function.
+上の例では、`inc` は関数であり、_ClojureScript_ ランタイムの一部であり、`1` は `inc` 関数の最初の引数です。
 
 [source, clojure]
 ----
