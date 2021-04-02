@@ -10,7 +10,7 @@ ClojureScriptで関数を呼び出すには、最初の位置に関数を持つ�
 ;; => 6
 ----
 
-上の例では、引数 `1`, `2`, `3` に対して、加算関数 `+` を適用しています。ClojureScriptでは、シンボル名に `? `や`-`のような変わった文字をシンボル名に使うことができ、読みやすくなっています。
+上の例では、引数 `1`, `2`, `3` に対して、加算関数 `+` を適用しています。ClojureScriptでは、シンボル名に `?`や`-`のような変わった文字をシンボル名に使うことができ、読みやすくなっています。
 
 [source, clojure]
 ----
@@ -44,14 +44,14 @@ ClojureScriptでは、その構文にリスト以外のものも使用します�
 
 ClojureScript言語には、他のプログラミング言語と同様に豊富なデータ型が用意されています。数字、文字列、浮動小数点数など、おなじみのスカラーデータ型が用意されています。そのほかにも、シンボル、キーワード、正規表現、変数、アトム、揮発性物質(volatiles)など、あまり馴染みのないデータ型が多数用意されています。
 
-_ClojureScript_はホスト言語を採用しており、可能な限りホストが提供する型を使用します。例えば、数字や文字列はそのまま使用され、JavaScriptと同じように動作します。
+_ClojureScript_ はホスト言語を採用しており、可能な限りホストが提供する型を使用します。例えば、数字や文字列はそのまま使用され、JavaScriptと同じように動作します。
 
 
 ==== Numbers
 
-_ClojureScript_では、数字には整数と浮動小数点の両方が含まれます。_ClojureScript_はJavaScriptにコンパイルされたゲスト言語であることを考慮すると、整数は実際にはJavaScriptのネイティブな浮動小数点であることがわかります。
+_ClojureScript_ では、数字には整数と浮動小数点の両方が含まれます。_ClojureScript_ はJavaScriptにコンパイルされたゲスト言語であることを考慮すると、整数は実際にはJavaScriptのネイティブな浮動小数点であることがわかります。
 
-他の言語と同様に、_ClojureScript_の数字は以下の方法で表されます。
+他の言語と同様に、_ClojureScript_ の数字は以下の方法で表されます。
 
 [source, clojure]
 ----
@@ -68,7 +68,7 @@ _ClojureScript_では、数字には整数と浮動小数点の両方が含ま�
 
 ==== Keywords
 
-_ClojureScript_におけるキーワードは、常に自分自身に評価されるオブジェクトです。これらは通常、キーを効率的に表現するために<<maps-section,map data structures>>で使用されます。
+_ClojureScript_ におけるキーワードは、常に自分自身に評価されるオブジェクトです。これらは通常、キーを効率的に表現するために<<maps-section,map data structures>>で使用されます。
 
 [source, clojure]
 ----
@@ -79,7 +79,7 @@ _ClojureScript_におけるキーワードは、常に自分自身に評価さ�
 
 ご覧のように、キーワードの先頭にはすべて `:` が付いていますが、この文字はリテラル構文の一部に過ぎず、オブジェクトの名前の一部ではありません。
 
-また、`keyword`関数を呼び出してキーワードを作成することもできます。以下の例で理解できない点や不明な点があっても気にしないでください。<<function-section,functions>>については、後のセクションで説明します。
+また、`keyword` 関数を呼び出してキーワードを作成することもできます。以下の例で理解できない点や不明な点があっても気にしないでください。<<function-section,functions>>については、後のセクションで説明します。
 
 [source, clojure]
 ----
@@ -108,7 +108,7 @@ _ClojureScript_におけるキーワードは、常に自分自身に評価さ�
 ;; => :cljs.unraveled/foo
 ----
 
-`keyword`関数には、最初のパラメータとして名前空間を指定できるarity-2のバリエーションがあります。
+`keyword` 関数には、最初のパラメータとして名前空間を指定できるarity-2のバリエーションがあります。
 
 [source, clojure]
 ----
@@ -119,7 +119,7 @@ _ClojureScript_におけるキーワードは、常に自分自身に評価さ�
 
 ==== Symbols
 
-_ClojureScript_のシンボルは、(ご存知の) *キーワード* と非常によく似ています。しかし、シンボルは自分自身に対して評価されるのではなく、シンボルが参照しているものに対して評価されます。
+_ClojureScript_ のシンボルは、(ご存知の) *キーワード* と非常によく似ています。しかし、シンボルは自分自身に対して評価されるのではなく、シンボルが参照しているものに対して評価されます。
 
 シンボルは数字以外の文字で始まり、英数字、*、+、!、-、_、'、?を含むことができます。
 
@@ -136,7 +136,7 @@ my-special-swap!
 
 ==== Strings
 
-文字列については、まだ知られていないことを説明することはほとんどありません。_ClojureScript_では、文字列は他の言語と同じように動作します。しかし、興味深い点として、文字列が不変であることが挙げられます。
+文字列については、まだ知られていないことを説明することはほとんどありません。_ClojureScript_ では、文字列は他の言語と同じように動作します。しかし、興味深い点として、文字列が不変であることが挙げられます。
 
 この場合、文字列は JavaScript と同じです。
 
@@ -145,7 +145,7 @@ my-special-swap!
 "An example of a string"
 ----
 
-_ClojureScript_における文字列の特異な点の一つは、言語のLisp構文によるものです。
+_ClojureScript_ における文字列の特異な点の一つは、言語のLisp構文によるものです。
 
 [source, clojure]
 ----
@@ -155,7 +155,7 @@ _ClojureScript_における文字列の特異な点の一つは、言語のLisp�
 
 ==== Characters
 
-_ClojureScript_では、Clojureの文字リテラル構文を使って単一の文字を書くこともできます。
+_ClojureScript_ では、Clojureの文字リテラル構文を使って単一の文字を書くこともできます。
 
 [source, clojure]
 ----
@@ -163,23 +163,23 @@ _ClojureScript_では、Clojureの文字リテラル構文を使って単一の�
 \newline  ; The newline character
 ----
 
-ホスト言語には文字リテラルが含まれていないため、_ClojureScript_の文字は、舞台裏で一文字のJavaScript文字列に変換されます。
+ホスト言語には文字リテラルが含まれていないため、_ClojureScript_ の文字は、舞台裏で一文字のJavaScript文字列に変換されます。
 
 
 ==== Collections
 
-ある言語を説明するためのもう一つの大きなステップは、その言語のコレクションとコレク ションの抽象化を説明することです。_clojureScript_もこのルールの例外ではありません。
+ある言語を説明するためのもう一つの大きなステップは、その言語のコレクションとコレク ションの抽象化を説明することです。_ClojureScript_ もこのルールの例外ではありません。
 
-_clojureScript_ には多くの種類のコレクションがあります。_clojureScript_ のコレクションと他の言語のコレクションとの主な違いは、コレクションが永続的で不変であるということです。
+_ClojureScript_  には多くの種類のコレクションがあります。_ClojureScript_  のコレクションと他の言語のコレクションとの主な違いは、コレクションが永続的で不変であるということです。
 
-これらの(おそらく)未知の概念に進む前に、_ClojureScript_の既存のコレクションタイプのハイレベルな概要を紹介します。
+これらの(おそらく)未知の概念に進む前に、_ClojureScript_ の既存のコレクションタイプのハイレベルな概要を紹介します。
 
 
 ===== Lists
 
-これは Lisp をベースにした言語では古典的なコレクションタイプです。リストは、_ClojureScript_では最もシンプルなタイプのコレクションです。リストは他のコレクションを含め、あらゆるタイプのアイテムを含むことができます。
+これは Lisp をベースにした言語では古典的なコレクションタイプです。リストは、_ClojureScript_ では最もシンプルなタイプのコレクションです。リストは他のコレクションを含め、あらゆるタイプのアイテムを含むことができます。
 
-_ClojureScript_のリストは、カッコで囲まれたアイテムで表現されます。
+_ClojureScript_ のリストは、カッコで囲まれたアイテムで表現されます。
 
 [source, clojure]
 ----
@@ -200,9 +200,9 @@ _ClojureScript_のリストは、カッコで囲まれたアイテムで表現�
 ;; => (inc 1)
 ----
 
-ご覧のように，`(inc 1)` をプレフィックス `'`を付けずに評価すると，`inc` シンボルを *inc* 関数に解決し，`1` を第 1 引数として実行して，`2` という値を返します．
+ご覧のように，`(inc 1)` をプレフィックス `'` を付けずに評価すると，`inc` シンボルを *inc* 関数に解決し，`1` を第 1 引数として実行して，`2` という値を返します．
 
-また，`list`関数を使って明示的にリストを作成することもできます．
+また，`list` 関数を使って明示的にリストを作成することもできます．
 
 [source, clojure]
 ----
@@ -230,7 +230,7 @@ _ClojureScript_のリストは、カッコで囲まれたアイテムで表現�
 
 リストと同様に、ベクターも任意の型のオブジェクトを含むことができますが、これは前述の例でわかります。
 
-また、`vector`関数を使って明示的にベクターを作成することもできますが、ClojureScriptプログラムではあまり使われません。
+また、`vector` 関数を使って明示的にベクターを作成することもできますが、ClojureScriptプログラムではあまり使われません。
 
 [source, clojure]
 ----
@@ -245,7 +245,7 @@ _ClojureScript_のリストは、カッコで囲まれたアイテムで表現�
 [[maps-section]]
 ===== Maps
 
-マップは、キーと値のペアを格納することができるコレクションの抽象化です。他の言語では、この種の構造は一般的にハッシュマップやディクショナリー（辞書）として知られています。_ClojureScript_のマップリテラルは、中括弧でペアを挟んで書きます。
+マップは、キーと値のペアを格納することができるコレクションの抽象化です。他の言語では、この種の構造は一般的にハッシュマップやディクショナリー（辞書）として知られています。_ClojureScript_ のマップリテラルは、中括弧でペアを挟んで書きます。
 
 [source, clojure]
 ----
@@ -253,7 +253,7 @@ _ClojureScript_のリストは、カッコで囲まれたアイテムで表現�
 {:alphabet [:a :b :c]}
 ----
 
-注: カンマはキーと値のペアを区切るためによく使われますが、完全に任意です。_ClojureScript_の構文では、カンマはスペースのように扱われます。
+注: カンマはキーと値のペアを区切るためによく使われますが、完全に任意です。_ClojureScript_ の構文では、カンマはスペースのように扱われます。
 
 ベクターのように、マップリテラルの各項目は結果がマップに格納される前に評価されますが、評価の順番は保証されていません。
 
@@ -262,7 +262,7 @@ _ClojureScript_のリストは、カッコで囲まれたアイテムで表現�
 
 そして最後に、*セット* です。
 
-セットは、任意のタイプの0個以上のユニークなアイテムを格納し、順序付けされていません。マップと同様、リテラルの構文には中括弧を使用しますが、違いは先頭の文字に `#` を使用することです。また、`set`関数を使って、コレクションをセットに変換することもできます。
+セットは、任意のタイプの0個以上のユニークなアイテムを格納し、順序付けされていません。マップと同様、リテラルの構文には中括弧を使用しますが、違いは先頭の文字に `#` を使用することです。また、`set` 関数を使って、コレクションをセットに変換することもできます。
 
 [source, clojure]
 ----
@@ -277,11 +277,11 @@ _ClojureScript_のリストは、カッコで囲まれたアイテムで表現�
 
 === Vars
 
-_ClojureScript_は、不変性に重点を置いた関数型言語です。そのため、他の多くのプログラミング言語で知られているような変数の概念はありません。変数に最も近いものは、代数学で定義する変数です。数学で「x = 6」と言うとき、それは「x」という記号が6という数字を表すことを意味しています。
+_ClojureScript_ は、不変性に重点を置いた関数型言語です。そのため、他の多くのプログラミング言語で知られているような変数の概念はありません。変数に最も近いものは、代数学で定義する変数です。数学で「x = 6」と言うとき、それは「x」という記号が6という数字を表すことを意味しています。
 
-_ClojureScript_では、変数はシンボルで表され、1つの値をメタデータと一緒に格納します。
+_ClojureScript_ では、変数はシンボルで表され、1つの値をメタデータと一緒に格納します。
 
-varを定義するには、`def`という特殊な形式を使います。
+varを定義するには、`def` という特殊な形式を使います。
 
 [source, clojure]
 ----
@@ -297,11 +297,11 @@ varを定義するには、`def`という特殊な形式を使います。
 
 ==== The first contact
 
-物事を実現するための時間です。_ClojureScript_には、ファーストクラス関数と呼ばれるものがあります。これらは他の型と同じように動作します。パラメータとして渡したり、値として返したりすることができ、常にレキシカル・スコープを尊重します。_ClojureScript_には動的スコープの機能もありますが、これについては別のセクションで説明します。
+物事を実現するための時間です。_ClojureScript_  には、ファーストクラス関数と呼ばれるものがあります。これらは他の型と同じように動作します。パラメータとして渡したり、値として返したりすることができ、常にレキシカル・スコープを尊重します。_ClojureScript_  には動的スコープの機能もありますが、これについては別のセクションで説明します。
 
-スコープについてもっと知りたい方は、こちらのリンク:http://en.wikipedia.org/wiki/Scope_(computer_science)[Wikipedia article] が非常に充実しており、様々なタイプのスコープについて説明されています。
+スコープについてもっと知りたい方は、こちら link:http://en.wikipedia.org/wiki/Scope_(computer_science)[Wikipediaの記事] が非常に充実しており、様々なタイプのスコープについて説明されています。
 
-_ClojureScript_はLispの方言なので、関数を呼び出す際にはプレフィックス記法を使用します。
+_ClojureScript_  はLispの方言なので、関数を呼び出す際にはプレフィックス記法を使用します。
 
 [source, clojure]
 ----
@@ -317,29 +317,22 @@ _ClojureScript_はLispの方言なので、関数を呼び出す際にはプレ�
 ;; => 6
 ----
 
-The `+` symbol represents an `add` function. It allows multiple parameters, whereas
-in ALGOL-type languages, `+` is an operator and only allows two parameters.
+記号 `+` は `add` 関数を表します。ALGOL系の言語では、`+` は演算子であり、2つのパラメータしか使用できませんが、`+` は複数のパラメータを使用できます。
 
-The prefix notation has huge advantages, some of them not always
-obvious. _ClojureScript_ does not make a distinction between a function and an
-operator; everything is a function. The immediate advantage is that the prefix
-notation allows an arbitrary number of arguments per "operator". It also completely
-eliminates the problem of operator precedence.
+プレフィックス記法には大きな利点がありますが、その中には必ずしも明らかではないものもあります。_ClojureScript_ では、関数と演算子を区別せず、すべてが関数です。直近の利点としては、プレフィックス記法では「演算子」ごとに任意の数の引数を取ることができます。また、演算子の優先順位の問題も完全に解消されます。
 
 
 ==== Defining your own functions
 
-You can define an unnamed (anonymous) function with the `fn` special form. This is
-one type of function definition; in the following example, the function takes two
-parameters and returns their average.
-
+特別な形式である `fn` を使って，名前のない（無名の）関数を定義することができます．これは関数定義の一種です。次の例では，この関数は2つのパラメータを受け取り，その平均値を返します。
+ 
 [source, clojure]
 ----
 (fn [param1 param2]
   (/ (+ param1 param2) 2.0))
 ----
 
-You can define a function and call it at the same time (in a single expression):
+関数を定義すると同時に、その関数を呼び出すことができます（1つの式の中で）。
 
 [source, clojure]
 ----
@@ -347,10 +340,7 @@ You can define a function and call it at the same time (in a single expression):
 ;; => 25
 ----
 
-Let's start creating named functions. But what does a _named function_ really mean?
-It is very simple; in _ClojureScript_, functions are first-class and behave like any
-other value, so naming a function is done by simply binding the function to a
-symbol:
+それでは早速、名前付き関数を作ってみましょう。しかし、_named function_ とは実際には何を意味するのでしょうか？非常に簡単です。_ClojureScript_ では、関数はファーストクラスであり、他の値と同じように振る舞います。そのため、関数の名前を付けるには、単に関数をシンボルにバインドするだけです。
 
 [source, clojure]
 ----
@@ -360,8 +350,7 @@ symbol:
 ;; => 144
 ----
 
-_ClojureScript_ also offers the `defn` macro as a little syntactic sugar for making
-function definition more idiomatic:
+_ClojureScript_ では、関数定義をよりイディオム的にするためのちょっとした構文シュガーとして、 `defn` マクロも提供しています。
 
 [source, clojure]
 ----
@@ -371,19 +360,14 @@ function definition more idiomatic:
   (* x x))
 ----
 
-The string that comes between the function name and the parameter vector is called a
-_docstring_ (documentation string); programs that automatically create web
-documentation from your source files will use these docstrings.
+関数名とパラメータベクトルの間にある文字列を _docstring_ （ドキュメント文字列）と呼びます。ソースファイルからWebドキュメントを自動作成するプログラムでは、このdocstringを使用します。
 
 
 ==== Functions with multiple arities
 
-_ClojureScript_ also comes with the ability to define functions with an arbitrary
-number of arguments. (The term _arity_ means the number of arguments that a function
-takes.) The syntax is almost the same as for defining an ordinary function, with the
-difference that it has more than one body.
+_ClojureScript_ には、任意の数の引数を持つ関数を定義する機能もあります。構文は通常の関数を定義するのとほぼ同じですが、ボディが複数あるという違いがあります。
 
-Let's see an example, which will explain it better:
+例を見てみると、もっとよくわかると思います。
 
 [source, clojure]
 ----
@@ -394,14 +378,9 @@ Let's see an example, which will explain it better:
    (+ x increment)))
 ----
 
-This line: `([x] (myinc x 1))` says that if there is only one argument, call the
-function `myinc` with that argument and the number `1` as the second argument. The
-other function body `([x increment] (+ x increment))` says that if there are two
-arguments, return the result of adding them.
+この行： `([x] (myinc x 1))` は、引数が1つしかない場合、その引数と数字の `1` を第2引数として関数 `myinc` を呼び出すことを示しています。もう一方の関数本体 `([x increment] (+ x increment))`  は，引数が2つある場合に，それらを足した結果を返すというものである。
 
-Here are some examples using the previously defined multi-arity function. Observe
-that if you call a function with the wrong number of arguments, the compiler will
-emit an error message.
+先に定義したマルチアリティ関数を使った例をいくつか紹介します。誤った数の引数で関数を呼び出した場合、コンパイラはエラーメッセージを発することに注意してください。
 
 [source, clojure]
 ----
@@ -415,14 +394,11 @@ emit an error message.
 ;; Compiler error
 ----
 
-NOTE: Explaining the concept of "arity" is out of the scope of this book, however
-you can read about that in this link:http://en.wikipedia.org/wiki/Arity[Wikipedia
-article].
+注：「アリティ」の概念を説明することは本書の範囲外ですが、こちらの link:http://en.wikipedia.org/wiki/Arity[Wikipediaの記事] で説明されています。
 
 ==== Variadic functions
 
-Another way to accept multiple parameters is defining variadic functions. Variadic
-functions are functions that accept an arbitrary number of arguments:
+複数のパラメータを受け付けるもう一つの方法は、可変長の関数を定義することです。可変長の関数とは、任意の数の引数を受け付ける関数です。
 
 [source, clojure]
 ----
@@ -434,16 +410,12 @@ functions are functions that accept an arbitrary number of arguments:
 ;; => #{1 2 3}
 ----
 
-The way to denote a variadic function is using the `&` symbol prefix on its
-arguments vector.
+可変長の関数を表すには、引数のベクトルに `&` シンボルのプレフィックスを使用します。
 
 
 ==== Short syntax for anonymous functions
 
-_ClojureScript_ provides a shorter syntax for defining anonymous functions using the
-`#()` reader macro (usually leads to one-liners). Reader macros are "special"
-expressions that will be transformed to the appropriate language form at compile
-time; in this case, to some expression that uses the `fn` special form.
+_ClojureScript_ では、 `#()` リーダーマクロを使って無名関数を定義するための短い構文を提供しています (通常はワンライナーになります)。リーダーマクロは「特別な」式で、コンパイル時に適切な言語形式に変換されます。この場合は、`fn` という特別な形式を使った式に変換されます。
 
 [source, clojure]
 ----
@@ -453,7 +425,7 @@ time; in this case, to some expression that uses the `fn` special form.
 ;; => 3.5
 ----
 
-The preceding definition is shorthand for:
+前述の定義は、以下のような略語です。
 
 [source,clojure]
 ----
@@ -463,15 +435,11 @@ The preceding definition is shorthand for:
 ;; => 7.5
 ----
 
-The `%1`, `%2`... `%N` are simple markers for parameter positions that are
-implicitly declared when the reader macro will be interpreted and converted to a
-`fn` expression.
+`%1` , `%2` ... `N` は、リーダーマクロが解釈されて `fn` 式に変換されるときに暗黙のうちに宣言されるパラメータの位置を示す単純な目印です。
 
-If a function only accepts one argument, you can omit the number after the `%`
-symbol, e.g., a function that squares a number: `#(* %1 %1))` can be written
-`++#++(* % %))`.
+例えば，数値を2乗する関数：`#(* %1 %1))` は，`++#++(* % %))` と書くことができます。
 
-Additionally, this syntax also supports the variadic form with the `%&` symbol:
+さらに，この構文は，`%&` 記号を用いた可変長の形式もサポートしています。
 
 [source, clojure]
 ----
@@ -484,17 +452,12 @@ Additionally, this syntax also supports the variadic form with the `%&` symbol:
 
 === Flow control
 
-_ClojureScript_ has a very different approach to flow control than languages like
-JavaScript, C, etc.
+_ClojureScript_ は、JavaScriptやCなどの言語とはフローコントロールのアプローチが大きく異なります。
 
 
 ==== Branching with `if`
 
-Let's start with a basic one: `if`. In _ClojureScript_, the `if` is an expression
-and not a statement, and it has three parameters: the first one is the condition
-expression, the second one is an expression that will be evaluated if the condition
-expression evaluates to logical true, and the third expression will be evaluated
-otherwise.
+まずは基本的なものから始めましょう: `if` です。_ClojureScript_ では、`if` は文ではなく式であり、3つのパラメータを持ちます。1つ目は条件式、2つ目は条件式が論理的に真と評価された場合に評価される式、3つ目はそうでない場合に評価される式です。
 
 [source, clojure]
 ----
@@ -512,16 +475,14 @@ otherwise.
 ;; => 0.05
 ----
 
-The block expression `do` can be used to have multiple expressions in an `if`
-branch.  xref:block-section[`do` is explained in the next section].
+ブロック式の `do` を使うと，`if` の分岐に複数の式を入れることができます． xref:block-section[`do` については次のセクションで説明します]．
 
 
 ==== Branching with `cond`
 
-Sometimes, the `if` expression can be slightly limiting because it does not have the
-"else if" part to add more than one condition. The `cond` macro comes to the rescue.
+`if` 式は、複数の条件を追加するための「else if」の部分がないので、やや制限がある場合があります。そこで登場するのが `cond` マクロです。
 
-With the `cond` expression, you can define multiple conditions:
+`cond` 式では、複数の条件を定義することができます。
 
 [source, clojure]
 ----
@@ -539,9 +500,7 @@ With the `cond` expression, you can define multiple conditions:
 ;; => "negative"
 ----
 
-Also, `cond` has another form, called `condp`, that works very similarly to the
-simple `cond` but looks cleaner when the condition (also called a predicate) is the
-same for all conditions:
+また、 `cond` には `condp` という形式があり、これは単純な `cond` とよく似た動作をしますが、条件（述語とも呼ばれる）がすべての条件で同じである場合には、よりすっきりした印象を与えます。
 
 [source, clojure]
 ----
@@ -559,20 +518,14 @@ same for all conditions:
 ;; => "Unknown"
 ----
 
-The line `condp = (keyword code)` means that, in each of the following lines,
-_ClojureScript_ will apply the `=` function to the result of evaluating `(keyword
-code)`.
+`condp = (keyword code)` という行は、次の各行において、_ClojureScript_ が `(keyword code)` を評価した結果に `=` 関数を適用することを意味します。
 
 
 ==== Branching with `case`
 
-The `case` branching expression has a similar use as our previous example with
-`condp`. The main differences are that `case` always uses the `=` predicate/function
-and its branching values are evaluated at compile time. This results in a more
-performant form than `cond` or `condp` but has the disadvantage that the condition
-value must be static.
+`case` の分岐式は、先ほどの `condp` の例と似たような使い方をします。主な違いは、`case` は常に `=` 述語/関数を使用することと、分岐値がコンパイル時に評価されることです。この結果、`cond` や `condp` よりもパフォーマンスが高くなりますが、条件値が静的でなければならないというデメリットがあります。
 
-Here is the previous example rewritten to use `case`:
+以下は、先ほどの例を `case` を使うように書き直したものです。
 
 [source, clojure]
 ----
@@ -594,15 +547,9 @@ Here is the previous example rewritten to use `case`:
 [[truthiness-section]]
 === Truthiness
 
-This is the aspect where each language has its own semantics (mostly wrongly). The
-majority of languages consider empty collections, the integer 0, and other things
-like this to be false.  In _ClojureScript_, unlike in other languages, only two
-values are considered as false: `nil` and `false`. Everything else is treated as
-logical `true`.
+これは、各言語が独自のセマンティクスを持っている側面です（ほとんどが間違っています）。大多数の言語は、空のコレクションや整数の0などを偽とみなします。 _ClojureScript_ では、他の言語とは異なり、`nil` と `false` の2つの値だけが偽とみなされます。それ以外はすべて論理的な `true` として扱われます。
 
-Jointly with the ability to implement the callable protocol (the `IFn`, explained
-more in detail later), data structures like sets can be used just as predicates,
-without need of additional wrapping them in a function:
+呼び出し可能なプロトコル（後で詳しく説明する `IFn` ）を実装する能力と合わせて、セットのようなデータ構造は、関数で追加のラッピングをすることなく、述語として使用することができます。
 
 [source, clojure]
 ----
@@ -612,8 +559,7 @@ without need of additional wrapping them in a function:
 ;; => (1 2 3)
 ----
 
-This works because a set returns either the value itself for all contained elements
-or `nil`:
+セットは、含まれるすべての要素の値そのものを返すか、`nil` を返すので、これは機能します。
 
 [source, clojure]
 ----
@@ -629,15 +575,9 @@ or `nil`:
 
 ==== Locals
 
-_ClojureScript_ does not have the concept of variables as in ALGOL-like languages,
-but it does have locals. Locals, as per usual, are immutable, and if you try to
-mutate them, the compiler will throw an error.
+_ClojureScript_ には、ALGOL的な言語のような変数の概念はありませんが、局所があります。局所は通常通り不変であり、変更しようとするとコンパイラがエラーを出します。
 
-Locals are defined with the `let` expression. The expression starts with a vector as
-the first parameter followed by an arbitrary number of expressions. The first
-parameter (the vector) should contain an arbitrary number of pairs that give a
-_binding form_ (usually a symbol) followed by an expression whose value will be
-bound to this new local for the remainder of the `let` expression.
+局所は `let` 式で定義されます。この式では，最初のパラメータとしてベクターを指定し，その後に任意の数の式を指定します。最初のパラメータ（ベクター）には、_binding form_（通常はシンボル）と、その後に `let` 式の残りの部分でその値がこの新しいローカルにバインドされる式を示す、任意の数のペアを含める必要があります。
 
 [source, clojure]
 ----
@@ -649,23 +589,16 @@ bound to this new local for the remainder of the `let` expression.
 ;; => 6
 ----
 
-In the preceding example, the symbol `x` is bound to the value `(inc 1)`, which
-comes out to 2, and the symbol `y` is bound to the sum of `x` and 1, which comes out
-to 3. Given those bindings, the expressions `(println "Simple message from the body
-of a let")` and `(* x y)` are evaluated.
+前述の例では，記号 `x` は値 `(inc 1)` に束縛され，その値は 2 になり，記号 `y` は `x` と 1 の和に束縛され，その値は 3 になります．これらの束縛が与えられると，式 `(println "Simple message from a body of a let")` と `(* x y)` が評価されます．
 
 
 ==== Blocks
 
-In JavaScript, braces `{` and `}` delimit a block of code that “belongs
-together”. Blocks in _ClojureScript_ are created using the `do` expression and are
-usually used for side effects, like printing something to the console or writing a
-log in a logger.
+JavaScriptでは、中括弧 `{` と `}` が「一緒に属する」コードのブロックを区切ります。 _ClojureScript_ のブロックは `do` 式を使って作成され、通常はコンソールに何かを出力したり、ロガーにログを書いたりするような、副作用のために使われます。
 
-A side effect is something that is not necessary for the return value.
+副作用とは、戻り値には必要のないものを指します。
 
-The `do` expression accepts as its parameter an arbitrary number of other
-expressions, but it returns the return value only from the last one:
+`do` 式は、パラメータとして任意の数の他の式を受け入れますが、最後の式からのみ戻り値を返します。
 
 [source, clojure]
 ----
@@ -680,32 +613,20 @@ expressions, but it returns the return value only from the last one:
 ;; => 3
 ----
 
-The body of the `let` expression, explained in the previous section, is very similar
-to the `do` expression in that it allows multiple expressions. In fact, the `let`
-has an implicit `do`.
-
+前のセクションで説明した `let` 式の本体は、複数の表現を可能にするという点で `do` 式と非常によく似ています。実際、`let` には暗黙の `do` があります。
 
 ==== Loops
 
-The functional approach of _ClojureScript_ means that it does not have standard,
-well-known, statement-based loops such as `for` in JavaScript. The loops in
-_ClojureScript_ are handled using recursion.  Recursion sometimes requires
-additional thinking about how to model your problem in a slightly different way than
-imperative languages.
+_ClojureScript_ の機能的なアプローチは、JavaScriptの `for` のような、標準的でよく知られた、ステートメントベースのループを持たないことを意味します。_ClojureScript_ のループは再帰を使って処理されます。 再帰は時に、問題をどのようにモデル化するかについて、命令型言語とは少し異なる方法で追加的に考える必要があります。 
 
-Many of the common patterns for which `for` is used in other languages are achieved
-through higher-order functions - functions that accept other functions as
-parameters.
+他の言語で `for` が使われている一般的なパターンの多くは、他の関数をパラメータとして受け入れる高階の関数を使って実現されています。
 
 
 ===== Looping with loop/recur
 
-Let's take a look at how to express loops using recursion with the `loop` and
-`recur` forms.  `loop` defines a possibly empty list of bindings (notice the
-symmetry with `let`) and `recur` jumps execution back to the looping point with new
-values for those bindings.
+ここでは、`loop` と` recur` という形式で再帰を使ってループを表現する方法を見てみましょう。 `loop` ではバインディングの空のリストを定義し（`let` との対称性に注目してください）、`recur` ではそれらのバインディングに新しい値を設定して、実行をループポイントに戻します。 
 
-Let's see an example:
+例を見てみましょう。
 
 [source, clojure]
 ----
@@ -721,13 +642,10 @@ Let's see an example:
 ;; => nil
 ----
 
-In the above snippet, we bind the name `x` to the value `0` and execute the
-body. Since the condition is not met the first time, it's rerun with `recur`,
-incrementing the binding value with the `inc` function. We do this once more until
-the condition is met and, since there aren't any more `recur` calls, exit the loop.
+上のスニペットでは，名前 `x` を値 `0` にバインドして，ボディを実行しています．最初に条件が満たされなかったので、`recur` で再実行し、`inc` 関数でバインド値をインクリメントします。これを条件が満たされるまでもう一度行い、それ以上の `recur` の呼び出しがないので、ループを終了します。
 
-Note that `loop` isn't the only point we can `recur` to; using `recur` inside a
-function executes the body of the function recursively with the new bindings:
+なお、`recur` を呼び出すことができるのは、`loop` だけではありません。
+関数の中で `recur` を使うと，関数の本体が新しいバインディングで再帰的に実行されます．
 
 [source, clojure]
 ----
@@ -749,21 +667,16 @@ function executes the body of the function recursively with the new bindings:
 
 ===== Replacing for loops with higher-order functions
 
-In imperative programming languages it is common to use `for` loops to iterate over
-data and transform it, usually with the intent being one of the following:
+命令型のプログラミング言語では、データを反復処理して変換するために `for` ループを使用するのが一般的で、通常は以下のような意図で使用されます。
 
-- Transform every value in the iterable yielding another iterable
-- Filter the elements of the iterable by certain criteria
-- Convert the iterable to a value where each iteration depends on the result from
-  the previous one
-- Run a computation for every value in the iterable
+- 反復可能なデータのすべての値を変換し、別の反復可能なデータを生成する。
+- イテレート可能な要素を特定の条件でフィルタリングする。
+- 反復可能なデータを、各反復が前の反復の結果に依存するような値に変換する。
+- 反復可能な値のすべてについて計算を実行する
 
-The above actions are encoded in higher-order functions and syntactic constructs in
-ClojureScript; let's see an example of the first three.
+上記のアクションは，ClojureScriptの高階関数や構文構造で書き換えられています．
 
-For transforming every value in an iterable data structure we use the `map`
-function, which takes a function and a sequence and applies the function to every
-element:
+反復可能なデータ構造の中のすべての値を変換するために，`map`関数を使います．
 
 [source, clojure]
 ----
@@ -771,10 +684,7 @@ element:
 ;; => (1 2 3)
 ----
 
-The first parameter for `map` can be _any_ function that takes one argument and
-returns a value.  For example, if you had a graphing application and you wanted to
-graph the equation `y&#160;=&#160;3x&#160;+&#160;5` for a set of _x_ values, you
-could get the _y_ values like this:
+`map` の最初のパラメータには、1つの引数を取り、値を返す_任意の関数を指定できます。 例えば、グラフ作成のアプリケーションで、一連の _x_ の値に対して、方程式 `y&#160;=&#160;3x&#160;+&#160;5` をグラフ化したい場合、次のようにして _y_ の値を得ることができます。
 
 [source, clojure]
 ----
@@ -784,8 +694,7 @@ could get the _y_ values like this:
 ;; => (8 11 14 17 20)
 ----
 
-If your function is short, you can use an anonymous function instead, either the
-normal or short syntax:
+関数が短い場合は、代わりに無名関数を使うことができます。通常の構文でも短縮構文でもOKです。
 
 [source, clojure]
 ----
@@ -796,9 +705,7 @@ normal or short syntax:
 ;; => (8 11 14 17 20)
 ----
 
-For filtering the values of a data structure we use the `filter` function, which
-takes a predicate and a sequence and gives a new sequence with only the elements
-that returned `true` for the given predicate:
+データ構造の値をフィルタリングするには，`filter` 関数を使います．この関数は，述語とシーケンスを受け取り，与えられた述語に対して `true` を返した要素だけを含む新しいシーケンスを与えます．
 
 [source, clojure]
 ----
@@ -806,9 +713,7 @@ that returned `true` for the given predicate:
 ;; => (1 3)
 ----
 
-Again, you can use any function that returns `true` or `false` as the first argument
-to `filter`.  Here is an example that keeps only words less than five characters
-long. (The `count` function returns the length of its argument.)
+ここでも，`true` または `false` を返す任意の関数を `filter` の第一引数として使用することができます。 ここでは、5文字以下の単語のみを保持する例を示します。( `count` 関数は、引数の長さを返します)。
 
 [source, clojure]
 ----
@@ -816,9 +721,7 @@ long. (The `count` function returns the length of its argument.)
 ;; => ("ant" "crab" "duck" "fox")
 ----
 
-Converting an iterable to a single value, accumulating the intermediate result at
-every step of the iteration can be achieved with `reduce`, which takes a function
-for accumulating values, an optional initial value and a collection:
+反復可能な値を単一の値に変換し、反復の各ステップで中間結果を蓄積するには、`reduce` を使用します。 `reduce` は、値を蓄積する関数、オプションの初期値、およびコレクションを取ります。
 
 [source, clojure]
 ----
@@ -826,12 +729,7 @@ for accumulating values, an optional initial value and a collection:
 ;; => 10
 ----
 
-Yet again, you can provide your own function as the first argument to `reduce`, but
-your function must have _two_ parameters. The first one is the "accumulated value"
-and the second parameter is the collection item being processed. The function
-returns a value that becomes the accumulator for the next item in the list.  For
-example, here is how you would find the sum of squares of a set of numbers (this is
-an important calculation in statistics). Using a separate function:
+繰り返しになりますが、 `reduce` の第一引数に独自の関数を指定することができますが、その関数には _2つの_ パラメータが必要です。1つ目のパラメータは「累積値」で、2つ目のパラメータは処理されるコレクションアイテムです。この関数は、リストの次の項目の累算器となる値を返します。 例えば、数字の集合の二乗和を求める方法は以下の通りです（これは統計学では重要な計算です）。別の関数を使う
 
 [source, clojure]
 ----
@@ -843,7 +741,7 @@ an important calculation in statistics). Using a separate function:
 ;; => 50
 ----
 
-...and with an anonymous function:
+...そして、無名の関数では、
 
 [source, clojure]
 ----
@@ -851,7 +749,7 @@ an important calculation in statistics). Using a separate function:
 ;; => 50
 ----
 
-Here is a `reduce` that finds the total number of characters in a set of words:
+ここでは、単語の集合に含まれる文字数の合計を求める `reduce` を紹介します。
 
 [source, clojure]
 ----
@@ -859,14 +757,9 @@ Here is a `reduce` that finds the total number of characters in a set of words:
 ;; => 14
 ----
 
-We have not used the short syntax here because, although it requires less typing, it
-can be less readable, and when you are starting with a new language, it's important
-to be able to read what you wrote! If you are comfortable with the short syntax,
-feel free to use it.
+ここでは、短い構文を使用していません。短い構文は、タイプ数は少なくて済みますが、可読性が低くなる可能性があるからです。そして、新しい言語を始めるときには、書いたものを読めることが重要です。新しい言語を始めるときには、自分が書いたものを読めることが重要です！もし、短い構文に慣れているのであれば、自由に使ってください。
 
-Remember to choose your starting value for the accumulator carefully. If you wanted
-to use `reduce` to find the product of a series of numbers, you would have to start
-with one rather than zero, otherwise all the numbers would be multiplied by zero!
+アキュムレータの開始値を慎重に選ぶことを忘れないでください。もし、`reduce`を使って一連の数字の積を求めようとしたら、ゼロではなく1から始めなければなりません。
 
 [source, clojure]
 ----
@@ -882,12 +775,9 @@ with one rather than zero, otherwise all the numbers would be multiplied by zero
 
 ===== `for` sequence comprehensions
 
-In ClojureScript, the `for` construct isn't used for iteration but for generating
-sequences, an operation also known as "sequence comprehension". In this section
-we'll learn how it works and use it to declaratively build sequences.
+ClojureScriptでは、`for` 構文は反復処理ではなく、シーケンスを生成するために使用されます。これは「シーケンス内包(sequence comprehension)」とも呼ばれる操作です。このセクションでは、その仕組みを学び、宣言的にシーケンスを構築するために使用します。
 
-`for` takes a vector of bindings and an expression and generates a sequence of the
-result of evaluating the expression. Let's take a look at an example:
+`for` はバインディングのベクトルと式を受け取り、その式を評価した結果のシーケンスを生成します。例を見てみましょう。
 
 [source, clojure]
 ----
@@ -896,12 +786,9 @@ result of evaluating the expression. Let's take a look at an example:
 ;; => ([1 1] [2 4] [3 9])
 ----
 
-In this example, `x` is bound to each of the items in the vector `[1 2 3]` in turn,
-and returns a new sequence of two-item vectors with the original item squared.
+この例では，`x` は，ベクトル `[1 2 3]` の各項目に順に束縛され，元の項目を二乗した2項目のベクトルの新しいシーケンスを返します．
 
-`for` supports multiple bindings, which will cause the collections to be iterated in
-a nested fashion, much like nesting `for` loops in imperative languages. The
-innermost binding iterates “fastest.”
+`for` は複数のバインディングをサポートしており、これによって、命令型言語の `for` ループの入れ子のように、コレクションが入れ子になって反復されます。最も内側のバインディングは "最速 "で反復します。
 
 [source, clojure]
 ----
@@ -912,12 +799,9 @@ innermost binding iterates “fastest.”
 ;; => ([1 4] [1 5] [2 4] [2 5] [3 4] [3 5])
 ----
 
-We can also follow the bindings with three modifiers: `:let` for creating local
-bindings, `:while` for breaking out of the sequence generation, and `:when` for
-filtering out values.
+ローカルバインディングを作成するには `:let` 、シーケンス生成から抜け出すには `:while` 、値をフィルタリングするには `:when` という3つの修飾子を使って、バインディングをフォローすることもできます。
 
-Here's an example of local bindings using the `:let` modifier; note that the
-bindings defined with it will be available in the expression:
+以下は `:let` 修飾子を使ったローカルバインディングの例です。この修飾子で定義されたバインディングは式の中で利用できることに注意してください。
 
 [source, clojure]
 ----
@@ -928,8 +812,7 @@ bindings defined with it will be available in the expression:
 ;; => (5 6 6 7 7 8)
 ----
 
-We can use the `:while` modifier for expressing a condition that, when it is no
-longer met, will stop the sequence generation. Here's an example:
+`:while` 修飾子を使って、条件が満たされなくなったときにシーケンスの生成を停止させる条件を表現することができます。以下にその例を示します。
 
 [source, clojure]
 ----
@@ -941,8 +824,7 @@ longer met, will stop the sequence generation. Here's an example:
 ;; => ([1 4] [2 4] [3 4])
 ----
 
-For filtering out generated values, use the `:when` modifier as in the following
-example:
+生成された値をフィルタリングするには、次の例のように `:when` 修飾子を使用します。
 
 [source, clojure]
 ----
@@ -954,8 +836,7 @@ example:
 ;; => ([1 5] [2 4])
 ----
 
-We can combine the modifiers shown above for expressing complex sequence generations
-or more clearly expressing the intent of our comprehension:
+上記のような修飾語を組み合わせることで、複雑な配列の生成を表現したり、内包の意図をより明確に表現することができます。
 
 [source, clojure]
 ----
@@ -968,13 +849,9 @@ or more clearly expressing the intent of our comprehension:
 ;; => ([1 5] [2 4])
 ----
 
-When we outlined the most common usages of the `for` construct in imperative
-programming languages, we mentioned that sometimes we want to run a computation for
-every value in a sequence, not caring about the result. Presumably we do this for
-achieving some sort of side-effect with the values of the sequence.
+命令型プログラミング言語における `for` 構造の最も一般的な使用方法を説明した際に、結果を気にせずにシーケンスの各値に対して計算を実行したい場合があると述べました。おそらく、シーケンスの値である種の副次効果を得るためにこれを行うのでしょう。
 
-ClojureScript provides the `doseq` construct, which is analogous to `for` but
-executes the expression, discards the resulting values, and returns `nil`.
+ClojureScriptは `doseq` 構文を提供しています。これは `for` に類似していますが、式を実行し、結果の値を破棄して `nil` を返します。
 
 [source, clojure]
 ----
@@ -992,9 +869,7 @@ executes the expression, discards the resulting values, and returns `nil`.
 ;; => nil
 ----
 
-If you want just iterate and apply some side effectfull operation (like `println`)
-over each item in the collection, you can just use the specialized function `run!`
-that internally uses fast reduction:
+もし、コレクションの各アイテムに対して、反復処理や（ `println` のような）副次的な操作を行いたいのであれば、内部的に高速リダクションを使用する特殊な関数 `run!` を使用することができます。
 
 [source, clojure]
 ----
@@ -1005,21 +880,18 @@ that internally uses fast reduction:
 ;; => nil
 ----
 
-This function explicitly returns `nil`.
+この関数は、明示的に `nil` を返します。
 
 
 === Collection types
 
 ==== Immutable and persistent
 
-We mentioned before that ClojureScript collections are persistent and immutable, but
-we didn't explain what that meant.
+以前、ClojureScriptのコレクションは永続的かつ不変的であると述べましたが、その意味を説明しませんでした。
 
-An immutable data structure, as its name suggests, is a data structure that cannot
-be changed. In-place updates are not allowed in immutable data structures.
+不変データ構造とは、その名が示すように、変更できないデータ構造のことです。不変データ構造ではインプレース更新ができません。
 
-Let's illustrate that with an example: appending values to a vector using the `conj`
-(conjoin) operation.
+例を挙げて説明しましょう。`conj` (join)演算を使ってベクトルに値を追加します。
 
 [source, clojure]
 ----
@@ -1033,25 +905,13 @@ Let's illustrate that with an example: appending values to a vector using the `c
 ;; => nil
 ----
 
-As you can see, we derived a new version of the `xs` vector appending an element
-to it and got a new vector `ys` with the element added. However, the `xs` vector
-remained unchanged because it is immutable.
+ご覧のように，`xs` ベクトルに要素を追加した新しいバージョンを派生させ，要素を追加した新しいベクトル `ys` を得ました．しかし，`xs` ベクトルは不変であるため，変更されませんでした．
 
-A persistent data structure is a data structure that returns a new version of
-itself when transforming it, leaving the original unmodified. ClojureScript makes
-this memory and time efficient using an implementation technique called _structural
-sharing_, where most of the data shared between two versions of a value is not
-duplicated and transformations of a value are implemented by copying the minimal
-amount of data required.
+永続的なデータ構造とは、変換したときに元のバージョンを残して新しいバージョンを返すデータ構造のことです。ClojureScriptでは、_structural sharing_ と呼ばれる実装技術を用いて、メモリと時間の効率化を図っています。ここでは、2つのバージョンの値の間で共有されるデータのほとんどは複製されず、必要最小限のデータをコピーすることで、値の変換が実装されます。
 
-If you want to see an example of how structural sharing works, read on. If you're
-not interested in more details you can skip over to the
-xref:the-sequence-abstraction[next section].
+構造的共有がどのように機能するかの例をご覧になりたい方は、この先をお読みください。詳細に興味がない場合は、xref:the-sequence-abstraction[次のセクション]に読み飛ばしてください。
 
-For illustrating the structural sharing of ClojureScript data structures, let's
-compare whether some parts of the old and new versions of a data structure are
-actually the same object with the `identical?` predicate. We'll use the list data
-type for this purpose:
+ClojureScriptのデータ構造の構造的共有を説明するために、データ構造の新旧バージョンのいくつかの部分が実際に同じオブジェクトであるかどうかを `identical?` という述語で比較してみましょう。この目的のために、リストデータ型を使用します。
 
 [source, clojure]
 ----
@@ -1068,23 +928,15 @@ type for this purpose:
 ;; => true
 ----
 
-As you can see in the example, we used `cons` (construct) to prepend a value to
-the `xs` list and we got a new list `ys` with the element added. The `rest` of
-the `ys` list (all the values but the first) are the same object in memory as the
-`xs` list, thus `xs` and `ys` share structure.
+この例では，`xs` リストに値を追加するために `cons` （construct）を使用しており，要素が追加された新しいリスト `ys` が得られていることがわかります．リスト `ys` の `rest` （最初の値を除くすべての値）は，メモリ上で `xs` リストと同じオブジェクトであり，`xs` と `ys` は構造を共有しています．
 
 
 [[the-sequence-abstraction]]
 ==== The sequence abstraction
 
-One of the central ClojureScript abstractions is the _sequence_ which can be
-thought of as a list and can be derived from any of the collection types. It is
-persistent and immutable like all collection types, and many of the core
-ClojureScript functions return sequences.
+ClojureScriptの中心的な抽象概念の1つは _sequence_ で、これはリストと考えることができ、任意のコレクション型から派生することができます。シーケンスは他のコレクション型と同様に永続的で不変であり、ClojureScriptの中核となる関数の多くはシーケンスを返します。
 
-The types that can be used to generate a sequence are called "seqables"; we can
-call `seq` on them and get a sequence back. Sequences support two basic operations:
-`first` and `rest`. They both call `seq` on the argument we provide them:
+シーケンスを生成するために使用できる型は「seqables」と呼ばれ、 `seq` を呼び出してシーケンスを返すことができます。シーケンスは2つの基本的な操作をサポートしています: `first` と `rest` です。これらはどちらも，与えられた引数に対して `seq` を呼び出します．
 
 [source, clojure]
 ----
@@ -1095,8 +947,7 @@ call `seq` on them and get a sequence back. Sequences support two basic operatio
 ;; => (2 3)
 ----
 
-Calling `seq` on a seqable can yield different results if the seqable is empty or
-not. It will return `nil` when empty and a sequence otherwise:
+`seq` をseqableで呼び出すと、seqableが空の場合とそうでない場合で異なる結果になります。空の場合は `nil` を返し、そうでない場合はシーケンスを返します。
 
 [source, clojure]
 ----
@@ -1107,12 +958,7 @@ not. It will return `nil` when empty and a sequence otherwise:
 ;; => (1 2 3)
 ----
 
-`next` is a similar sequence operation to `rest`, but it differs from the latter
-in that it yields a `nil` value when called with a sequence with one or zero
-elements. Note that, when given one of the aforementioned sequences, the empty
-sequence returned by `rest` will evaluate as a boolean true whereas the `nil`
-value returned by `next` will evaluate as false
-(xref:truthiness-section[see the section on _truthiness_ later in this chapter]).
+`next` は `rest` と同様のシーケンス操作ですが、要素数が 1 または 0 のシーケンスで呼び出された場合に `nil` 値を返す点で後者とは異なります。前述のシーケンスが与えられた場合、`rest` が返す空のシーケンスは真のブール値として評価されるのに対し、`next` が返す `nil` 値は偽のブール値として評価されることに注意してください (xref:truthiness-section[この章の後半にある _truthiness_ のセクションを参照してください])。
 
 [source, clojure]
 ----
@@ -1132,9 +978,7 @@ value returned by `next` will evaluate as false
 
 ===== nil-punning
 
-Since `seq` returns `nil` when the collection is empty, and `nil` evaluates to
-false in boolean context, you can check to see if a collection is empty by using
-the `seq` function. The technical term for this is nil-punning.
+`seq` はコレクションが空の場合に `nil` を返し、 `nil` はboolean文脈ではfalseと評価されるので、 `seq` 関数を使ってコレクションが空であるかどうかを確認することができます。これを技術的には nil-punning と呼びます。
 
 [source, clojure]
 ----
@@ -1157,8 +1001,7 @@ the `seq` function. The technical term for this is nil-punning.
 ;; => nil
 ----
 
-Though `nil` is neither a seqable nor a sequence, it is supported by all the
-functions we saw so far:
+`nil` はseqableでもsequenceでもありませんが、これまで見てきたすべての関数でサポートされています。
 
 [source, clojure]
 ----
@@ -1175,11 +1018,7 @@ functions we saw so far:
 
 ===== Functions that work on sequences
 
-The ClojureScript core functions for transforming collections make sequences out
-of their arguments and are implemented in terms of the generic sequence operations
-we learned about in the preceding section. This makes them highly generic because
-we can use them on any data type that is seqable. Let's see how we can use `map`
-with a variety of seqables:
+コレクションを変換するClojureScriptのコア関数は、引数からシーケンスを作成し、前のセクションで学んだ汎用シーケンス操作の観点から実装されています。これにより、seqableな任意のデータ型に使用できるので、汎用性が高くなります。それでは、さまざまなseqableを使って、 `map` をどのように使うかを見てみましょう。
 
 [source, clojure]
 ----
@@ -1196,10 +1035,7 @@ with a variety of seqables:
 ;; => (2 3 4)
 ----
 
-NOTE: When you use the `map` function on a map collection, your higher-order
-function will receive a two-item vector containing a key and value from the map.
-The following example uses xref:destructuring-section[destructuring] to access
-the key and value.
+注意: マップコレクションに対して `map` 関数を使用すると，高階の関数は，キーと値を含む2項目のベクトルをマップから受け取ります．次の例では，xref:destructuring-section[destructuring]を使って，キーと値を取得しています．
 
 [source,clojure]
 ----
@@ -1208,8 +1044,7 @@ the key and value.
 ;; => (100 49 16)
 ----
 
-Obviously the same operation can be done in more idiomatic way only obtaining a seq
-of values:
+もちろん、同じ操作は、値のシーケンスを取得するだけの、より慣用的な方法で行うことができます。
 
 [source,clojure]
 ----
@@ -1218,9 +1053,7 @@ of values:
 ;; => (100 49 16)
 ----
 
-As you may have noticed, functions that operate on sequences are safe to use with
-empty collections or even `nil` values since they don't need to do anything but
-return an empty sequence when encountering such values.
+お気づきかもしれませんが、シーケンスを操作する関数は、空のコレクションや、 `nil` の値があっても安全に使用することができます。
 
 [source, clojure]
 ----
@@ -1234,13 +1067,9 @@ return an empty sequence when encountering such values.
 ;; => ()
 ----
 
-We already saw examples with the usual suspects like `map`, `filter`, and `reduce`,
-but ClojureScript offers a plethora of generic sequence operations in its core
-namespace. Note that many of the operations we'll learn about either work with
-seqables or are extensible to user-defined types.
+`map` 、 `filter` 、 `reduce` などの典型的な例をすでに見ましたが、ClojureScriptはコア名前空間で汎用的なシーケンス操作を多数提供しています。これから学ぶ操作の多くは、seqableで動作するか、ユーザー定義の型に拡張可能であることに注意してください。
 
-We can query a value to know whether it's a collection type with the `coll?`
-predicate:
+述語  `coll?` を使って、値がコレクション型であるかどうかを問い合わせることができます。
 
 [source, clojure]
 ----
@@ -1257,8 +1086,7 @@ predicate:
 ;; => false
 ----
 
-Similar predicates exist for checking if a value is a sequence (with `seq?`) or a
-seqable (with `seqable?`):
+値がシーケンスであるかどうか（ `seq?` で）、seqableであるかどうか（ `seqable?` で）をチェックするための同様の述語が存在します。
 
 [source, clojure]
 ----
@@ -1283,9 +1111,7 @@ seqable (with `seqable?`):
 ;; => false
 ----
 
-For collections that can be counted in constant time, we can use the `count`
-operation. This operation also works on strings, even though, as you have seen,
-they are not collections, sequences, or seqable.
+一定時間内に数えることができるコレクションに対しては、 `count` という操作を使うことができます。文字列はコレクションでもシーケンスでもseqableでもありませんが、この操作は文字列でも動作します。
 
 [source, clojure]
 ----
@@ -1302,7 +1128,7 @@ they are not collections, sequences, or seqable.
 ;; => 13
 ----
 
-We can also get an empty variant of a given collection with the `empty` function:
+また、 `empty` 関数を使えば、与えられたコレクションの空のバリアントを得ることができます。
 
 [source, clojure]
 ----
@@ -1316,7 +1142,7 @@ We can also get an empty variant of a given collection with the `empty` function
 ;; => #{}
 ----
 
-The `empty?` predicate returns true if the given collection is empty:
+与えられたコレクションが空であれば、 `empty?` 述語はtrueを返します。
 
 [source, clojure]
 ----
@@ -1330,12 +1156,9 @@ The `empty?` predicate returns true if the given collection is empty:
 ;; => false
 ----
 
-The `conj` operation adds elements to collections and may add them in different
-"places" depending on the type of collection. It adds them where it is most
-performant for the collection type, but note that not every collection has a
-defined order.
+`conj` 操作はコレクションに要素を追加しますが、コレクションの種類によって異なる「場所」に追加されることがあります。コレクションの種類に応じて、最もパフォーマンスの高い場所に追加されますが、すべてのコレクションが定義された順序を持つわけではないことに注意してください。
 
-We can pass as many elements as we want to add to `conj`; let's see it in action:
+`conj` に追加したい要素をいくつでも渡すことができるので、実際に見てみましょう。
 
 [source, clojure]
 ----
@@ -1361,13 +1184,9 @@ We can pass as many elements as we want to add to `conj`; let's see it in action
 
 ===== Laziness
 
-Most of ClojureScript's sequence-returning functions generate lazy sequences instead
-of eagerly creating a whole new sequence. Lazy sequences generate their contents as
-they are requested, usually when iterating over them. Laziness ensures that we don't
-do more work than we need to and gives us the possibility of treating potentially
-infinite sequences as regular ones.
+ClojureScriptのシーケンスを返す関数のほとんどは、新しいシーケンスを熱心に(eagerly)作成する代わりに、遅延シーケンスを生成します。遅延シーケンスは、要求に応じてコンテンツを生成しますが、通常は反復処理の際に生成します。遅延は、必要以上の作業をしないことを保証し、無限に続く可能性のあるシーケンスを通常のシーケンスとして扱えるようにします。
 
-Consider the `range` function, which generates a range of integers:
+整数の範囲を生成する `range`  関数を考えてみましょう。
 
 [source, clojure]
 ----
@@ -1379,14 +1198,9 @@ Consider the `range` function, which generates a range of integers:
 ;; (10 25 40 55 70 85)
 ----
 
-If you just say `(range)`, you will get an infinite sequence of all the integers.
-Do *not* try this in the REPL, unless you are prepared to wait for a very, very long
-time, because the REPL wants to fully evaluate the expression.
+単に  `(range)`  と言えば、すべての整数の無限列が得られます。REPLは式を完全に評価したいので、非常に長い時間待つ覚悟がない限り、REPLでこれを試してはいけません*。
 
-Here is a contrived example. Let's say you are writing a graphing program and you
-are graphing the equation _y_= 2 _x_ ^2^ + 5, and you want only those values of _x_
-for which the _y_ value is less than 100. You can generate all the numbers 0 through
-100, which will certainly be enough, and then `take-while` the condition holds:
+これは、REPLが式を完全に評価したいと考えているからです。ここでは、人工的な例を示します。例えば、グラフ作成プログラムを書いていて、 _y_ = 2  _x_  ^2^ + 5 という方程式をグラフ化していて、  _y_  の値が 100 未満になる _x_  の値だけを求めたいとします。0から100までのすべての数字を生成することができますが、これで十分でしょう。
 
 [source,clojure]
 ----
@@ -1397,23 +1211,14 @@ for which the _y_ value is less than 100. You can generate all the numbers 0 thr
 
 ==== Collections in depth
 
-Now that we're acquainted with ClojureScript's sequence abstraction and some of the
-generic sequence manipulating functions, it's time to dive into the concrete
-collection types and the operations they support.
+ClojureScriptのシーケンスの抽象化と、シーケンスを操作する汎用関数のいくつかについては理解できたので、今度は具体的なコレクションタイプとそれらがサポートする操作について説明します。
 
 
 ===== Lists
 
-In ClojureScript, lists are mostly used as a data structure for grouping symbols
-together into programs. Unlike in other Lisps, many of the syntactic constructs of
-ClojureScript use data structures different from the list (vectors and maps).  This
-makes code less uniform, but the gains in readability are well worth the price.
+ClojureScriptでは、リストは主にシンボルをまとめてプログラムにするためのデータ構造として使われています。他のLisp族とは異なり、ClojureScriptの構文構造の多くは、リストとは異なるデータ構造（ベクターやマップ）を使用しています。 これによりコードの統一性は失われますが、読みやすさの向上は十分に価値があります。
 
-You can think of ClojureScript lists as singly linked lists, where each node
-contains a value and a pointer to the rest of the list. This makes it natural (and
-fast!) to add items to the front of the list, since adding to the end would require
-traversal of the entire list. The prepend operation is performed using the `cons`
-function.
+ClojureScriptのリストは、各ノードが値とリストの残りの部分へのポインタを含む、単結合リストと考えることができます。これにより、アイテムをリストの先頭に追加することが自然に（そして速く！）できるようになります。先頭への追加操作は，`cons` 関数を用いて行います．
 
 [source, clojure]
 ----
