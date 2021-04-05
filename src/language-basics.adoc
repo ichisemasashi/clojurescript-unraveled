@@ -1768,20 +1768,20 @@ ClojureScriptでは、永続的で不変的なキューも提供しています�
 
 === Threading Macros
 
-Threading macros, also known as arrow functions, enables one to write more readable code when multiple nested function calls are performed.
+スレッディングマクロは，アロー関数とも呼ばれ，ネストした複数の関数呼び出しを行う際に，より読みやすいコードを書くことができます．
 
-Imagine you have `(f (g (h x)))` where a function `f` receives as its first parameter the result of executing function `g`, repeated multiple times. With the most basic `->` threading macro you can convert that into `(\-> x (h) (g) (f))` which is easier to read.
+`(f (g (h x)))` があるとします。関数 `f` は、関数 `g` を複数回繰り返して実行した結果を第一引数として受け取ります。最も基本的な `->` スレッディングマクロを使って、これを読みやすい `(\-> x (h) (g) (f))` に変換することができます。
 
-The result is syntactic sugar, because the arrow functions are defined as macros and it does not imply any runtime performance. The `(\-> x (h) (g) (f))` is automatically converted to (f (g (h x))) at compile time.
+この結果は、矢印関数がマクロとして定義されているので、構文上の糖度であり、実行時のパフォーマンスを意味するものではありません。  `(\-> x (h) (g) (f))` は，コンパイル時に自動的に `(f (g (h x)))` に変換されます．
 
-Take note that the parenthesis on `h`, `g` and `f` are optional, and can be ommited: `(f (g (h x)))` is the same as `(\-> x h g f)`.
+`h` , `g` , `f` の括弧はオプションであり、省略することができますのでご注意ください。 `(f (g (h x)))` は、 `(\-> x h g f)` と同じです。
 
 
 ==== `\->` (thread-first macro)
 
-This is called *thread first* because it threads the first argument throught the different expressions as first arguments.
+これは、第一引数を異なる式の第一引数に通すことから、*thread first* と呼ばれています。
 
-Using a more concrete example, this is how the code looks without using threading macros:
+より具体的な例として、スレッドマクロを使用しない場合のコードは次のようになります。
 
 [source, clojure]
 ----
@@ -1792,7 +1792,7 @@ Using a more concrete example, this is how the code looks without using threadin
 ;; => {:name "Lady of the lake" :age 1999 :readers 1}
 ----
 
-We can rewrite that code to use the `\->` threading macro:
+このコードを書き換えて、`\->` スレッディングマクロを使うようにできる。
 
 [source, clojure]
 ----
@@ -1802,14 +1802,14 @@ We can rewrite that code to use the `\->` threading macro:
 ;; => {:name "Lady of the lake" :age 1999 :readers 1}
 ----
 
-This threading macro is especially useful for transforming data structures, because _ClojureScript_ (and _Clojure_) functions for data structures transformations consistently uses the first argument for receive the data structure.
+なぜなら、 _ClojureScript_ (および _Clojure_ )のデータ構造変換用関数は、データ構造を受け取るための最初の引数を一貫して使用するからです。このスレッディングマクロは、データ構造を変換する際に特に役立ちます。
 
 
 ==== `\->>` (thread-last macro)
 
-The main difference between the thread-last and thread-first macros is that instead of threading the first argument given as the first argument on the following expresions, it threads it as the last argument.
+thread-lastマクロとthread-firstマクロの主な違いは、最初に与えられた引数を次の式の最初の引数として渡すのではなく、最後の引数として渡すことです。
 
-Let's look at an example:
+例を見てみましょう。
 
 [source, clojure]
 ----
@@ -1819,7 +1819,7 @@ Let's look at an example:
 ;; => (3 5)
 ----
 
-The same code written using `\->>` threading macro:
+`\->>` スレッディングマクロを使って同じコードを書いた場合
 
 [source, clojure]
 ----
@@ -1830,16 +1830,16 @@ The same code written using `\->>` threading macro:
 ;; => (3 5)
 ----
 
-This threading macro is especially useful for transforming sequences or collections of data because _ClojureScript_ functions that work with sequences and collections consistently use the last argument position to receive them.
+シーケンスやコレクションを扱う _ClojureScript_ 関数は、一貫して最後の引数位置を使用してデータを受け取るため、このスレッディングマクロはシーケンスやデータのコレクションを変換する際に特に有効です。
 
 
 ==== `as\->` (thread-as macro)
 
-Finally, there are cases where neither `\->` nor `\->>` are applicable. In these cases, you’ll need to use `as\->`, the more flexible alternative, that allows you to thread into any argument position, not just the first or last.
+最後に、`\->` も `\->>` もどちらも適用できない場合があります。このような場合には、より柔軟な代替手段である `as\->` を使用する必要があります。これは、最初や最後だけでなく、任意の引数の位置にスレッドを通すことができます。
 
-It expects two fixed arguments and an arbitrary number of expressions. As with `\->`, the first argument is a value to be threaded through the following forms. The second argument is the name of a binding. In each of the subsequent forms, the bound name can be used for the prior expression's result.
+これは、2つの固定引数と、任意の数の式を想定しています。`\->` と同様に、最初の引数は値で、次のフォームに通すことができます。2番目の引数はバインディングの名前です。後続の各フォームでは、前の式の結果にバインド名を使うことができます。
 
-Let's see an example:
+例を見てみましょう。
 
 [source, clojure]
 ----
@@ -1854,9 +1854,9 @@ Let's see an example:
 
 ==== `some\->`, `some\->>` (thread-some macros)
 
-Two of the more specialized threading macros that _ClojureScript_ comes with. They work in the same way as their analagous `\->` and `\->>` macros with the additional support for short-circuiting the expression if one of the expresions evaluates to `nil`.
+_ClojureScript_ が搭載している、より専門的なスレッディングマクロの2つです。これらは、類似のマクロである `\->` や `\->>` と同じように動作しますが、どちらかの式が `nil` と評価された場合に、式を短絡させる機能が追加されています。
 
-Let's see another example:
+別の例を見てみましょう。
 
 [source, clojure]
 ----
@@ -1869,12 +1869,12 @@ Let's see another example:
 ;; => nil
 ----
 
-This is an easy way avoid null pointer exceptions.
+これは、ヌルポインター例外を回避する簡単な方法です。
 
 
 ==== `cond\->`, `cond\->>` (thread-cond macros)
 
-The `cond\->` and `cond\->>` macros are analogous to `\->` and `\->>` that offers the ability to conditionally skip some steps from the pipeline. Let see an example:
+`cond\->` , `cond\->>` は、`\->` , `\->>` と同様に、パイプラインのいくつかのステップを条件付きでスキップする機能を提供するマクロです。その例を見てみましょう。
 
 [source, clojure]
 ----
@@ -1893,7 +1893,7 @@ The `cond\->` and `cond\->>` macros are analogous to `\->` and `\->>` that offer
 ;; => ["even" "positive"]
 ----
 
-The value threading only happens when the corresponding condition evaluates to logical true.
+値のスレッド化は、対応する条件が論理的に真と評価された場合にのみ行われます。
 
 
 ==== Additional Readings
@@ -1905,14 +1905,14 @@ The value threading only happens when the corresponding condition evaluates to l
 [[reader-conditionals]]
 === Reader Conditionals
 
-This language feature allows different dialects of Clojure to share common code that is mostly platform independent but need some platform dependent code.
+この言語機能により、Clojureの異なる方言が、ほとんどプラットフォームに依存しないが、いくつかのプラットフォーム依存のコードを必要とする共通のコードを共有することができます。
 
-To use reader conditionals, all you need is to rename your source file with `.cljs` extension to one with `.cljc`, because reader conditionals only work if they are placed in files with `.cljc` extension.
+リーダーコンディショナルを使用するために必要なのは、拡張子が `.cljs` のソースファイルを `.cljc` にリネームすることだけです。リーダーコンディショナルは、拡張子が `.cljc` のファイルに配置されている場合にのみ動作するからです。
 
 
 ==== Standard (`#?`)
 
-There are two types of reader conditionals, standard and splicing. The standard reader conditional behaves similarly to a traditional cond and the syntax looks like this:
+リーダーコンディショナルには、スタンダードとスプライシングの2種類があります。スタンダードのリーダーコンディショナルは、従来のcondと同様の動作をし、構文は次のようになります。
 
 [source, clojure]
 ----
@@ -1922,11 +1922,11 @@ There are two types of reader conditionals, standard and splicing. The standard 
      :cljs (js/parseInt v)))
 ----
 
-As you can observe, `#?` reading macro looks very similar to cond, the difference is that the condition is just a keyword that identifies the platform, where `:cljs` is for _ClojureScript_ and `:clj` is for _Clojure_. The advantage of this approach, is that it is evaluated at compile time so no runtime performance overhead exists for using this.
+ご覧のように、`#?` リーダーマクロはcondと非常によく似ていますが、違いは条件が単なるプラットフォームを識別するキーワードであるということです。`:cljs` は _ClojureScript_ 、 `:clj` は _Clojure_ を表しています。この方法の利点は、コンパイル時に評価されるので、これを使用することによるランタイムパフォーマンスのオーバーヘッドがないことです。
 
 ==== Splicing (`#?@`)
 
-The splicing reader conditional works in the same way as the standard and allows splice lists into the containing form. The `#?@` reader macro is used for that and the code looks like this:
+スプライシング・リーダーコンディショナルは、スタンダードと同じように動作し、リストを含む形式にスプライシングすることができます。そのためには、 `#?@` リーダーマクロが使われ、コードは次のようになります。
 
 [source, clojure]
 ----
@@ -1940,7 +1940,7 @@ The splicing reader conditional works in the same way as the standard and allows
 ;; => (1 2 3 4)
 ----
 
-The _ClojureScript_ compiler will read that code as this:
+_ClojureScript_ コンパイラは、そのコードをこのように読みます。
 
 [source, clojure]
 ----
@@ -1949,7 +1949,7 @@ The _ClojureScript_ compiler will read that code as this:
   (list 1 2 3 4))
 ----
 
-The splicing reader conditional can't be used to splice multiple top level forms, so the following code is ilegal:
+スプライシング・リーダーコンディショナルは、複数のトップレベルフォームをスプライシングするために使用することはできませんので、以下のコードは間違いです。
 
 [source, clojure]
 ----
@@ -1958,7 +1958,7 @@ The splicing reader conditional can't be used to splice multiple top level forms
 ;; => #error "Reader conditional splicing not allowed at the top level."
 ----
 
-If you need so, you can use multiple forms or just use `do` block for group multiple forms together:
+必要であれば、複数のフォームを使用することもできますし、 `do` ブロックで複数のフォームをまとめて使用することもできます。
 
 [source, clojure]
 ----
