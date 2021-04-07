@@ -1978,15 +1978,14 @@ _ClojureScript_ コンパイラは、そのコードをこのように読みま�
 
 - http://clojure.org/guides/reader_conditionals
 - https://danielcompton.net/2015/06/10/clojure-reader-conditionals-by-example
-- https://github.com/funcool/cuerdas (example small project that uses
-  reader conditionals)
+- https://github.com/funcool/cuerdas (リーダーコンディショナルを使った小さなプロジェクトの例)
 
 [[namespace-section]]
 === Namespaces
 
 ==== Defining a namespace
 
-The _namespace_ is ClojureScript's fundamental unit of code modularity. Namespaces are analogous to Java packages or Ruby and Python modules and can be defined with the `ns` macro. If you have ever looked at a little bit of ClojureScript source, you may have noticed something like this at the beginning of the file:
+名前空間は、ClojureScriptのコードモジュール化の基本単位です。名前空間は、JavaのパッケージやRubyやPythonのモジュールに類似しており、 `ns` マクロで定義できます。ClojureScriptのソースを少しでも見たことがあれば、ファイルの先頭にこのようなものがあることに気づくかもしれません。
 
 [source, clojure]
 ----
@@ -1996,9 +1995,9 @@ The _namespace_ is ClojureScript's fundamental unit of code modularity. Namespac
 (def x "hello")
 ----
 
-Namespaces are dynamic, meaning you can create one at any time. However, the convention is to have one namespace per file. Naturally, a namespace definition is usually at the beginning of the file, followed by an optional docstring.
+名前空間は動的なものであり、いつでも作成することができます。しかし、慣例として、1つのファイルに1つの名前空間を持つことになっています。当然のことながら、通常、名前空間の定義はファイルの先頭にあり、その後にオプションのdocstringが続きます。
 
-Previously we have explained vars and symbols. Every var that you define will be associated with its namespace. If you do not define a concrete namespace, then the default one called "cljs.user" will be used:
+前回までに、varsとsymbolについて説明しました。あなたが定義したすべての var は、その名前空間と関連付けられます。具体的な名前空間を定義しない場合は、デフォルトの "cljs.user "という名前空間が使用されます。
 
 [source, clojure]
 ----
@@ -2009,9 +2008,9 @@ Previously we have explained vars and symbols. Every var that you define will be
 
 ==== Loading other namespaces
 
-Defining a namespace and the vars in it is really easy, but it's not very useful if we can't use symbols from other namespaces. For this purpose, the `ns` macro offers a simple way to load other namespaces.
+名前空間とその中の変数を定義するのはとても簡単ですが、他の名前空間のシンボルを使用できない場合はあまり便利ではありません。この目的のために、 `ns` マクロは他の名前空間をロードする簡単な方法を提供します。
 
-Observe the following:
+次のことを守りましょう。
 
 [source, clojure]
 ----
@@ -2023,9 +2022,9 @@ Observe the following:
 ;; => "HELLO"
 ----
 
-As you can observe, we are using fully qualified names (namespace + var name) for access to vars and functions from different namespaces.
+ご覧のとおり、異なる名前空間の変数や関数へのアクセスには、完全修飾名（namespace + var name）を使用しています。
 
-While this will let you access other namespaces, it's also repetitive and overly verbose. It will be especially uncomfortable if the name of a namespace is very long. To solve that, you can use the `:as` directive to create an additional (usually shorter) alias to the namespace.  This is how it can be done:
+これで他の名前空間にもアクセスできるようになりますが、繰り返しが多く、冗長になります。名前空間の名前が非常に長い場合は特に違和感があるでしょう。これを解決するには、 `:as` ディレクティブを使用して、名前空間への追加の（通常はより短い）エイリアスを作成することができます。 このようにすることができます。
 
 [source, clojure]
 ----
@@ -2037,7 +2036,7 @@ While this will let you access other namespaces, it's also repetitive and overly
 ;; => "HELLO"
 ----
 
-One peculiarity of the namespace aliases, is that they can be used to obtain namespaced keywords from a specific namespace:
+名前空間エイリアスの特徴として、特定の名前空間から名前空間キーワードを取得するのに使用できることが挙げられます。
 
 [source, clojure]
 ----
@@ -2048,7 +2047,7 @@ One peculiarity of the namespace aliases, is that they can be used to obtain nam
 ;; => :myapp.core/foo
 ----
 
-In the same way, you can namespace all the keys on the moment of creation of a map:
+同じように、マップの作成時にすべてのキーを名前空間化することもできます。
 
 [source, clojure]
 ----
@@ -2062,7 +2061,7 @@ x
 ----
 
 
-Additionally, _ClojureScript_ offers a simple way to refer to specific vars or functions from a concrete namespace using the `:refer` directive, followed by a sequence of symbols that will refer to vars in the namespace. Effectively, it is as if those vars and functions are now part of your namespace, and you do not need to qualify them at all.
+さらに、_ClojureScript_ では、`:refer` ディレクティブを使用して、具体的な名前空間から特定の変数や関数を参照する簡単な方法を提供しています。これに続いて、名前空間内の変数を参照する一連のシンボルを使用します。事実上、これらの変数や関数は自分の名前空間の一部であるかのようであり、それらを修飾する必要はありません。
 
 [source, clojure]
 ----
@@ -2072,9 +2071,9 @@ Additionally, _ClojureScript_ offers a simple way to refer to specific vars or f
 ;; => "HELLO"
 ----
 
-And finally, you should know that everything located in the `cljs.core` namespace is automatically loaded and you should not require it explicitly. Sometimes you may want to declare vars that will clash with some others defined in the `cljs.core` namespace. To do this, the `ns` macro offers another directive that allows you to exclude specific symbols and prevent them from being automatically loaded.
+最後に、`cljs.core` 名前空間にあるものはすべて自動的にロードされるので、明示的に要求してはいけないことを知っておく必要があります。時には、`cljs.core` 名前空間で定義された他の変数と衝突するような変数を宣言したい場合があります。そのために、 `ns` マクロには、特定のシンボルを除外して自動的にロードされないようにするための別のディレクティブが用意されています。
 
-Observe the following:
+次のようにします。
 
 [source, clojure]
 ----
@@ -2088,12 +2087,12 @@ Observe the following:
     x))
 ----
 
-The `ns` macro also has other directives for loading host classes (with `:import`) and macros (with `:refer-macros`), but these are explained in other sections.
+`ns` マクロには、ホストクラス（ `:import` ）やマクロ（ `:refer-macros` ）を読み込むための他のディレクティブもありますが、これらについては他のセクションで説明します。
 
 
 ==== Namespaces and File Names
 
-When you have a namespace like `myapp.core`, the code must be in a file named _core.cljs_ inside the _myapp_ directory.  So, the preceding examples with namespaces `myapp.core` and `myapp.main` would be found in project with a file structure like this:
+`myapp.core` のような名前空間を持つ場合、コードは _myapp_ ディレクトリ内の _core.cljs_ という名前のファイルに記述しなければなりません。 つまり、名前空間 `myapp.core` と `myapp.main` を持つ前述の例は、次のようなファイル構造を持つプロジェクトで見つかります。
 
 ----
 myapp
