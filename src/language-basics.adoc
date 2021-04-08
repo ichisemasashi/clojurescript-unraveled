@@ -2105,23 +2105,24 @@ myapp
 
 === Abstractions and Polymorphism
 
-I'm sure that at more than one time you have found yourself in this situation: you have defined a great abstraction (using interfaces or something similar) for your "business logic", and you have found the need to deal with another module over which you have absolutely no control, and you probably were thinking of creating adapters, proxies, and other approaches that imply a great amount of additional complexity.
+このような状況に陥ったことは一度や二度ではないと思います。 「ビジネスロジック」のために（インターフェイスなどを使用して）優れた抽象化を定義した後、全く制御できない別のモジュールを扱う必要性に気付き、おそらくアダプタやプロキシなど、大量の追加の複雑さを含むアプローチを作成しようと考えていたのではないでしょうか。
 
-Some dynamic languages allow "monkey-patching"; languages where the classes are open and any method can be defined and redefined at any time. Also, it is well known that this technique is a very bad practice.
 
-We can not trust languages that allow you to silently overwrite methods that you are using when you import third party libraries; you cannot expect consistent behavior when this happens.
+動的言語の中には、「モンキーパッチ」が可能なものがあります。これは、クラスがオープンで、どのメソッドもいつでも定義・再定義が可能な言語です。また、この手法が非常に悪いものであることはよく知られています。
 
-These symptoms are commonly called the "expression problem";
-see http://en.wikipedia.org/wiki/Expression_problem for more details
+サードパーティのライブラリをインポートする際に、自分が使っているメソッドを黙って上書きできるような言語は信用できませんし、このような状況では一貫した動作は期待できません。
+
+このような症状は、一般的に「式の問題」と呼ばれています。
+詳しくは http://en.wikipedia.org/wiki/Expression_problem を参照してください。
 
 
 ==== Protocols
 
-The _ClojureScript_ primitive for defining "interfaces" is called a protocol. A protocol consists of a name and set of functions. All the functions have at least one argument corresponding to the `this` in JavaScript or `self` in Python.
+「インターフェース」を定義するための _ClojureScript_ のプリミティブをプロトコルと呼びます。プロトコルは名前と関数のセットで構成されます。すべての関数は、JavaScriptの `this` やPythonの `self` に相当する少なくとも1つの引数を持ちます。
 
-Protocols provide a type-based polymorphism, and the dispatch is always done by the first argument (equivalent to JavaScript’s `this`, as previously mentioned).
+プロトコルは型に基づいた多相性を提供し、ディスパッチは常に第一引数（前述の通り、JavaScriptの `this` に相当）によって行われます。
 
-A protocol looks like this:
+プロトコルは次のようなものです。
 
 [source, clojure]
 ----
@@ -2132,11 +2133,11 @@ A protocol looks like this:
   (sample-method [this] "A doc string associated with this function."))
 ----
 
-NOTE: the "I" prefix is commonly used to designate the separation of protocols and types. In the Clojure community, there are many different opinions about how the "I" prefix should be used. In our opinion, it is an acceptable solution to avoid name clashing and possible confusion. But not using the prefix is not considered bad practice.
+注：「I」という接頭辞は、プロトコルと型の分離を指定するためによく使われます。Clojureコミュニティでは、"I"という接頭辞をどのように使用すべきかについて様々な意見があります。我々の意見では、名前の衝突や起こりうる混乱を避けるための許容できる解決策です。しかし、接頭辞を使用しないことは、悪い習慣とはみなされません。
 
-From the user perspective, protocol functions are simply plain functions defined in the namespace where the protocol is defined. This enables an easy and simple aproach for avoid conflicts between different protocols implemented for the same type that have conflicting function names.
+ユーザーの視点から見ると、プロトコル関数は、プロトコルが定義されている名前空間で定義された単なるプレーンな関数です。これにより、同じ型に実装された異なるプロトコルの間で、関数名の衝突を避けるための簡単でシンプルなアプローチが可能になります。
 
-Here is an example. Let's create a protocol called `IInvertible` for data that can be "inverted".  It will have a single method named `invert`.
+以下にその例を示す。 "反転" できるデータのために、 `IInvertible` というプロトコルを作成してみましょう。 このプロトコルは `invert` という名前のメソッドを1つ持ちます。
 
 [source, clojure]
 ----
@@ -2148,9 +2149,9 @@ Here is an example. Let's create a protocol called `IInvertible` for data that c
 
 ===== Extending existing types
 
-One of the big strengths of protocols is the ability to extend existing and maybe third party types. This operation can be done in different ways.
+プロトコルの大きな強みの一つは、既存の、あるいはサードパーティの型を拡張できることです。この操作はさまざまな方法で行うことができます。
 
-The majority of time you will tend to use the *extend-protocol* or the *extend-type* macros. This is how `extend-type` syntax looks:
+ほとんどの場合、 *extend-protocol* または *extend-type* マクロを使用することになります。これは `extend-type` 構文がどのように見えるかを示しています。
 
 [source, clojure]
 ----
@@ -2169,9 +2170,9 @@ The majority of time you will tend to use the *extend-protocol* or the *extend-t
     ))
 ----
 
-You can observe that with *extend-type* you are extending a single type with different protocols in a single expression.
+*extend-type* を使うと、1つの式で1つの型を異なるプロトコルで拡張していることがわかります。
 
-Let's play with our `IInvertible` protocol defined previously:
+先ほど定義した「IInvertible」プロトコルで遊んでみましょう。
 
 [source, clojure]
 ----
@@ -2188,11 +2189,11 @@ Let's play with our `IInvertible` protocol defined previously:
   (invert [this] (into [] (reverse this))))
 ----
 
-You may note that a special symbol *string* is used instead of `js/String` for extend the protol for string. This is because the builtin javascript types have special treatment and if you replace the `string` with `js/String` the compiler will emit a warning about that.
+文字列のプロトタイプを拡張するために、 `js/String` ではなく、特別なシンボル *string* が使用されていることに気づくかもしれません。これは、javascriptの組み込み型は特別な扱いを受けており、 `string` を `js/String` に置き換えると、コンパイラがその旨の警告を発するためです。
 
-So if you want extend your protocol to javascript primitive types, instead of using `js/Number`, `js/String`, `js/Object`, `js/Array`, `js/Boolean` and `js/Function` you should use the respective special symbols: `number`, `string`, `object`, `array`, `boolean` and `function`.
+したがって、プロトコルをjavascriptのプリミティブな型に拡張したい場合には、 `js/Number` ,  `js/String` ,  `js/Object` ,  `js/Array` , `js/Boolean` , `js/Function` の代わりに、それぞれの特別なシンボルを使用する必要があります。 `number` ,  `string` , `object` , `array` , `boolean` , `function` です。
 
-Now, it's time to try our protocol implementation:
+さて、いよいよプロトコルの実装を試してみましょう。
 
 [source, clojure]
 ----
@@ -2209,7 +2210,7 @@ Now, it's time to try our protocol implementation:
 ;; => [3 2 1]
 ----
 
-In comparison, *extend-protocol* does the inverse; given a protocol, it adds implementations for multiple types. This is how the syntax looks:
+これに対し、 *extend-protocol* はその逆で、プロトコルが与えられれば、複数の型に対する実装を追加します。このような構文になっています。
 
 [source, clojure]
 ----
@@ -2225,7 +2226,7 @@ In comparison, *extend-protocol* does the inverse; given a protocol, it adds imp
     ))
 ----
 
-Thus, the previous example could have been written equally well with this way:
+このように、先ほどの例はこの方法でも同じように書けたはずです。
 
 [source, clojure]
 ----
@@ -2241,11 +2242,11 @@ Thus, the previous example could have been written equally well with this way:
 ----
 
 
-===== Participate in ClojureScript abstractions
+===== Participate in ClojureScript abstractions (ClojureScriptの抽象化に参加する)
 
-ClojureScript itself is built up on abstractions defined as protocols. Almost all behavior in the _ClojureScript_ language itself can be adapted to third party libraries. Let's look at a real life example.
+ClojureScript自体は、プロトコルとして定義された抽象化の上に構築されています。 _ClojureScript_ 言語自体のほとんどすべての動作は、サードパーティのライブラリに適応することができます。実際の例を見てみましょう。
 
-In previous sections, we have explained the different kinds of built-in collections. For this example we will use a *set*. See this snippet of code:
+前のセクションでは、さまざまな種類の組み込みコレクションについて説明しました。この例では、 *set* を使用します。このコードのスニペットをご覧ください。
 
 [source, clojure]
 ----
