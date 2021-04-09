@@ -2256,9 +2256,9 @@ ClojureScript自体は、プロトコルとして定義された抽象化の上�
 ;; => (1 2 1)
 ----
 
-What happened? In this case, the _set_ type implements the _ClojureScript_ internal `IFn` protocol that represents an abstraction for functions or anything callable. This way it can be used like a callable predicate in filter.
+何が起こったのでしょうか？この場合、_set_ 型は _ClojureScript_ 内部の `IFn` プロトコルを実装しており、関数やcallableを抽象化して表しています。このため、フィルタのcallableな述語のように使うことができます。
 
-OK, but what happens if we want to use a regular expression as a predicate function for filtering a collection of strings:
+しかし、文字列のコレクションをフィルタリングするための述語関数として、正規表現を使いたい場合はどうなるでしょうか。
 
 [source, clojure]
 ----
@@ -2266,7 +2266,7 @@ OK, but what happens if we want to use a regular expression as a predicate funct
 ;; TypeError: Cannot call undefined
 ----
 
-The exception is raised because the `RegExp` type does not implement the `IFn` protocol so it cannot behave like a callable, but that can be easily fixed:
+例外が発生するのは、`RegExp` 型が `IFn` プロトコルを実装していないため、 callable のように振る舞うことができないからですが、これは簡単に修正することができます。
 
 [source, clojure]
 ----
@@ -2277,9 +2277,9 @@ The exception is raised because the `RegExp` type does not implement the `IFn` p
      (re-find this a))))
 ----
 
-Let’s analyze this: we are extending the `js/RegExp` type so that it implements the `invoke` function in the `IFn` protocol. To invoke a regular expression `a` as if it were a function, call the `re-find` function with the object of the function and the pattern.
+これを分析してみましょう。私たちは `js/RegExp` 型を拡張して、`IFn` プロトコルの `invoke` 関数を実装しています。正規表現 `a` をあたかも関数のように呼び出すには，関数のオブジェクトとパターンを指定して `re-find` 関数を呼び出します．
 
-Now, you will be able use the regex instances as predicates in a filter operation:
+これで、フィルタ操作の述語として正規表現のインスタンスを使うことができるようになります。
 
 [source, clojure]
 ----
@@ -2290,10 +2290,9 @@ Now, you will be able use the regex instances as predicates in a filter operatio
 
 ===== Introspection using Protocols
 
-_ClojureScript_ comes with a useful function that allows runtime introspection: `satisfies?`. The purpose of this function is to determine at runtime if some object (instance of some type) satisfies the concrete protocol.
+_ClojureScript_ には、実行時のイントロスペクションを可能にする便利な関数が付属しています: `satisfies?` です。この関数の目的は、あるオブジェクト(ある型のインスタンス)が具象プロトコルを満たしているかどうかを実行時に判断することです。
 
-So, with the previous examples, if we check if a `set` instance satisfies an *IFn*
-protocol, it should return `true`:
+前述の例では、 `set` インスタンスが *IFn* プロトコルを満たしているかどうかをチェックすると、 `true` を返すはずです。
 
 [source, clojure]
 ----
