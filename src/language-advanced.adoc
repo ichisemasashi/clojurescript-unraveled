@@ -1023,21 +1023,14 @@ TODO: metadata on functions and multiarity functions
 [[core-protocols-section]]
 === Core protocols
 
-One of the greatest qualities of the core ClojureScript functions is that they are
-implemented around protocols. This makes them open to work on any type that we
-extend with such protocols, be it defined by us or a third party.
+One of the greatest qualities of the core ClojureScript functions is that they are implemented around protocols. This makes them open to work on any type that we extend with such protocols, be it defined by us or a third party.
 
 
 ==== Functions
 
-As we've learned in previous chapters not only functions can be invoked. Vectors are
-functions of their indexes, maps are functions of their keys and sets are functions
-of their values.
+As we've learned in previous chapters not only functions can be invoked. Vectors are functions of their indexes, maps are functions of their keys and sets are functions of their values.
 
-We can extend types to be callable as functions implementing the `IFn` protocol. A
-collection that doesn't support calling it as a function is the queue, let's
-implement `IFn` for the `PersistentQueue` type so we're able to call queues as
-functions of their indexes:
+We can extend types to be callable as functions implementing the `IFn` protocol. A collection that doesn't support calling it as a function is the queue, let's implement `IFn` for the `PersistentQueue` type so we're able to call queues as functions of their indexes:
 
 [source, clojure]
 ----
@@ -1067,18 +1060,14 @@ functions of their indexes:
 TODO: IWriter?
 ////
 
-For learning about some of the core protocols we'll define a `Pair` type, which will
-hold a pair of values.
+For learning about some of the core protocols we'll define a `Pair` type, which will hold a pair of values.
 
 [source, clojure]
 ----
 (deftype Pair [fst snd])
 ----
 
-If we want to customize how types are printed we can implement the
-`IPrintWithWriter` protocol. It defines a function called `-pr-writer` that receives
-the value to print, a writer object and options; this function uses the writer
-object's `-write` function to write the desired `Pair` string representation:
+If we want to customize how types are printed we can implement the `IPrintWithWriter` protocol. It defines a function called `-pr-writer` that receives the value to print, a writer object and options; this function uses the writer object's `-write` function to write the desired `Pair` string representation:
 
 
 [source, clojure]
@@ -1092,10 +1081,7 @@ object's `-write` function to write the desired `Pair` string representation:
 
 ==== Sequences
 
-In a xref:the-sequence-abstraction[previous section] we learned about sequences, one
-of ClojureScript's main abstractions. Remember the `first` and `rest` functions for
-working with sequences? They are defined in the `ISeq` protocol, so we can extend
-types for responding to such functions:
+In a xref:the-sequence-abstraction[previous section] we learned about sequences, one of ClojureScript's main abstractions. Remember the `first` and `rest` functions for working with sequences? They are defined in the `ISeq` protocol, so we can extend types for responding to such functions:
 
 [source, clojure]
 ----
@@ -1117,9 +1103,7 @@ types for responding to such functions:
 ;; => (2)
 ----
 
-Another handy function for working with sequences is `next`. Although `next` works
-as long as the given argument is a sequence, we can implement it explicitly with the
-`INext` protocol:
+Another handy function for working with sequences is `next`. Although `next` works as long as the given argument is a sequence, we can implement it explicitly with the `INext` protocol:
 
 [source, clojure]
 ----
@@ -1139,8 +1123,7 @@ as long as the given argument is a sequence, we can implement it explicitly with
 ;; => (2)
 ----
 
-Finally, we can make our own types seqable implementing the `ISeqable`
-protocol. This means we can pass them to `seq` for getting a sequence back.
+Finally, we can make our own types seqable implementing the `ISeqable` protocol. This means we can pass them to `seq` for getting a sequence back.
 
 ISeqable
 [source, clojure]
@@ -1156,8 +1139,7 @@ ISeqable
 ;; => (1 2)
 ----
 
-Now our `Pair` type works with the plethora of ClojureScript functions for working
-with sequences:
+Now our `Pair` type works with the plethora of ClojureScript functions for working with sequences:
 
 [source, clojure]
 ----
@@ -1177,12 +1159,9 @@ with sequences:
 
 ==== Collections
 
-Collection functions are also defined in terms of protocols. For this section
-examples we will make the native JavaScript string act like a collection.
+Collection functions are also defined in terms of protocols. For this section examples we will make the native JavaScript string act like a collection.
 
-The most important function for working with collection is `conj`, defined in the
-`ICollection` protocol.  Strings are the only type which makes sense to `conj` to a
-string, so the `conj` operation for strings will be simply a concatenation:
+The most important function for working with collection is `conj`, defined in the `ICollection` protocol.  Strings are the only type which makes sense to `conj` to a string, so the `conj` operation for strings will be simply a concatenation:
 
 [source, clojure]
 ----
@@ -1198,8 +1177,7 @@ string, so the `conj` operation for strings will be simply a concatenation:
 ;; => "foobarbaz"
 ----
 
-Another handy function for working with collections is `empty`, which is part of the
-`IEmptyableCollection` protocol. Let's implement it for the string type:
+Another handy function for working with collections is `empty`, which is part of the `IEmptyableCollection` protocol. Let's implement it for the string type:
 
 [source, clojure]
 ----
@@ -1212,21 +1190,14 @@ Another handy function for working with collections is `empty`, which is part of
 ;; => ""
 ----
 
-We used the `string` special symbol for extending the native JavaScript string. If
-you want to learn more about it check the xref:extending-javascript-types[section
-about extending JavaScript types].
+We used the `string` special symbol for extending the native JavaScript string. If you want to learn more about it check the xref:extending-javascript-types[section about extending JavaScript types].
 
 
 ===== Collection traits
 
-There are some qualities that not all collections have, such as being countable in
-constant time or being reversible. These traits are splitted into different
-protocols since not all of them make sense for every collection. For illustrating
-these protocols we'll use the `Pair` type we defined earlier.
+There are some qualities that not all collections have, such as being countable in constant time or being reversible. These traits are splitted into different protocols since not all of them make sense for every collection. For illustrating these protocols we'll use the `Pair` type we defined earlier.
 
-For collections that can be counted in constant time using the `count` function we
-can implement the `ICounted` protocol. It should be easy to implement it for the
-`Pair` type:
+For collections that can be counted in constant time using the `count` function we can implement the `ICounted` protocol. It should be easy to implement it for the `Pair` type:
 
 [source, clojure]
 ----
@@ -1241,8 +1212,7 @@ can implement the `ICounted` protocol. It should be easy to implement it for the
 ;; => 2
 ----
 
-Some collection types such as vectors and lists can be indexed by a number using the
-`nth` function. If our types are indexed we can implement the `IIndexed` protocol:
+Some collection types such as vectors and lists can be indexed by a number using the `nth` function. If our types are indexed we can implement the `IIndexed` protocol:
 
 [source, clojure]
 ----
@@ -1284,15 +1254,9 @@ TODO: IReversible?
 
 ==== Associative
 
-There are many data structures that are associative: they map keys to values. We've
-encountered a few of them already and we know many functions for working with them
-like `get`, `assoc` or `dissoc`. Let's explore the protocols that these functions
-build upon.
+There are many data structures that are associative: they map keys to values. We've encountered a few of them already and we know many functions for working with them like `get`, `assoc` or `dissoc`. Let's explore the protocols that these functions build upon.
 
-First of all, we need a way to look up keys on an associative data structure. The
-`ILookup` protocol defines a function for doing so, let's add the ability to look up
-keys in our `Pair` type since it is an associative data structure that maps the indices
-0 and 1 to values.
+First of all, we need a way to look up keys on an associative data structure. The `ILookup` protocol defines a function for doing so, let's add the ability to look up keys in our `Pair` type since it is an associative data structure that maps the indices 0 and 1 to values.
 
 [source, clojure]
 ----
@@ -1320,10 +1284,7 @@ keys in our `Pair` type since it is an associative data structure that maps the 
 ;; => :default
 ----
 
-For using `assoc` on a data structure it must implement the `IAssociative`
-protocol. For our `Pair` type only 0 and 1 will be allowed as keys for associating
-values. `IAssociative` also has a function for asking whether a key is present or
-not.
+For using `assoc` on a data structure it must implement the `IAssociative` protocol. For our `Pair` type only 0 and 1 will be allowed as keys for associating values. `IAssociative` also has a function for asking whether a key is present or not.
 
 [source, clojure]
 ----
@@ -1354,10 +1315,7 @@ not.
 ;; Error: Can only assoc to 0 and 1 keys
 ----
 
-The complementary function for `assoc` is `dissoc` and it's part of the `IMap`
-protocol. It doesn't make much sense for our `Pair` type but we'll implement it
-nonetheless. Dissociating 0 or 1 will mean putting a `nil` in such position and
-invalid keys will be ignored.
+The complementary function for `assoc` is `dissoc` and it's part of the `IMap` protocol. It doesn't make much sense for our `Pair` type but we'll implement it nonetheless. Dissociating 0 or 1 will mean putting a `nil` in such position and invalid keys will be ignored.
 
 [source, clojure]
 ----
@@ -1385,10 +1343,7 @@ invalid keys will be ignored.
 ;; => #<Pair ,>
 ----
 
-Associative data structures are made of key and value pairs we can call entries. The
-`key` and `val` functions allow us to query the key and value of such entries and
-they are built upon the `IMapEntry` protocol. Let's see a few examples of `key` and
-`val` and how map entries can be used to build up maps:
+Associative data structures are made of key and value pairs we can call entries. The `key` and `val` functions allow us to query the key and value of such entries and they are built upon the `IMapEntry` protocol. Let's see a few examples of `key` and `val` and how map entries can be used to build up maps:
 
 [source, clojure]
 ----
@@ -1402,8 +1357,7 @@ they are built upon the `IMapEntry` protocol. Let's see a few examples of `key` 
 ;; => {:foo :bar, :baz :xyz}
 ----
 
-Pairs can be map entries too, we treat their first element as the key and the second
-as the value:
+Pairs can be map entries too, we treat their first element as the key and the second as the value:
 
 [source, clojure]
 ----
@@ -1431,8 +1385,7 @@ as the value:
 
 ==== Comparison
 
-For checking whether two or more values are equivalent with `=` we must implement
-the `IEquiv` protocol. Let's do it for our `Pair` type:
+For checking whether two or more values are equivalent with `=` we must implement the `IEquiv` protocol. Let's do it for our `Pair` type:
 
 [source, clojure]
 ----
@@ -1464,14 +1417,9 @@ the `IEquiv` protocol. Let's do it for our `Pair` type:
 TODO: IHash?
 ////
 
-We can also make types comparable. The function `compare` takes two values and
-returns a negative number if the first is less than the second, 0 if both are equal
-and 1 if the first is greater than the second. For making our types comparable we
-must implement the `IComparable` protocol.
+We can also make types comparable. The function `compare` takes two values and returns a negative number if the first is less than the second, 0 if both are equal and 1 if the first is greater than the second. For making our types comparable we must implement the `IComparable` protocol.
 
-For pairs, comparison will mean checking if the two first values are equal. If they
-are, the result will be the comparison of the second values. If not, we will return
-the result of the first comparison:
+For pairs, comparison will mean checking if the two first values are equal. If they are, the result will be the comparison of the second values. If not, we will return the result of the first comparison:
 
 [source, clojure]
 ----
@@ -1499,9 +1447,7 @@ the result of the first comparison:
 
 ==== Metadata
 
-The `meta` and `with-meta` functions are also based upon two protocols: `IMeta` and
-`IWithMeta` respectively.  We can make our own types capable of carrying metadata
-adding an extra field for holding the metadata and implementing both protocols.
+The `meta` and `with-meta` functions are also based upon two protocols: `IMeta` and `IWithMeta` respectively.  We can make our own types capable of carrying metadata adding an extra field for holding the metadata and implementing both protocols.
 
 Let's implement a version of `Pair` that can have metadata:
 
@@ -1533,29 +1479,17 @@ Let's implement a version of `Pair` that can have metadata:
 ==== Interoperability with JavaScript
 
 
-Since ClojureScript is hosted in a JavaScript VM we often need to convert
-ClojureScript data structures to JavaScript ones and viceversa. We also may want to
-make native JS types participate in an abstraction represented by a protocol.
+Since ClojureScript is hosted in a JavaScript VM we often need to convert ClojureScript data structures to JavaScript ones and viceversa. We also may want to make native JS types participate in an abstraction represented by a protocol.
 
 
 [[extending-javascript-types]]
 ===== Extending JavaScript types
 
-When extending JavaScript objects instead of using JS globals like `js/String`,
-`js/Date` and such, special symbols are used. This is done for avoiding mutating
-global JS objects.
+When extending JavaScript objects instead of using JS globals like `js/String`, `js/Date` and such, special symbols are used. This is done for avoiding mutating global JS objects.
 
-The symbols for extending JS types are: `object`, `array`, `number`, `string`,
-`function`, `boolean` and `nil` is used for the null object. The dispatch of the
-protocol to native objects uses Google Closure's
-link:https://google.github.io/closure-library/api/namespace_goog.html#typeOf[goog.typeOf]
-function. There's a special `default` symbol that can be used for making a default
-implementation of a protocol for every type.
+The symbols for extending JS types are: `object`, `array`, `number`, `string`, `function`, `boolean` and `nil` is used for the null object. The dispatch of the protocol to native objects uses Google Closure's link:https://google.github.io/closure-library/api/namespace_goog.html#typeOf[goog.typeOf] function. There's a special `default` symbol that can be used for making a default implementation of a protocol for every type.
 
-For illustrating the extension of JS types we are going to define a `MaybeMutable`
-protocol that'll have a `mutable?` predicate as its only function. Since in
-JavaScript mutability is the default we'll extend the default JS type returning true
-from `mutable?`:
+For illustrating the extension of JS types we are going to define a `MaybeMutable` protocol that'll have a `mutable?` predicate as its only function. Since in JavaScript mutability is the default we'll extend the default JS type returning true from `mutable?`:
 
 [source, clojure]
 ----
@@ -1583,8 +1517,7 @@ from `mutable?`:
 ;; => true
 ----
 
-Since fortunately not all JS object's values are mutable we can refine the
-implementation of `MaybeMutable` for returning `false` for strings and functions.
+Since fortunately not all JS object's values are mutable we can refine the implementation of `MaybeMutable` for returning `false` for strings and functions.
 
 [source, clojure]
 ----
@@ -1613,25 +1546,19 @@ implementation of `MaybeMutable` for returning `false` for strings and functions
 ;; => false
 ----
 
-There is no special symbol for JavaScript dates so we have to extend `js/Date`
-directly. The same applies to the rest of the types found in the global `js`
-namespace.
+There is no special symbol for JavaScript dates so we have to extend `js/Date` directly. The same applies to the rest of the types found in the global `js` namespace.
 
 
 ===== Converting data
 
-For converting values from ClojureScript types to JavaScript ones and viceversa we
-use the `clj->js` and `js->clj` functions, which are based in the `IEncodeJS` and
-`IEncodeClojure` protocols respectively.
+For converting values from ClojureScript types to JavaScript ones and viceversa we use the `clj->js` and `js->clj` functions, which are based in the `IEncodeJS` and `IEncodeClojure` protocols respectively.
 
-For the examples we'll use the Set type introduced in ES6. Note that is not
-available in every JS runtime.
+For the examples we'll use the Set type introduced in ES6. Note that is not available in every JS runtime.
 
 
 ====== From ClojureScript to JS
 
-First of all we'll extend ClojureScript's set type for being able to convert it to
-JS. By default sets are converted to JavaScript arrays:
+First of all we'll extend ClojureScript's set type for being able to convert it to JS. By default sets are converted to JavaScript arrays:
 
 [source, clojure]
 ----
@@ -1639,9 +1566,7 @@ JS. By default sets are converted to JavaScript arrays:
 ;; => #js [1 3 2]
 ----
 
-Let's fix it, `clj->js` is supposed to convert values recursively so we'll make sure
-to convert all the set contents to JS and creating the set with the converted
-values:
+Let's fix it, `clj->js` is supposed to convert values recursively so we'll make sure to convert all the set contents to JS and creating the set with the converted values:
 
 [source, clojure]
 ----
@@ -1667,15 +1592,13 @@ values:
 ;; => false
 ----
 
-The `es6-iterator-seq` is an experimental function in ClojureScript core for
-obtaining a seq from an ES6 iterable.
+The `es6-iterator-seq` is an experimental function in ClojureScript core for obtaining a seq from an ES6 iterable.
 
 
 ====== From JS to ClojureScript
 
 
-Now it's time to extend the JS set to convert to ClojureScript. As with `clj->js`,
-`js->clj` recursively converts the value of the data structure:
+Now it's time to extend the JS set to convert to ClojureScript. As with `clj->js`, `js->clj` recursively converts the value of the data structure:
 
 [source, clojure]
 ----
@@ -1693,17 +1616,12 @@ Now it's time to extend the JS set to convert to ClojureScript. As with `clj->js
 ;; => true
 ----
 
-Note that there is no one-to-one mapping between ClojureScript and JavaScript
-values. For example, ClojureScript keywords are converted to JavaScript strings when
-passed to `clj->js`.
+Note that there is no one-to-one mapping between ClojureScript and JavaScript values. For example, ClojureScript keywords are converted to JavaScript strings when passed to `clj->js`.
 
 
 ==== Reductions
 
-The `reduce` function is based on the `IReduce` protocol, which enables us to make
-our own or third-party types reducible. Apart from using them with `reduce` they
-will automatically work with `transduce` too, which will allow us to make a
-reduction with a transducer.
+The `reduce` function is based on the `IReduce` protocol, which enables us to make our own or third-party types reducible. Apart from using them with `reduce` they will automatically work with `transduce` too, which will allow us to make a reduction with a transducer.
 
 The JS array is already reducible in ClojureScript:
 
@@ -1716,10 +1634,7 @@ The JS array is already reducible in ClojureScript:
 ;; => [2 3 4]
 ----
 
-However, the new ES6 Set type isn't so let's implement the `IReduce` protocol. We'll
-get an iterator using the Set's `values` method and convert it to a seq with the
-`es6-iterator-seq` function; after that we'll delegate to the original `reduce`
-function to reduce the obtained sequence.
+However, the new ES6 Set type isn't so let's implement the `IReduce` protocol. We'll get an iterator using the Set's `values` method and convert it to a seq with the `es6-iterator-seq` function; after that we'll delegate to the original `reduce` function to reduce the obtained sequence.
 
 [source, clojure]
 ----
@@ -1740,14 +1655,9 @@ function to reduce the obtained sequence.
 ;; => [2 3 4]
 ----
 
-Associative data structures can be reduced with the `reduce-kv` function, which is
-based in the `IKVReduce` protocol. The main difference between `reduce` and
-`reduce-kv` is that the latter uses a three-argument function as a reducer,
-receiving the accumulator, key and value for each item.
+Associative data structures can be reduced with the `reduce-kv` function, which is based in the `IKVReduce` protocol. The main difference between `reduce` and `reduce-kv` is that the latter uses a three-argument function as a reducer, receiving the accumulator, key and value for each item.
 
-Let's look at an example, we will reduce a map to a vector of pairs. Note that,
-since vectors associate indexes to values, they can also be reduced with
-`reduce-kv`.
+Let's look at an example, we will reduce a map to a vector of pairs. Note that, since vectors associate indexes to values, they can also be reduced with `reduce-kv`.
 
 [source, clojure]
 ----
@@ -1759,9 +1669,7 @@ since vectors associate indexes to values, they can also be reduced with
 ;; => [[:foo :bar] [:baz :xyz]]
 ----
 
-We'll extend the new ES6 map type to support `reduce-kv`, we'll do this by getting a
-sequence of key-value pairs and calling the reducing function with the accumulator,
-key and value as positional arguments:
+We'll extend the new ES6 map type to support `reduce-kv`, we'll do this by getting a sequence of key-value pairs and calling the reducing function with the accumulator, key and value as positional arguments:
 
 [source, clojure]
 ----
@@ -1785,21 +1693,14 @@ key and value as positional arguments:
 ;; => [["foo" "bar"] ["baz" "xyz"]]
 ----
 
-In both examples we ended up delegating to the `reduce` function, which is aware of
-reduced values and terminates when encountering one. Take into account that if you
-don't implement these protocols in terms of `reduce` you will have to check for
-reduced values for early termination.
+In both examples we ended up delegating to the `reduce` function, which is aware of reduced values and terminates when encountering one. Take into account that if you don't implement these protocols in terms of `reduce` you will have to check for reduced values for early termination.
 
 
 ==== Delayed computation
 
-There are some types that have the notion of asynchronous computation, the value
-they represent may not be realized yet. We can ask whether a value is realized using
-the `realized?` predicate.
+There are some types that have the notion of asynchronous computation, the value they represent may not be realized yet. We can ask whether a value is realized using the `realized?` predicate.
 
-Let's ilustrate it with the `Delay` type, which takes a computation and executes it
-when the result is needed.  When we dereference a delay the computation is run and
-the delay is realized:
+Let's ilustrate it with the `Delay` type, which takes a computation and executes it when the result is needed.  When we dereference a delay the computation is run and the delay is realized:
 
 [source, clojure]
 ----
@@ -1828,23 +1729,18 @@ Both `realized?` and `deref` sit atop two protocols: `IPending` and `IDeref`.
 
 ==== State
 
-The ClojureScript state constructs such as the Atom and the Volatile have different
-characteristics and semantics, and the operations on them like `add-watch`, `reset!`
-or `swap!` are backed by protocols.
+The ClojureScript state constructs such as the Atom and the Volatile have different characteristics and semantics, and the operations on them like `add-watch`, `reset!` or `swap!` are backed by protocols.
 
 
 ===== Atom
 
-For ilustrating such protocols we will implement our own simplified version of an
-`Atom`. It won't support validators nor metadata, but we will be able to:
+For ilustrating such protocols we will implement our own simplified version of an `Atom`. It won't support validators nor metadata, but we will be able to:
 
 - `deref` the atom for getting its current value
 - `reset!` the value contained in the atom
 - `swap!` the atom with a function for transforming its state
 
-`deref` is based on the `IDeref` protocol. `reset!` is based on the `IReset`
-protocol and `swap!` on `ISwap`. We'll start by defining a data type and a
-constructor for our atom implementation:
+`deref` is based on the `IDeref` protocol. `reset!` is based on the `IReset` protocol and `swap!` on `ISwap`. We'll start by defining a data type and a constructor for our atom implementation:
 
 [source, clojure]
 ----
@@ -1866,12 +1762,9 @@ constructor for our atom implementation:
 ;; => #<MyAtom 42>
 ----
 
-Note that we've marked both the current state of the atom (`state`) and the map of
-watchers (`watches`) with the `{:mutable true}` metadata. We'll be modifying them
-and we're making this explicit with the annotations.
+Note that we've marked both the current state of the atom (`state`) and the map of watchers (`watches`) with the `{:mutable true}` metadata. We'll be modifying them and we're making this explicit with the annotations.
 
-Our `MyAtom` type is not very useful yet, we'll start by implementing the `IDeref`
-protocol so we can dereference its current value:
+Our `MyAtom` type is not very useful yet, we'll start by implementing the `IDeref` protocol so we can dereference its current value:
 
 [source, clojure]
 ----
@@ -1886,9 +1779,7 @@ protocol so we can dereference its current value:
 ;; => 42
 ----
 
-Now that we can dereference it we'll implement the `IWatchable` protocol, which will
-let us add and remove watches to our custom atom. We'll store the watches in the
-`watches` map of `MyAtom`, associating keys to callbacks.
+Now that we can dereference it we'll implement the `IWatchable` protocol, which will let us add and remove watches to our custom atom. We'll store the watches in the `watches` map of `MyAtom`, associating keys to callbacks.
 
 [source, clojure]
 ----
@@ -1907,9 +1798,7 @@ let us add and remove watches to our custom atom. We'll store the watches in the
       (f key a oldval newval))))
 ----
 
-We can now add watches to our atom but is not very useful since we still can't
-change it. For incorporating change we have to implement the `IReset` protocol and
-make sure we notify the watches every time we reset the atom's value.
+We can now add watches to our atom but is not very useful since we still can't change it. For incorporating change we have to implement the `IReset` protocol and make sure we notify the watches every time we reset the atom's value.
 
 [source, clojure]
 ----
@@ -1922,8 +1811,7 @@ make sure we notify the watches every time we reset the atom's value.
       newval)))
 ----
 
-Now let's check that we got it right. We'll add a watch, change the atom's value
-making sure the watch gets called and then remove it:
+Now let's check that we got it right. We'll add a watch, change the atom's value making sure the watch gets called and then remove it:
 
 [source, clojure]
 ----
@@ -1947,10 +1835,7 @@ making sure the watch gets called and then remove it:
 ;; => 43
 ----
 
-Our atom is still missing the swapping functionality so we'll add that now, let's
-implement the `ISwap` protocol. There are four arities for the `-swap!` method of
-the protocol since the function passed to `swap!` may take one, two, three or more
-arguments:
+Our atom is still missing the swapping functionality so we'll add that now, let's implement the `ISwap` protocol. There are four arities for the `-swap!` method of the protocol since the function passed to `swap!` may take one, two, three or more arguments:
 
 
 [source, clojure]
@@ -1979,8 +1864,7 @@ arguments:
        (reset! a newval)))))
 ----
 
-We now have a custom implementation of the atom abstraction, let's test it in the
-REPL and see if it behaves like we expect:
+We now have a custom implementation of the atom abstraction, let's test it in the REPL and see if it behaves like we expect:
 
 [source, clojure]
 ----
@@ -2022,19 +1906,12 @@ REPL and see if it behaves like we expect:
 ;; => #<MyAtom 42>
 ----
 
-We did it! We implemented a version of ClojureScript Atom without support for
-metadata nor validators, extending it to support such features is left as an
-exercise for the reader. Note that you'll need to modify the `MyAtom` type for being
-able to store metadata and a validator.
+We did it! We implemented a version of ClojureScript Atom without support for metadata nor validators, extending it to support such features is left as an exercise for the reader. Note that you'll need to modify the `MyAtom` type for being able to store metadata and a validator.
 
 
 ===== Volatile
 
-Volatiles are simpler than atoms in that they don't support watching for
-changes. All changes override the previous value much like the mutable variables
-present in almost every programming language. Volatiles are based on the `IVolatile`
-protocol that only defines a method for `vreset!`, since `vswap!` is implemented as
-a macro.
+Volatiles are simpler than atoms in that they don't support watching for changes. All changes override the previous value much like the mutable variables present in almost every programming language. Volatiles are based on the `IVolatile` protocol that only defines a method for `vreset!`, since `vswap!` is implemented as a macro.
 
 Let's start by creating our own volatile type and constructor:
 
@@ -2058,9 +1935,7 @@ Let's start by creating our own volatile type and constructor:
 ;; => #<MyVolatile 42>
 ----
 
-Our `MyVolatile` still needs to support dereferencing and reseting it, let's
-implement `IDeref` and `IVolatile`, which will enable use to use `deref`, `vreset!`
-and `vswap!` in our custom volatile:
+Our `MyVolatile` still needs to support dereferencing and reseting it, let's implement `IDeref` and `IVolatile`, which will enable use to use `deref`, `vreset!` and `vswap!` in our custom volatile:
 
 [source, clojure]
 ----
@@ -2093,33 +1968,21 @@ and `vswap!` in our custom volatile:
 
 ==== Mutation
 
-In the xref:transients[section about transients] we learned about the mutable
-counterparts of the immutable and persistent data structures that ClojureScript
-provides. These data structures are mutable, and the operations on them end with a
-bang (`!`) to make that explicit. As you may have guessed every operation on
-transients is based on protocols.
+In the xref:transients[section about transients] we learned about the mutable counterparts of the immutable and persistent data structures that ClojureScript provides. These data structures are mutable, and the operations on them end with a bang (`!`) to make that explicit. As you may have guessed every operation on transients is based on protocols.
 
 
 ===== From persistent to transient and viceversa
 
-We've learned that we can transform a persistent data structure with the `transient`
-function, which is based on the `IEditableCollection` protocol; for transforming a
-transient data structure to a persistent one we use `persistent!`, based on
-`ITransientCollection`.
+We've learned that we can transform a persistent data structure with the `transient` function, which is based on the `IEditableCollection` protocol; for transforming a transient data structure to a persistent one we use `persistent!`, based on `ITransientCollection`.
 
-Implementing immutable and persistent data structures and their transient
-counterparts is out of the scope of this book but we recommend taking a look at
-ClojureScript's data structure implementation if you are curious.
+Implementing immutable and persistent data structures and their transient counterparts is out of the scope of this book but we recommend taking a look at ClojureScript's data structure implementation if you are curious.
 
 
 ===== Transient vectors and sets
 
-We've learned about most of the protocols for transient data structures but we're
-missing two: `ITransientVector` for using `assoc!` on transient vectors and
-`ITransientSet` for using `disj!` on transient sets.
+We've learned about most of the protocols for transient data structures but we're missing two: `ITransientVector` for using `assoc!` on transient vectors and `ITransientSet` for using `disj!` on transient sets.
 
-For illustrating the `ITransientVector` protocol we'll extend the JavaScript array
-type for making it an associative transient data structure:
+For illustrating the `ITransientVector` protocol we'll extend the JavaScript array type for making it an associative transient data structure:
 
 [source, clojure]
 ----
@@ -2148,10 +2011,7 @@ type for making it an associative transient data structure:
 ;; => #js [42 43 44]
 ----
 
-For illustrating the `ITransientSet` protocol we'll extend the ES6 Set type for
-making it a transient set, supporting the `conj!`, `disj!` and `persistent!`
-operations. Note that we've extended the Set type previously for being able to
-convert it to ClojureScript and we'll take advantage of that fact.
+For illustrating the `ITransientSet` protocol we'll extend the ES6 Set type for making it a transient set, supporting the `conj!`, `disj!` and `persistent!` operations. Note that we've extended the Set type previously for being able to convert it to ClojureScript and we'll take advantage of that fact.
 
 [source, clojure]
 ----
@@ -2187,27 +2047,14 @@ convert it to ClojureScript and we'll take advantage of that fact.
 
 === CSP (with core.async)
 
-CSP stands for Communicating Sequential Processes, which is a formalism for
-describing concurrent systems pioneered by C. A. R. Hoare in 1978. It is a
-concurrency model based on message passing and synchronization through channels.  An
-in-depth look at the theoretical model behind CSP is beyond the scope of this book;
-instead we'll focus on presenting the concurrency primitives that `core.async`
-offers.
+CSP stands for Communicating Sequential Processes, which is a formalism for describing concurrent systems pioneered by C. A. R. Hoare in 1978. It is a concurrency model based on message passing and synchronization through channels.  An in-depth look at the theoretical model behind CSP is beyond the scope of this book; instead we'll focus on presenting the concurrency primitives that `core.async` offers.
 
-`core.async` is not part of ClojureScript core but it's implemented as a library.
-Even though it is not part of the core language it's widely used. Many libraries build
-on top of the `core.async` primitives, so we think it is worth covering in the book.
-It's also a good example of the syntactic abstractions that can be achieved by
-transforming code with ClojureScript macros, so we'll jump right in. You'll need to
-have `core.async` installed to run the examples presented in this section.
+`core.async` is not part of ClojureScript core but it's implemented as a library. Even though it is not part of the core language it's widely used. Many libraries build on top of the `core.async` primitives, so we think it is worth covering in the book. It's also a good example of the syntactic abstractions that can be achieved by transforming code with ClojureScript macros, so we'll jump right in. You'll need to have `core.async` installed to run the examples presented in this section.
 
 
 ==== Channels
 
-Channels are like conveyor belts, we can put and take a single value at a time from
-them. They can have multiple readers and writers, and they are the fundamental
-message-passing mechanism of `core.async`. In order to see how it works, we'll
-create a channel to perform some operations on it.
+Channels are like conveyor belts, we can put and take a single value at a time from them. They can have multiple readers and writers, and they are the fundamental message-passing mechanism of `core.async`. In order to see how it works, we'll create a channel to perform some operations on it.
 
 [source, clojure]
 ----
@@ -2227,16 +2074,9 @@ create a channel to perform some operations on it.
 ;; => 42
 ----
 
-In the above example we created a channel `ch` using the `chan` constructor.  After
-that we performed a take operation on the channel, providing a callback that will be
-invoked when the take operation succeeds. After using `put!` to put a value on the
-channel the take operation completed and the `"Got a value: 42"` string was
-printed. Note that `put!` returned the value that was just put to the channel.
+In the above example we created a channel `ch` using the `chan` constructor.  After that we performed a take operation on the channel, providing a callback that will be invoked when the take operation succeeds. After using `put!` to put a value on the channel the take operation completed and the `"Got a value: 42"` string was printed. Note that `put!` returned the value that was just put to the channel.
 
-The `put!` function accepts a callback like `take!` does but we didn't provide any
-in the last example. For puts the callback will be called whenever the value we
-provided has been taken. Puts and takes can happen in any order, let's do a few puts
-followed by takes to illustrate the point:
+The `put!` function accepts a callback like `take!` does but we didn't provide any in the last example. For puts the callback will be called whenever the value we provided has been taken. Puts and takes can happen in any order, let's do a few puts followed by takes to illustrate the point:
 
 [source, clojure]
 ----
@@ -2260,9 +2100,7 @@ followed by takes to illustrate the point:
 ;; => nil
 ----
 
-You may be asking yourself why the `put!` operations return `true`. It signals that
-the put operation could be performed, even though the value hasn't yet been taken.
-Channels can be closed, which will cause the put operations to not succeed:
+You may be asking yourself why the `put!` operations return `true`. It signals that the put operation could be performed, even though the value hasn't yet been taken. Channels can be closed, which will cause the put operations to not succeed:
 
 [source, clojure]
 ----
@@ -2277,9 +2115,7 @@ Channels can be closed, which will cause the put operations to not succeed:
 ;; => false
 ----
 
-The above example was the simplest possible situation but what happens with pending
-operations when a channel is closed? Let's do a few takes and close the channel and
-see what happens:
+The above example was the simplest possible situation but what happens with pending operations when a channel is closed? Let's do a few takes and close the channel and see what happens:
 
 [source, clojure]
 ----
@@ -2298,9 +2134,7 @@ see what happens:
 ;; => nil
 ----
 
-We see that if the channel is closed all the `take!` operations receive a `nil`
-value. `nil` in channels is a sentinel value that signals to takers that the channel
-has been closed. Because of that, putting a `nil` value on a channel is not allowed:
+We see that if the channel is closed all the `take!` operations receive a `nil` value. `nil` in channels is a sentinel value that signals to takers that the channel has been closed. Because of that, putting a `nil` value on a channel is not allowed:
 
 [source, clojure]
 ----
@@ -2315,9 +2149,7 @@ has been closed. Because of that, putting a `nil` value on a channel is not allo
 
 ===== Buffers
 
-We've seen that pending take and put operations are enqueued in a channel but, what
-happens when there are many pending take or put operations? Let's find out by
-hammering a channel with many puts and takes:
+We've seen that pending take and put operations are enqueued in a channel but, what happens when there are many pending take or put operations? Let's find out by hammering a channel with many puts and takes:
 
 [source, clojure]
 ----
@@ -2336,16 +2168,9 @@ hammering a channel with many puts and takes:
 ;; Error: Assert failed: No more than 1024 pending takes are allowed on a single channel.
 ----
 
-As the example above shows there's a limit of pending puts or takes on a channel,
-it's currently 1024 but that is an implementation detail that may change. Note that
-there can't be both pending puts and pending takes on a channel since puts will
-immediately succeed if there are pending takes and viceversa.
+As the example above shows there's a limit of pending puts or takes on a channel, it's currently 1024 but that is an implementation detail that may change. Note that there can't be both pending puts and pending takes on a channel since puts will immediately succeed if there are pending takes and viceversa.
 
-Channels support buffering of put operations. If we create a channel with a buffer
-the put operations will succeed immediately if there's room in the buffer and be
-enqueued otherwise. Let's illustrate the point creating a channel with a buffer of
-one element. The `chan` constructors accepts a number as its first argument which
-will cause it to have a buffer with the given size:
+Channels support buffering of put operations. If we create a channel with a buffer the put operations will succeed immediately if there's room in the buffer and be enqueued otherwise. Let's illustrate the point creating a channel with a buffer of one element. The `chan` constructors accepts a number as its first argument which will cause it to have a buffer with the given size:
 
 [source, clojure]
 ----
@@ -2365,27 +2190,16 @@ will cause it to have a buffer with the given size:
 ;; Error: Assert failed: No more than 1024 pending puts are allowed on a single channel.
 ----
 
-What happened in the example above? We created a channel with a buffer of size 1 and
-performed a put operation on it that succeeded immediately because the value was
-buffered. After that we did another 1024 puts to fill the pending put queue and,
-when trying to put one value more the channel complained about not being able to
-enqueue more puts.
+What happened in the example above? We created a channel with a buffer of size 1 and performed a put operation on it that succeeded immediately because the value was buffered. After that we did another 1024 puts to fill the pending put queue and, when trying to put one value more the channel complained about not being able to enqueue more puts.
 
-Now that we know about how channels work and what are buffers used for let's explore
-the different buffers that `core.async` implements. Different buffers have different
-policies and it's interesting to know all of them to know when to use what. Channels
-are unbuffered by default.
+Now that we know about how channels work and what are buffers used for let's explore the different buffers that `core.async` implements. Different buffers have different policies and it's interesting to know all of them to know when to use what. Channels are unbuffered by default.
 
 
 ====== Fixed
 
-The fixed size buffer is the one that is created when we give the `chan` constructor
-a number and it will have the size specified by the given number. It is the simplest
-possible buffer: when full, puts will be enqueued.
+The fixed size buffer is the one that is created when we give the `chan` constructor a number and it will have the size specified by the given number. It is the simplest possible buffer: when full, puts will be enqueued.
 
-The `chan` constructor accepts either a number or a buffer as its first argument.
-The two channels created in the following example both use a fixed buffer of size
-32:
+The `chan` constructor accepts either a number or a buffer as its first argument. The two channels created in the following example both use a fixed buffer of size 32:
 
 [source, clojure]
 ----
@@ -2399,12 +2213,9 @@ The two channels created in the following example both use a fixed buffer of siz
 
 ====== Dropping
 
-The fixed buffer allows put operations to be enqueued. However, as we saw before,
-puts are still queued when the fixed buffer is full. If we wan't to discard the put
-operations that happen when the buffer is full we can use a dropping buffer.
+The fixed buffer allows put operations to be enqueued. However, as we saw before, puts are still queued when the fixed buffer is full. If we wan't to discard the put operations that happen when the buffer is full we can use a dropping buffer.
 
-Dropping buffers have a fixed size and, when they are full puts will complete but
-their value will be discarded. Let's illustrate the point with an example:
+Dropping buffers have a fixed size and, when they are full puts will complete but their value will be discarded. Let's illustrate the point with an example:
 
 [source, clojure]
 ----
@@ -2429,18 +2240,12 @@ their value will be discarded. Let's illustrate the point with an example:
 ;; => nil
 ----
 
-We performed three put operations and the three of them succeded but, since the
-dropping buffer of the channel has size 2, only the first two values were delivered
-to the takers. As you can observe the third take is enqueued since there is no value
-available, the third put's value (42) was discarded.
+We performed three put operations and the three of them succeded but, since the dropping buffer of the channel has size 2, only the first two values were delivered to the takers. As you can observe the third take is enqueued since there is no value available, the third put's value (42) was discarded.
 
 
 ====== Sliding
 
-The sliding buffer has the opposite policy than the dropping buffer. When full puts
-will complete and the oldest value will be discarded in favor of the new one.  The
-sliding buffer is useful when we are interested in processing the last puts only and
-we can afford discarding old values.
+The sliding buffer has the opposite policy than the dropping buffer. When full puts will complete and the oldest value will be discarded in favor of the new one.  The sliding buffer is useful when we are interested in processing the last puts only and we can afford discarding old values.
 
 [source, clojure]
 ----
@@ -2465,23 +2270,14 @@ we can afford discarding old values.
 ;; => nil
 ----
 
-We performed three put operations and the three of them succeded but, since the
-sliding buffer of the channel has size 2, only the last two values were delivered to
-the takers. As you can observe the third take is enqueued since there is no value
-available since the first put's value was discarded.
+We performed three put operations and the three of them succeded but, since the sliding buffer of the channel has size 2, only the last two values were delivered to the takers. As you can observe the third take is enqueued since there is no value available since the first put's value was discarded.
 
 
 ===== Transducers
 
-As mentioned in the section about transducers, putting values in a channel can be
-thought as a transducible process. This means that we can create channels and hand
-them a transducer, giving us the ability to transform the input values before being
-put in the channel.
+As mentioned in the section about transducers, putting values in a channel can be thought as a transducible process. This means that we can create channels and hand them a transducer, giving us the ability to transform the input values before being put in the channel.
 
-If we want to use a transducer with a channel we must supply a buffer since the
-reducing function that will be modified by the transducer will be the buffer's add
-function. A buffer's add function is a reducing function since it takes a buffer and
-an input and returns a buffer with such input incorporated.
+If we want to use a transducer with a channel we must supply a buffer since the reducing function that will be modified by the transducer will be the buffer's add function. A buffer's add function is a reducing function since it takes a buffer and an input and returns a buffer with such input incorporated.
 
 [source, clojure]
 ----
@@ -2497,9 +2293,7 @@ an input and returns a buffer with such input incorporated.
 ;; => nil
 ----
 
-You may be wondering what happens to a channel when the reducing function returns a
-reduced value. It turns out that the notion of termination for channels is being
-closed, so channels will be closed when a reduced value is encountered:
+You may be wondering what happens to a channel when the reducing function returns a reduced value. It turns out that the notion of termination for channels is being closed, so channels will be closed when a reduced value is encountered:
 
 [source, clojure]
 ----
@@ -2525,23 +2319,14 @@ closed, so channels will be closed when a reduced value is encountered:
 ;; => false
 ----
 
-We used the `take` stateful transducer to allow maximum 2 puts into the channel.  We
-then performed three take operations on the channel and we expect only two to
-receive a value. As you can see in the above example the third take got the sentinel
-`nil` value which indicates that the channel was closed. Also, the third put
-operation returned `false` indicating that it didn't take place.
+We used the `take` stateful transducer to allow maximum 2 puts into the channel.  We then performed three take operations on the channel and we expect only two to receive a value. As you can see in the above example the third take got the sentinel `nil` value which indicates that the channel was closed. Also, the third put operation returned `false` indicating that it didn't take place.
 
 
 ===== Handling exceptions
 
-If adding a value to a buffer throws an exception `core.async` the operation will
-fail and the exception will be logged to the console. However, channel constructors
-accept a third argument: a function for handling exceptions.
+If adding a value to a buffer throws an exception `core.async` the operation will fail and the exception will be logged to the console. However, channel constructors accept a third argument: a function for handling exceptions.
 
-When creating a channel with an exception handler it will be called with the
-exception whenever an exception occurs. If the handler returns `nil` the operation
-will fail silently and if it returns another value the add operation will be retried
-with such value.
+When creating a channel with an exception handler it will be called with the exception whenever an exception occurs. If the handler returns `nil` the operation will fail silently and if it returns another value the add operation will be retried with such value.
 
 [source, clojure]
 ----
@@ -2572,17 +2357,11 @@ with such value.
 
 ===== Offer and Poll
 
-We've learned about the two basic operations on channels so far: `put!` and `take!`.
-They either take or put a value and are enqueued if they can't be performed
-immediately. Both functions are asynchronous because of their nature: they can
-succeed but be completed at a later time.
+We've learned about the two basic operations on channels so far: `put!` and `take!`. They either take or put a value and are enqueued if they can't be performed immediately. Both functions are asynchronous because of their nature: they can succeed but be completed at a later time.
 
-`core.async` has two synchronous operations for putting or taking values: `offer!`
-and `poll!`. Let's see how they work through examples.
+`core.async` has two synchronous operations for putting or taking values: `offer!` and `poll!`. Let's see how they work through examples.
 
-`offer!` puts a value in a channel if it's possible to do so immediately. It returns
-`true` if the channel received the value and `false` otherwise. Note that, unlike
-with `put!`, `offer!` cannot distinguish between closed and open channels.
+`offer!` puts a value in a channel if it's possible to do so immediately. It returns `true` if the channel received the value and `false` otherwise. Note that, unlike with `put!`, `offer!` cannot distinguish between closed and open channels.
 
 [source, clojure]
 ----
@@ -2597,9 +2376,7 @@ with `put!`, `offer!` cannot distinguish between closed and open channels.
 ;; => false
 ----
 
-`poll!` takes a value from a channel if it's possible to do so immediately. Returns
-the value if succesful and `nil` otherwise. Unlike `take!`, `poll!` cannot
-distinguish closed and open channels.
+`poll!` takes a value from a channel if it's possible to do so immediately. Returns the value if succesful and `nil` otherwise. Unlike `take!`, `poll!` cannot distinguish closed and open channels.
 
 [source, clojure]
 ----
@@ -2620,17 +2397,9 @@ distinguish closed and open channels.
 
 ==== Processes
 
-We learned all about channels but there is still a missing piece in the puzzle:
-processes.  Processes are pieces of logic that run independently and use channels
-for communication and coordination. Puts and takes inside a process will stop the
-process until the operation completes. Stopping a process doesn't block the only
-thread we have in the environments where ClojureScript runs. Instead, it will be
-resumed at a later time when the operation is waiting for being performed.
+We learned all about channels but there is still a missing piece in the puzzle: processes.  Processes are pieces of logic that run independently and use channels for communication and coordination. Puts and takes inside a process will stop the process until the operation completes. Stopping a process doesn't block the only thread we have in the environments where ClojureScript runs. Instead, it will be resumed at a later time when the operation is waiting for being performed.
 
-Processes are launched using the `go` macro and puts and takes use the `<!` and `>!`
-placeholders. The `go` macro rewrites your code to use callbacks but inside `go`
-everything looks like synchronous code, which makes understanding it
-straightforward:
+Processes are launched using the `go` macro and puts and takes use the `<!` and `>!` placeholders. The `go` macro rewrites your code to use callbacks but inside `go` everything looks like synchronous code, which makes understanding it straightforward:
 
 [source, clojure]
 ----
@@ -2656,24 +2425,13 @@ straightforward:
 ;; [:a] Got 42
 ----
 
-In the above example we are launching a process with `go` that takes a value from
-`ch` and prints it to the console. Since the value isn't immediately available it
-will park until it can resume. After that we launch another process that puts a
-value on the channel.
+In the above example we are launching a process with `go` that takes a value from `ch` and prints it to the console. Since the value isn't immediately available it will park until it can resume. After that we launch another process that puts a value on the channel.
 
-Since there is a pending take the put operation succeeds and the value is delivered
-to the first process, then both processes terminate.
+Since there is a pending take the put operation succeeds and the value is delivered to the first process, then both processes terminate.
 
-Both `go` blocks run independently and, even though they are executed
-asynchronously, they look like synchronous code. The above go blocks are fairly
-simple but being able to write concurrent processes that coordinate via channels is
-a very powerful tool for implementing complex asynchronous workflows. Channels also
-offer a great decoupling of producers and consumers.
+Both `go` blocks run independently and, even though they are executed asynchronously, they look like synchronous code. The above go blocks are fairly simple but being able to write concurrent processes that coordinate via channels is a very powerful tool for implementing complex asynchronous workflows. Channels also offer a great decoupling of producers and consumers.
 
-Processes can wait for an arbitrary amount of time too, there is a `timeout`
-function that return a channel that will be closed after the given amount of
-miliseconds. Combining a timeout channel with a take operation inside a go block
-gives us the ability to sleep:
+Processes can wait for an arbitrary amount of time too, there is a `timeout` function that return a channel that will be closed after the given amount of miliseconds. Combining a timeout channel with a take operation inside a go block gives us the ability to sleep:
 
 [source, clojure]
 ----
@@ -2701,22 +2459,14 @@ gives us the ability to sleep:
 ;; [:a] I slept one second, bye! 10
 ----
 
-As we can see in the messages printed, the process does nothing for one second when
-it blocks in the take operation of the timeout channel. The program continues and
-after one second the process resumes and terminates.
+As we can see in the messages printed, the process does nothing for one second when it blocks in the take operation of the timeout channel. The program continues and after one second the process resumes and terminates.
 
 
 ===== Choice
 
-Apart from putting and taking one value at a time inside a go block we can also make
-a non-deterministic choice on multiple channel operations using `alts!`.  `alts!` is
-given a series of channel put or take operations (note that we can also try to put
-and take in a channel at the same time) and only performs one as soon as is ready;
-if multiple operations can be performed when calling `alts!` it will do a pseudo
-random choice by default.
+Apart from putting and taking one value at a time inside a go block we can also make a non-deterministic choice on multiple channel operations using `alts!`.  `alts!` is given a series of channel put or take operations (note that we can also try to put and take in a channel at the same time) and only performs one as soon as is ready; if multiple operations can be performed when calling `alts!` it will do a pseudo random choice by default.
 
-We can easily try an operation on a channel and cancel it after a certain amount of
-time combining the `timeout` function and `alts!`. Let's see how:
+We can easily try an operation on a channel and cancel it after a certain amount of time combining the `timeout` function and `alts!`. Let's see how:
 
 [source, clojure]
 ----
@@ -2748,23 +2498,11 @@ time combining the `timeout` function and `alts!`. Let's see how:
 ;; [:a] I slept one second, trying to put a value on channel
 ----
 
-In the example above we launched a go block that, after waiting for a second, puts a
-value in the `ch` channel. The other go block creates a `cancel` channel, which will
-be closed after 300 miliseconds. After that, it tries to read from both `ch` and
-`cancel` at the same time using `alts!`, which will succeed whenever it can take a
-value from either of those channels. Since `cancel` is closed after 300 miliseconds,
-`alts!` will succeed since takes from closed channel return the `nil` sentinel. Note
-that `alts!` returns a two-element vector with the returned value of the operation
-and the channel where it was performed.
+In the example above we launched a go block that, after waiting for a second, puts a value in the `ch` channel. The other go block creates a `cancel` channel, which will be closed after 300 miliseconds. After that, it tries to read from both `ch` and `cancel` at the same time using `alts!`, which will succeed whenever it can take a value from either of those channels. Since `cancel` is closed after 300 miliseconds, `alts!` will succeed since takes from closed channel return the `nil` sentinel. Note that `alts!` returns a two-element vector with the returned value of the operation and the channel where it was performed.
 
-This is why we are able to detect whether the read operation was performed in the
-`cancel` channel or in `ch`. I suggest you copy this example and set the first
-process timeout to 100 miliseconds to see how the read operation on `ch` succeeds.
+This is why we are able to detect whether the read operation was performed in the `cancel` channel or in `ch`. I suggest you copy this example and set the first process timeout to 100 miliseconds to see how the read operation on `ch` succeeds.
 
-We've learned how to choose between read operations so let's look at how to express
-a conditional write operation in `alts!`. Since we need to provide the channel and a
-value to try to put on it, we'll use a two element vector with the channel and the
-value for representing write operations.
+We've learned how to choose between read operations so let's look at how to express a conditional write operation in `alts!`. Since we need to provide the channel and a value to try to put on it, we'll use a two element vector with the channel and the value for representing write operations.
 
 Let's see an example:
 
@@ -2804,17 +2542,12 @@ Let's see an example:
 ;; [:a] I'm done!
 ----
 
-When running the above example only the put operation on the `a-ch` channel has
-succeeded. Since both channels are ready to take a value when the `alts!` occurs you
-may get different results when running this code.
+When running the above example only the put operation on the `a-ch` channel has succeeded. Since both channels are ready to take a value when the `alts!` occurs you may get different results when running this code.
 
 
 ===== Priority
 
-`alts!` default is to make a non-deterministic choice whenever several operations
-are ready to be performed. We can instead give priority to the operations passing
-the `:priority` option to `alts!`. Whenever `:priority` is `true`, if more than one
-operation is ready they will be tried in order.
+`alts!` default is to make a non-deterministic choice whenever several operations are ready to be performed. We can instead give priority to the operations passing the `:priority` option to `alts!`. Whenever `:priority` is `true`, if more than one operation is ready they will be tried in order.
 
 [source, clojure]
 ----
@@ -2851,18 +2584,12 @@ operation is ready they will be tried in order.
 ;; [:c] Got 42 from `a-ch`
 ----
 
-Since both `a-ch` and `another-ch` had a value to read when the `alts!` was executed
-and we set the `:priority` option to true, `a-ch` has preference. You can try
-deleting the `:priority` option and running the example multiple times to see that,
-without priority, `alts!` makes a non-deterministic choice.
+Since both `a-ch` and `another-ch` had a value to read when the `alts!` was executed and we set the `:priority` option to true, `a-ch` has preference. You can try deleting the `:priority` option and running the example multiple times to see that, without priority, `alts!` makes a non-deterministic choice.
 
 
 ===== Defaults
 
-Another interesting bit of `alts!` is that it can return immediately if no operation
-is ready and we provide a default value. We can conditionally do a choice on the
-operations if and only if any of them is ready, returning a default value if it's
-not.
+Another interesting bit of `alts!` is that it can return immediately if no operation is ready and we provide a default value. We can conditionally do a choice on the operations if and only if any of them is ready, returning a default value if it's not.
 
 [source, clojure]
 ----
@@ -2884,24 +2611,17 @@ not.
 ;; [:a] No operation is ready, aborting
 ----
 
-As you can see in the above example, if no operation is ready the value returned by
-`alts!` is the one we supplied after the `:default` key when calling it and the
-channel is the `:default` keyword itself.
+As you can see in the above example, if no operation is ready the value returned by `alts!` is the one we supplied after the `:default` key when calling it and the channel is the `:default` keyword itself.
 
 
 ==== Combinators
 
-Now that we're acquainted with channels and processes it's time to explore some
-interesting combinators for working with channels that are present in `core.async`.
-This section includes a brief description of all of them together with a simple
-example of their usage.
+Now that we're acquainted with channels and processes it's time to explore some interesting combinators for working with channels that are present in `core.async`. This section includes a brief description of all of them together with a simple example of their usage.
 
 
 ===== pipe
 
-`pipe` takes an input and output channels and pipes all the values put on the input
-channel to the output one. The output channel is closed whenever the source is
-closed unless we provide a `false` third argument:
+`pipe` takes an input and output channels and pipes all the values put on the input channel to the output one. The output channel is closed whenever the source is closed unless we provide a `false` third argument:
 
 [source, clojure]
 ----
@@ -2934,24 +2654,14 @@ closed unless we provide a `false` third argument:
 ;; [:a] I'm done!
 ----
 
-In the above example we used the `go-loop` macro for reading values recursively
-until the `out` channel is closed. Notice that when we close the `in` channel the
-`out` channel is closed too, making the `go-loop` terminate.
+In the above example we used the `go-loop` macro for reading values recursively until the `out` channel is closed. Notice that when we close the `in` channel the `out` channel is closed too, making the `go-loop` terminate.
 
 
 ===== pipeline-async
 
-`pipeline-async` takes a number for controlling parallelism, an output channel, an
-asynchronous function and an input channel. The asynchronous function has two
-arguments: the value put in the input channel and a channel where it should put the
-result of its asynchronous operation, closing the result channel after finishing.
-The number controls the number of concurrent go blocks that will be used for calling
-the asynchronous function with the inputs.
+`pipeline-async` takes a number for controlling parallelism, an output channel, an asynchronous function and an input channel. The asynchronous function has two arguments: the value put in the input channel and a channel where it should put the result of its asynchronous operation, closing the result channel after finishing. The number controls the number of concurrent go blocks that will be used for calling the asynchronous function with the inputs.
 
-The output channel will receive outputs in an order relative to the input channel,
-regardless the time each asynchronous function call takes to complete. It has an
-optional last parameter that controls whether the output channel will be closed when
-the input channel is closed, which defaults to `true`.
+The output channel will receive outputs in an order relative to the input channel, regardless the time each asynchronous function call takes to complete. It has an optional last parameter that controls whether the output channel will be closed when the input channel is closed, which defaults to `true`.
 
 [source, clojure]
 ----
@@ -3000,9 +2710,7 @@ the input channel is closed, which defaults to `true`.
 
 ===== pipeline
 
-`pipeline` is similar to `pipeline-async` but instead of taking and asynchronous
-function it takes a transducer instead. The transducer will be applied independently
-to each input.
+`pipeline` is similar to `pipeline-async` but instead of taking and asynchronous function it takes a transducer instead. The transducer will be applied independently to each input.
 
 [source, clojure]
 ----
@@ -3040,11 +2748,7 @@ to each input.
 
 ===== split
 
-`split` takes a predicate and a channel and returns a vector with two channels, the
-first of which will receive the values for which the predicate is true, the second
-will receive those for which the predicate is false. We can optionally pass a buffer
-or number for the channels with the third (true channel) and fourth (false channel)
-arguments.
+`split` takes a predicate and a channel and returns a vector with two channels, the first of which will receive the values for which the predicate is true, the second will receive those for which the predicate is false. We can optionally pass a buffer or number for the channels with the third (true channel) and fourth (false channel) arguments.
 
 [source, clojure]
 ----
@@ -3092,9 +2796,7 @@ arguments.
 
 ===== reduce
 
-`reduce` takes a reducing function, initial value and an input channel. It returns a
-channel with the result of reducing over all the values put on the input channel
-before closing it using the given initial value as the seed.
+`reduce` takes a reducing function, initial value and an input channel. It returns a channel with the result of reducing over all the values put on the input channel before closing it using the given initial value as the seed.
 
 [source, clojure]
 ----
@@ -3117,10 +2819,7 @@ before closing it using the given initial value as the seed.
 
 ===== onto-chan
 
-`onto-chan` takes a channel and a collection and puts the contents of the collection
-into the channel. It closes the channel after finishing although it accepts a third
-argument for specifying if it should close it or not. Let's rewrite the `reduce`
-example using `onto-chan`:
+`onto-chan` takes a channel and a collection and puts the contents of the collection into the channel. It closes the channel after finishing although it accepts a third argument for specifying if it should close it or not. Let's rewrite the `reduce` example using `onto-chan`:
 
 [source, clojure]
 ----
@@ -3140,8 +2839,7 @@ example using `onto-chan`:
 
 ===== to-chan
 
-`to-chan` takes a collection and returns a channel where it will put every value in
-the collection, closing the channel afterwards.
+`to-chan` takes a collection and returns a channel where it will put every value in the collection, closing the channel afterwards.
 
 [source, clojure]
 ----
@@ -3170,10 +2868,7 @@ the collection, closing the channel afterwards.
 
 ===== merge
 
-`merge` takes a collection of input channels and returns a channel where it will put
-every value that is put on the input channels. The returned channel will be closed
-when all the input channels have been closed. The returned channel will be
-unbuffered by default but a number or buffer can be provided as the last argument.
+`merge` takes a collection of input channels and returns a channel where it will put every value that is put on the input channels. The returned channel will be closed when all the input channels have been closed. The returned channel will be unbuffered by default but a number or buffer can be provided as the last argument.
 
 [source, clojure]
 ----
@@ -3213,26 +2908,16 @@ unbuffered by default but a number or buffer can be provided as the last argumen
 
 ==== Higher-level abstractions
 
-We've learned the about the low-level primitives of `core.async` and the combinators
-that it offers for working with channels. `core.async` also offers some useful,
-higher-level abstractions on top of channels that can serve as building blocks for
-more advanced functionality.
+We've learned the about the low-level primitives of `core.async` and the combinators that it offers for working with channels. `core.async` also offers some useful, higher-level abstractions on top of channels that can serve as building blocks for more advanced functionality.
 
 
 ===== Mult
 
-Whenever we have a channel whose values have to be broadcasted to many others, we
-can use `mult` for creating a multiple of the supplied channel. Once we have a mult,
-we can attach channels to it using `tap` and dettach them using `untap`. Mults also
-support removing all tapped channels at once with `untap-all`.
+Whenever we have a channel whose values have to be broadcasted to many others, we can use `mult` for creating a multiple of the supplied channel. Once we have a mult, we can attach channels to it using `tap` and dettach them using `untap`. Mults also support removing all tapped channels at once with `untap-all`.
 
-Every value put in the source channel of a mult is broadcasted to all the tapped
-channels, and all of them must accept it before the next item is broadcasted. For
-preventing slow takers from blocking the mult's values we must use buffering on the
-tapped channels judiciously.
+Every value put in the source channel of a mult is broadcasted to all the tapped channels, and all of them must accept it before the next item is broadcasted. For preventing slow takers from blocking the mult's values we must use buffering on the tapped channels judiciously.
 
-Closed tapped channels are removed automatically from the mult. When putting a value
-in the source channels when there are still no taps such value will be dropped.
+Closed tapped channels are removed automatically from the mult. When putting a value in the source channels when there are still no taps such value will be dropped.
 
 [source, clojure]
 ----
@@ -3284,21 +2969,13 @@ in the source channels when there are still no taps such value will be dropped.
 
 ===== Pub-sub
 
-After learning about mults you could imagine how to implement a pub-sub abstraction
-on top of `mult`, `tap` and `untap` but since it's a widely used communication
-mechanism `core.async` already implements this functionality.
+After learning about mults you could imagine how to implement a pub-sub abstraction on top of `mult`, `tap` and `untap` but since it's a widely used communication mechanism `core.async` already implements this functionality.
 
-Instead of creating a mult from a source channel, we create a publication with `pub`
-giving it a channel and a function that will be used for extracting the topic of the
-messages.
+Instead of creating a mult from a source channel, we create a publication with `pub` giving it a channel and a function that will be used for extracting the topic of the messages.
 
-We can subscribe to a publication with `sub`, giving it the publication we want to
-subscribe to, the topic we are interested in and a channel to put the messages that
-have the given topic. Note that we can subscribe a channel to multiple topics.
+We can subscribe to a publication with `sub`, giving it the publication we want to subscribe to, the topic we are interested in and a channel to put the messages that have the given topic. Note that we can subscribe a channel to multiple topics.
 
-`unsub` can be given a publication, topic and channel for unsubscribing such channel
-from the topic. `unsub-all` can be given a publication and a topic to unsubscribe
-every channel from the given topic.
+`unsub` can be given a publication, topic and channel for unsubscribing such channel from the topic. `unsub-all` can be given a publication and a topic to unsubscribe every channel from the given topic.
 
 [source, clojure]
 ----
@@ -3344,42 +3021,21 @@ every channel from the given topic.
 
 ===== Mixer
 
-As we learned in the section about `core.async` combinators, we can use the `merge`
-function for combining multiple channels into one. When merging multiple channels,
-every value put in the input channels will end up in the merged channel. However, we
-may want more finer-grained control over which values put in the input channels end
-up in the output channel, that's where mixers come in handy.
+As we learned in the section about `core.async` combinators, we can use the `merge` function for combining multiple channels into one. When merging multiple channels, every value put in the input channels will end up in the merged channel. However, we may want more finer-grained control over which values put in the input channels end up in the output channel, that's where mixers come in handy.
 
-`core.async` gives us the mixer abstraction, which we can use to combine multiple
-input channnels into an output channel. The interesting part of the mixer is that we
-can mute, pause and listen exclusively to certain input channels.
+`core.async` gives us the mixer abstraction, which we can use to combine multiple input channnels into an output channel. The interesting part of the mixer is that we can mute, pause and listen exclusively to certain input channels.
 
-We can create a mixer given an output channel with `mix`. Once we have a mixer we
-can add input channels into the mix using `admix`, remove it using `unmix` or remove
-every input channel with `unmix-all`.
+We can create a mixer given an output channel with `mix`. Once we have a mixer we can add input channels into the mix using `admix`, remove it using `unmix` or remove every input channel with `unmix-all`.
 
-For controlling the state of the input channel we use the `toggle` function giving
-it the mixer and a map from channels to their states. Note that we can add channels
-to the mix using `toggle`, since the map will be merged with the current state of
-the mix. The state of a channel is a map which can have the keys `:mute`, `:pause`
-and `:solo` mapped to a boolean.
+For controlling the state of the input channel we use the `toggle` function giving it the mixer and a map from channels to their states. Note that we can add channels to the mix using `toggle`, since the map will be merged with the current state of the mix. The state of a channel is a map which can have the keys `:mute`, `:pause` and `:solo` mapped to a boolean.
 
 Let's see what muting, pausing and soloing channels means:
 
-- A muted input channel means that, while still taking values from it, they won't
-  be forwarded to the output channel. Thus, while a channel is muted, all the values
-  put in it will be discarded.
-- A paused input channel means that no values will be taken from it. This means
-  that values put in the channel won't be forwarded to the output channel nor
-  discarded.
-- When soloing one or more channels the output channel will only receive the values
-  put in soloed channels. By default non-soloed channels are muted but we can use
-  `solo-mode` to decide between muting or pausing non-soloed channels.
+- A muted input channel means that, while still taking values from it, they won't be forwarded to the output channel. Thus, while a channel is muted, all the values put in it will be discarded.
+- A paused input channel means that no values will be taken from it. This means that values put in the channel won't be forwarded to the output channel nor discarded.
+- When soloing one or more channels the output channel will only receive the values put in soloed channels. By default non-soloed channels are muted but we can use `solo-mode` to decide between muting or pausing non-soloed channels.
 
-That was a lot of information so let's see an example to improve our understanding.
-First of all, we'll set up a mixer with an `out` channel and add three input
-channels to the mix. After that, we'll be printing all the values received on the
-`out` channel to illustrate the control over input channels:
+That was a lot of information so let's see an example to improve our understanding. First of all, we'll set up a mixer with an `out` channel and add three input channels to the mix. After that, we'll be printing all the values received on the `out` channel to illustrate the control over input channels:
 
 [source, clojure]
 ----
@@ -3443,9 +3099,7 @@ Let's pause the `in-2` channel, put a value in every input channel and resume `i
 ;; [:a] Got 2
 ----
 
-As you can see in the example above, the values put in the paused channels aren't
-discarded. For discarding values put in an input channel we have to mute it, let's
-see an example:
+As you can see in the example above, the values put in the paused channels aren't discarded. For discarding values put in an input channel we have to mute it, let's see an example:
 
 [source, clojure]
 ----
@@ -3463,12 +3117,9 @@ see an example:
 (toggle mixer {in-2 {:mute false}})
 ----
 
-We put a value `2` in the `in-2` channel and, since the channel was muted at the
-time, the value is discarded and never put into `out`. Let's look at the third state
-a channel can be inside a mixer: solo.
+We put a value `2` in the `in-2` channel and, since the channel was muted at the time, the value is discarded and never put into `out`. Let's look at the third state a channel can be inside a mixer: solo.
 
-As we mentioned before, soloing channels of a mixer implies muting the rest of them
-by default:
+As we mentioned before, soloing channels of a mixer implies muting the rest of them by default:
 
 [source, clojure]
 ----
@@ -3488,9 +3139,7 @@ by default:
                in-2 {:solo false}})
 ----
 
-However, we can set the mode the non-soloed channels will be in while there are
-soloed channels. Let's set the default non-solo mode to pause instead of the default
-mute:
+However, we can set the mode the non-soloed channels will be in while there are soloed channels. Let's set the default non-solo mode to pause instead of the default mute:
 
 [source, clojure]
 ----
