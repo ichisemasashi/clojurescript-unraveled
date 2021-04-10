@@ -1,39 +1,22 @@
 === Getting Started with the Compiler
 
-At this point, you are surely very bored with the constant theoretical explanations
-about the language itself and will want to write and execute some code. The goal of
-this section is to provide a little practical introduction to the _ClojureScript_
-compiler.
+At this point, you are surely very bored with the constant theoretical explanations about the language itself and will want to write and execute some code. The goal of this section is to provide a little practical introduction to the _ClojureScript_ compiler.
 
-The _ClojureScript_ compiler takes the source code that has been split over numerous
-directories and namespaces and compiles it down to JavaScript. Today, JavaScript has
-a great number of different environments where it can be executed - each with its own
-peculiarities.
+The _ClojureScript_ compiler takes the source code that has been split over numerous directories and namespaces and compiles it down to JavaScript. Today, JavaScript has a great number of different environments where it can be executed - each with its own peculiarities.
 
-This chapter intends to explain how to use _ClojureScript_ without any additional
-tooling. This will help you understand how the compiler works and how you can use it
-when other tooling is not available (such as link:http://leiningen.org/[leiningen] +
-link:https://github.com/emezeske/lein-cljsbuild[cljsbuild] or
-link:http://boot-clj.com/[boot]).
+This chapter intends to explain how to use _ClojureScript_ without any additional tooling. This will help you understand how the compiler works and how you can use it when other tooling is not available (such as link:http://leiningen.org/[leiningen] + link:https://github.com/emezeske/lein-cljsbuild[cljsbuild] or link:http://boot-clj.com/[boot]).
 
 
 ==== Execution environments
 
-What is an execution environment? An execution environment is an engine where
-JavaScript can be executed. For example, the most popular execution environment is a
-browser (Chrome, Firefox, ...) followed by the second most popular -
-link:https://nodejs.org/[nodejs].
+What is an execution environment? An execution environment is an engine where JavaScript can be executed. For example, the most popular execution environment is a browser (Chrome, Firefox, ...) followed by the second most popular - link:https://nodejs.org/[nodejs].
 
-There are others, such as Rhino (JDK 6+), Nashorn (JDK 8+), QtQuick (QT),... but
-none of them have significant differences from the first two. So,
-_ClojureScript_ at the moment may compile code to run in the browser or in
-nodejs-like environments out of the box.
+There are others, such as Rhino (JDK 6+), Nashorn (JDK 8+), QtQuick (QT),... but none of them have significant differences from the first two. So, _ClojureScript_ at the moment may compile code to run in the browser or in nodejs-like environments out of the box.
 
 
 ==== Download the compiler
 
-The fastest way to obtain all the tooling needed for ClojureScript compilaition is
-installing the Clojure CLI Tools:
+The fastest way to obtain all the tooling needed for ClojureScript compilaition is installing the Clojure CLI Tools:
 
 [source, bash]
 ----
@@ -42,15 +25,9 @@ chmod +x linux-install-1.10.1.462.sh
 sudo ./linux-install-1.10.1.462.sh
 ----
 
-If you are using other operating system other than linux, refer to
-https://clojure.org/guides/getting_started page.
+If you are using other operating system other than linux, refer to https://clojure.org/guides/getting_started page.
 
-Although the _ClojureScript_ is self hosted, in this book we will use
-the JVM implementation, with in turn requires JDK8 or JDK11
-installed. You can obtain it using your distribution default package
-manager or download it from
-link:https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html[Oracle]
-or link:https://www.azul.com/downloads/zulu-community/[Azul]
+Although the _ClojureScript_ is self hosted, in this book we will use the JVM implementation, with in turn requires JDK8 or JDK11 installed. You can obtain it using your distribution default package manager or download it from link:https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html[Oracle] or link:https://www.azul.com/downloads/zulu-community/[Azul]
 
 .Example installing it using a apt in a debian-like distribution
 [source, bash]
@@ -63,9 +40,7 @@ sudo apt-get install openjdk-8-jdk rlwrap
 Let’s start with a practical example compiling code that will target *Node.js*
 (hereafter simply "nodejs"). For this example, you should have nodejs installed.
 
-There are different ways to install nodejs, but the recommended way is using nvm
-("Node.js Version Manager"). You can read the instructions on how to install and use
-nvm on its link:https://github.com/creationix/nvm[home page].
+There are different ways to install nodejs, but the recommended way is using nvm ("Node.js Version Manager"). You can read the instructions on how to install and use nvm on its link:https://github.com/creationix/nvm[home page].
 
 When you have installed nvm, follow installing the latest version of nodejs:
 
@@ -86,8 +61,7 @@ v10.16.0
 
 ===== Create the example application
 
-For the first step of our practical example, we will create our application directory
-structure and populate it with example code.
+For the first step of our practical example, we will create our application directory structure and populate it with example code.
 
 Start by creating the directory tree structure for our “hello world” application:
 
@@ -108,8 +82,7 @@ myapp
 ----
 
 
-Second, write the example code into the previously created
-`myapp/src/myapp/core.cljs` file:
+Second, write the example code into the previously created `myapp/src/myapp/core.cljs` file:
 
 [source, clojure]
 ----
@@ -125,11 +98,9 @@ Second, write the example code into the previously created
 (set! *main-cli-fn* -main)
 ----
 
-NOTE: It is very important that the declared namespace in the file exactly matches
-the directory structure. This is the way _ClojureScript_ structures its source code.
+NOTE: It is very important that the declared namespace in the file exactly matches the directory structure. This is the way _ClojureScript_ structures its source code.
 
-And finally, lets create the `myapp/deps.edn` declaring the clojure
-and clojurescript versions:
+And finally, lets create the `myapp/deps.edn` declaring the clojure and clojurescript versions:
 
 [source, clojure]
 ----
@@ -141,9 +112,7 @@ and clojurescript versions:
 
 ===== Compile the example application
 
-In order to compile that source code, we need a simple build script that tells the
-_ClojureScript_ compiler the source directory and the output file. _ClojureScript_
-has a lot of other options, but at this moment we can ignore that.
+In order to compile that source code, we need a simple build script that tells the _ClojureScript_ compiler the source directory and the output file. _ClojureScript_ has a lot of other options, but at this moment we can ignore that.
 
 Let’s create the `myapp/build.clj` file with the following content:
 
@@ -160,13 +129,9 @@ Let’s create the `myapp/build.clj` file with the following content:
 
 This is a brief explanation of the compiler options used in this example:
 
-* The `:output-to` parameter indicates to the compiler the destination of the compiled
-  code, in this case to the "main.js" file.
-* The `:main` property indicates to the compiler the namespace that will act as the entry
-  point of your application when it's executed.
-* The `:target` property indicates the platform where you want to execute the compiled
-  code. In this case, we are going to use *nodejs*. If you omit this
-  parameter, the source will be compiled to run in the browser environment.
+* The `:output-to` parameter indicates to the compiler the destination of the compiled code, in this case to the "main.js" file.
+* The `:main` property indicates to the compiler the namespace that will act as the entry point of your application when it's executed.
+* The `:target` property indicates the platform where you want to execute the compiled code. In this case, we are going to use *nodejs*. If you omit this parameter, the source will be compiled to run in the browser environment.
 
 To run the compilation, just execute the following command:
 
@@ -187,13 +152,9 @@ Hello world!
 
 ==== Compile for the Browser
 
-In this section we are going to create an application similar to the "hello world"
-example from the previous section to run in the browser environment. The minimal
-requirement for this application is just a browser that can execute JavaScript.
+In this section we are going to create an application similar to the "hello world" example from the previous section to run in the browser environment. The minimal requirement for this application is just a browser that can execute JavaScript.
 
-The process is almost the same, and the directory structure is the same. The only
-things that changes is the entry point of the application and the build script. So,
-start re-creating the directory tree from previous example in a different directory.
+The process is almost the same, and the directory structure is the same. The only things that changes is the entry point of the application and the build script. So, start re-creating the directory tree from previous example in a different directory.
 
 [source, bash]
 ----
@@ -222,14 +183,12 @@ Then, write new content to the `mywebapp/src/mywebapp/core.cljs` file:
 (println "Hello world!")
 ----
 
-In the browser environment we do not need a specific entry point for the application,
-so the entry point is the entire namespace.
+In the browser environment we do not need a specific entry point for the application, so the entry point is the entire namespace.
 
 
 ===== Compile the example application
 
-In order to compile the source code to run properly in a browser, overwrite the
-`mywebapp/build.clj` file with the following content:
+In order to compile the source code to run properly in a browser, overwrite the `mywebapp/build.clj` file with the following content:
 
 [source, clojure]
 ----
@@ -245,19 +204,11 @@ In order to compile the source code to run properly in a browser, overwrite the
 
 This is a brief explanation of the compiler options we're using:
 
-* The `:output-to` parameter indicates to the compiler the destination of the
-  compiled code, in this case the "main.js" file.
-* The `:main` property indicates to the compiler the namespace that will act as
-  the  entry point of your application when it's executed.
-* `:source-map` indicates the destination of the source map. (The source map
-  connects the ClojureScript source to the generated JavaScript so that error
-  messages can point you back to the original source.)
-* `:output-dir` indicates the destination directory for all file sources used in a
-  compilation. It is just for making source maps work properly with the rest of the
-  code, not only your source.
-* `:optimizations` indicates the compilation optimization. There are different
-  values for this option, but that will be covered in subsequent sections in
-  more detail.
+* The `:output-to` parameter indicates to the compiler the destination of the compiled code, in this case the "main.js" file.
+* The `:main` property indicates to the compiler the namespace that will act as the  entry point of your application when it's executed.
+* `:source-map` indicates the destination of the source map. (The source map connects the ClojureScript source to the generated JavaScript so that error messages can point you back to the original source.)
+* `:output-dir` indicates the destination directory for all file sources used in a compilation. It is just for making source maps work properly with the rest of the code, not only your source.
+* `:optimizations` indicates the compilation optimization. There are different values for this option, but that will be covered in subsequent sections in more detail.
 
 To run the compilation, just execute the following command:
 
@@ -267,14 +218,9 @@ cd mywebapp;
 clojure build.clj
 ----
 
-This process can take some time, so do not worry; wait a little bit. The JVM
-bootstrap with the Clojure compiler is slightly slow. In the following sections, we
-will explain how to start a watch process to avoid constantly starting and stopping
-this slow process.
+This process can take some time, so do not worry; wait a little bit. The JVM bootstrap with the Clojure compiler is slightly slow. In the following sections, we will explain how to start a watch process to avoid constantly starting and stopping this slow process.
 
-While waiting for the compilation, let's create a dummy HTML file to make it easy to
-execute our example app in the browser. Create the _index.html_ file with the
-following content; it goes in the main _mywebapp_ directory.
+While waiting for the compilation, let's create a dummy HTML file to make it easy to execute our example app in the browser. Create the _index.html_ file with the following content; it goes in the main _mywebapp_ directory.
 
 [source, html]
 ----
@@ -290,21 +236,14 @@ following content; it goes in the main _mywebapp_ directory.
 </html>
 ----
 
-Now, when the compilation finishes and you have the basic HTML file you can just open
-it with your favorite browser and take a look in the development tools console. The
-"Hello world!" message should appear there.
+Now, when the compilation finishes and you have the basic HTML file you can just open it with your favorite browser and take a look in the development tools console. The "Hello world!" message should appear there.
 
 
 ==== Watch process
 
-You may have already noticed the slow startup time of the _ClojureScript_
-compiler. To solve this, the _ClojureScript_ standalone compiler comes with a
-tool to watch for changes in your source code, and re-compile modified files as
-soon as they are written to disk.
+You may have already noticed the slow startup time of the _ClojureScript_ compiler. To solve this, the _ClojureScript_ standalone compiler comes with a tool to watch for changes in your source code, and re-compile modified files as soon as they are written to disk.
 
-Let's start converting our build.clj script to something that can accept
-arguments and execute different tasks. Let's create a `tools.clj` script file
-with the following content:
+Let's start converting our build.clj script to something that can accept arguments and execute different tasks. Let's create a `tools.clj` script file with the following content:
 
 [source, clojure]
 ----
@@ -345,10 +284,7 @@ Now you can start the watch process with the following command:
 clojure tools.clj watch
 ----
 
-Go back to the `mywebapp.core` namespace, and change the print text to `"Hello World,
-Again!"`.  You'll see that the file `src/mywebapp/core.cljs` the file is immediately
-recompiled, and if you reload `index.html` in your browser the new text is displayed
-in the developer console.
+Go back to the `mywebapp.core` namespace, and change the print text to `"Hello World, Again!"`.  You'll see that the file `src/mywebapp/core.cljs` the file is immediately recompiled, and if you reload `index.html` in your browser the new text is displayed in the developer console.
 
 You also can start the simple build with:
 
@@ -357,8 +293,7 @@ You also can start the simple build with:
 clojure tools.clj build
 ----
 
-And finally, if you execute the `build.clj` script with no params, a help message
-with available "tasks" will be printed:
+And finally, if you execute the `build.clj` script with no params, a help message with available "tasks" will be printed:
 
 [source, bash]
 ----
@@ -369,47 +304,33 @@ Unknown or missing task. Choose one of: build, watch
 
 ==== Optimization levels
 
-The _ClojureScript_ compiler has different levels of optimization. Behind the scenes,
-those compilation levels are coming from the Google Closure Compiler.
+The _ClojureScript_ compiler has different levels of optimization. Behind the scenes, those compilation levels are coming from the Google Closure Compiler.
 
 A simplified overview of the compilation process is:
 
-1. The reader reads the code and does some analysis. This compiler may raise some
-   warnings during this phase.
-2. Then, the _ClojureScript_ compiler emits JavaScript code. The result is one
-   JavaScript output file for each ClojureScript input file.
-3. The generated JavaScript files are passed through the Google Closure Compiler
-   which, depending on the optimization level and other options (sourcemaps, output
-   dir output to, ...), generates the final output file(s).
+1. The reader reads the code and does some analysis. This compiler may raise some warnings during this phase.
+2. Then, the _ClojureScript_ compiler emits JavaScript code. The result is one JavaScript output file for each ClojureScript input file.
+3. The generated JavaScript files are passed through the Google Closure Compiler which, depending on the optimization level and other options (sourcemaps, output dir output to, ...), generates the final output file(s).
 
 The final output format depends on the optimization level chosen:
 
 
 ===== none
 
-This optimization level causes the generated JavaScript to be written into separate
-output files for each namespace, without any additional transformations to the code.
+This optimization level causes the generated JavaScript to be written into separate output files for each namespace, without any additional transformations to the code.
 
 
 ===== whitespace
 
-This optimization level causes the generated JavaScript files to be concatenated into
-a single output file, in dependency order.  Line breaks and other whitespace are
-removed.
+This optimization level causes the generated JavaScript files to be concatenated into a single output file, in dependency order.  Line breaks and other whitespace are removed.
 
-This reduces compilation speed somewhat, resulting in a slower compilations. However,
-it is not terribly slow and it is quite usable for small-to-medium sized
-applications.
+This reduces compilation speed somewhat, resulting in a slower compilations. However, it is not terribly slow and it is quite usable for small-to-medium sized applications.
 
 ===== simple
 
-The simple compilation level builds on the work from the `whitespace` optimization
-level, and additionally performs optimizations within expressions and functions, such
-as renaming local variables and function parameters to have shorter names.
+The simple compilation level builds on the work from the `whitespace` optimization level, and additionally performs optimizations within expressions and functions, such as renaming local variables and function parameters to have shorter names.
 
-Compilation with the `:simple` optimization always preserves the functionality of
-syntactically valid JavaScript, so it does not interfere with the interaction between
-the compiled _ClojureScript_ and other JavaScript.
+Compilation with the `:simple` optimization always preserves the functionality of syntactically valid JavaScript, so it does not interfere with the interaction between the compiled _ClojureScript_ and other JavaScript.
 
 
 ===== advanced
@@ -418,14 +339,9 @@ The advanced compilation level builds on the `simple` optimization level, and
 additionally performs more aggressive optimizations and dead code elimination. This
 results in a significantly smaller output file.
 
-The `:advanced` optimizations only work for a strict subset of JavaScript which
-follows the Google Closure Compiler rules.  _ClojureScript_ generates valid
-JavaScript within this strict subset, but if you are interacting with third party
-JavaScript code, some additional work is required to make everything work as
-expected.
+The `:advanced` optimizations only work for a strict subset of JavaScript which follows the Google Closure Compiler rules.  _ClojureScript_ generates valid JavaScript within this strict subset, but if you are interacting with third party JavaScript code, some additional work is required to make everything work as expected.
 
-This interaction with third party javascript libraries will be explained in later
-sections.
+This interaction with third party javascript libraries will be explained in later sections.
 
 
 === Working with the REPL
@@ -438,31 +354,23 @@ http://www.alexeberts.com/exploring-the-clojurescript-repl/
 
 ==== Introduction
 
-Although you can create a source file and compile it every time you want to try
-something out in ClojureScript, it's easier to use the REPL. REPL stands for:
+Although you can create a source file and compile it every time you want to try something out in ClojureScript, it's easier to use the REPL. REPL stands for:
 
 * Read - get input from the keyboard
 * Evaluate the input
 * Print the result
 * Loop back for more input
 
-In other words, the REPL lets you try out ClojureScript concepts and get immediate
-feedback.
+In other words, the REPL lets you try out ClojureScript concepts and get immediate feedback.
 
-_ClojureScript_ comes with support for executing the REPL in different execution
-environments, each of which has its own advantages and disadvantages. For example,
-you can run a REPL in nodejs but in that environment you don't have any access to the
-DOM.  Which REPL environment is best for you depends on your specific needs and
-requirements.
+_ClojureScript_ comes with support for executing the REPL in different execution environments, each of which has its own advantages and disadvantages. For example, you can run a REPL in nodejs but in that environment you don't have any access to the DOM.  Which REPL environment is best for you depends on your specific needs and requirements.
 
 
 ==== Nashorn REPL
 
-The Nashorn REPL is the easiest and perhaps most painless REPL environment because it
-does not require any special stuff.
+The Nashorn REPL is the easiest and perhaps most painless REPL environment because it does not require any special stuff.
 
-Let’s start creating a new script file for our repl playground called
-`tools.clj` in a new directory (in our case `repl_playground/tools.clj`):
+Let’s start creating a new script file for our repl playground called `tools.clj` in a new directory (in our case `repl_playground/tools.clj`):
 
 [source, clojure]
 ----
@@ -487,8 +395,7 @@ Let’s start creating a new script file for our repl playground called
 (task *command-line-args*)
 ----
 
-Create the `repl_playground/deps.edn` file with the following content (identical
-from previous examples):
+Create the `repl_playground/deps.edn` file with the following content (identical from previous examples):
 
 [source, clojure]
 ----
@@ -508,32 +415,20 @@ cljs.user=> (prn "Hello world")
 nil
 ----
 
-You may have noticed that in this example we have used `clj` command instead of
-`clojure`. That two commands are practically identical, the main difference is
-that `clj` executes `clojure` command wrapped in `rlwrap`. The `rlwrap` tool
-gives the "readline" capabilities which enables history, code navigation, and
-other shell-like features that will make your REPL experience much more
-pleasant.
+You may have noticed that in this example we have used `clj` command instead of `clojure`. That two commands are practically identical, the main difference is that `clj` executes `clojure` command wrapped in `rlwrap`. The `rlwrap` tool gives the "readline" capabilities which enables history, code navigation, and other shell-like features that will make your REPL experience much more pleasant.
 
-If you don't have installed it previously, you can install it with `sudo apt
-install -y rlwrap`.
+If you don't have installed it previously, you can install it with `sudo apt install -y rlwrap`.
 
-NOTE: This is a basic repl, in the following chapters we will explain how to
-have a more advanced repl experience with code-highlighting, code-completion and
-multiline edition.
+NOTE: This is a basic repl, in the following chapters we will explain how to have a more advanced repl experience with code-highlighting, code-completion and multiline edition.
 
 
 ==== Node.js REPL
 
 You must, of course, have nodejs installed on your system to use this REPL.
 
-You may be wondering why we might want a nodejs REPL, when we already have the
-nashorn REPL available which doesn't have any external dependencies. The answer is
-very simple: nodejs is the most used JavaScript execution environment on the backend,
-and it has a great number of community packages built around it.
+You may be wondering why we might want a nodejs REPL, when we already have the nashorn REPL available which doesn't have any external dependencies. The answer is very simple: nodejs is the most used JavaScript execution environment on the backend, and it has a great number of community packages built around it.
 
-The good news is that starting a nodejs REPL is very easy once you have it installed
-in your system. Start adding the following content into `tools.clj` script:
+The good news is that starting a nodejs REPL is very easy once you have it installed in your system. Start adding the following content into `tools.clj` script:
 
 [source, clojure]
 ----
@@ -560,8 +455,7 @@ nil
 
 ==== Browser REPL
 
-This REPL is the most laborious to get up and running. This is because it uses a
-browser for its execution environment and it has additional requirements.
+This REPL is the most laborious to get up and running. This is because it uses a browser for its execution environment and it has additional requirements.
 
 Let’s start by adding the following content to the `tools.clj` script file:
 
@@ -585,10 +479,7 @@ Let’s start by adding the following content to the `tools.clj` script file:
              :output-dir "out/browser"))
 ----
 
-The main difference with the previous examples, is that browser REPL requires
-that some code be execution in the browser before the REPL gets working. To do
-that, just re-create the application structure very similar to the one that we
-have used in previous sections:
+The main difference with the previous examples, is that browser REPL requires that some code be execution in the browser before the REPL gets working. To do that, just re-create the application structure very similar to the one that we have used in previous sections:
 
 [source, bash]
 ----
@@ -611,8 +502,7 @@ Then, write new content to the `src/myapp/core.cljs` file:
 (println "Hello, world!")
 ----
 
-And finally, create the missing _index.html_ file that is going to be used as
-the entry point for running the browser side code of the REPL:
+And finally, create the missing _index.html_ file that is going to be used as the entry point for running the browser side code of the REPL:
 
 [source, html]
 ----
@@ -628,9 +518,7 @@ the entry point for running the browser side code of the REPL:
 </html>
 ----
 
-Well, that was a lot of setup! But trust us, it’s all worth it when you see it in
-action. To do that, just execute the `tools.clj` in the same way that we have done
-it in previous examples:
+Well, that was a lot of setup! But trust us, it’s all worth it when you see it in action. To do that, just execute the `tools.clj` in the same way that we have done it in previous examples:
 
 [source, bash]
 ----
@@ -641,9 +529,7 @@ ClojureScript 1.10.520
 cljs.user=>
 ----
 
-And finally, open your favourite browser and go to http://localhost:9001/. Once the
-page is loaded (the page will be blank), switch back to the console where you have
-run the REPL and you will see that it is up and running:
+And finally, open your favourite browser and go to http://localhost:9001/. Once the page is loaded (the page will be blank), switch back to the console where you have run the REPL and you will see that it is up and running:
 
 [source, bash]
 ----
@@ -653,22 +539,14 @@ cljs.user=> (+ 14 28)
 42
 ----
 
-One of the big advantages of the browser REPL is that you have access to everything
-in the browser environment. For example, type `(js/alert "hello world")` in the
-REPL. This will cause the browser to display an alert box. Nice!
+One of the big advantages of the browser REPL is that you have access to everything in the browser environment. For example, type `(js/alert "hello world")` in the REPL. This will cause the browser to display an alert box. Nice!
 
-NOTE: This is just a preview of how to use the builtin REPL capabilities of the
-ClojureScript compiler. There are better and more user/developer friendly repl
-environments with code-highlighting, code-completion and multiline edition (and
-in case of web development, also with code hot reloading) that will be explained
-in the following chapters.
+NOTE: This is just a preview of how to use the builtin REPL capabilities of the ClojureScript compiler. There are better and more user/developer friendly repl environments with code-highlighting, code-completion and multiline edition (and in case of web development, also with code hot reloading) that will be explained in the following chapters.
 
 
 ==== Rebel Readline (REPL library)
 
-This is a library that adds more advanced features to the Clojure(Script)
-builtin REPL and enables code-highlighting, code-completion and multiline
-edition.
+This is a library that adds more advanced features to the Clojure(Script) builtin REPL and enables code-highlighting, code-completion and multiline edition.
 
 Let's start adding rebel dependency into `deps.edn` file:
 
@@ -709,30 +587,23 @@ And start the REPL:
 ----
 $ clojure tools.clj repl:rebel:node
 ClojureScript 1.10.520
-cljs.user=> (println
+cljs.user=> (println)
 cljs.core/println: ([& objs])
 ----
 
-You can find that while you writing in the repl, it automatically suggest and
-shows se function signature that you want to execute.
+You can find that while you writing in the repl, it automatically suggest and shows se function signature that you want to execute.
 
-You can find more information about all rebel-readline capabilities on
-https://github.com/bhauman/rebel-readline
+You can find more information about all rebel-readline capabilities on https://github.com/bhauman/rebel-readline
 
 
 
 === The Closure Library
 
-The Google Closure Library is a javascript library developed by Google. It has a
-modular architecture, and provides cross-browser functions for DOM manipulations and
-events, ajax and JSON, and other features.
+The Google Closure Library is a javascript library developed by Google. It has a modular architecture, and provides cross-browser functions for DOM manipulations and events, ajax and JSON, and other features.
 
-The Google Closure Library is written specifically to take advantage of the Closure
-Compiler (which is used internally by the _ClojureScript_ compiler).
+The Google Closure Library is written specifically to take advantage of the Closure Compiler (which is used internally by the _ClojureScript_ compiler).
 
-_ClojureScript_ is built on the Google Closure Compiler and Closure Library. In fact,
-_ClojureScript_ namespaces are Closure modules. This means that you can interact with
-the Closure Library very easily:
+_ClojureScript_ is built on the Google Closure Compiler and Closure Library. In fact, _ClojureScript_ namespaces are Closure modules. This means that you can interact with the Closure Library very easily:
 
 [source, clojure]
 ----
@@ -742,12 +613,9 @@ the Closure Library very easily:
 (def element (dom/getElement "body"))
 ----
 
-This code snippet shows how you can import the *dom* module of the Closure library
-and use a function declared in that module.
+This code snippet shows how you can import the *dom* module of the Closure library and use a function declared in that module.
 
-Additionally, the closure library exposes "special" modules that behave like a class
-or object. To use these features, you must use the `:import` directive in the `(ns
-...)` form:
+Additionally, the closure library exposes "special" modules that behave like a class or object. To use these features, you must use the `:import` directive in the `(ns ...)` form:
 
 [source, clojure]
 ----
@@ -757,9 +625,7 @@ or object. To use these features, you must use the `:import` directive in the `(
 (def instance (History.))
 ----
 
-In a _Clojure_ program, the `:import` directive is used for host (Java) interop to
-import Java classes.  If, however, you define types (classes) in _ClojureScript_, you
-should use the standard `:require` directive and not the `:import` directive.
+In a _Clojure_ program, the `:import` directive is used for host (Java) interop to import Java classes.  If, however, you define types (classes) in _ClojureScript_, you should use the standard `:require` directive and not the `:import` directive.
 
 You can found the reference to all namespaces in the closure library here:
 http://google.github.io/closure-library/api/
@@ -767,16 +633,12 @@ http://google.github.io/closure-library/api/
 
 === Dependency management
 
-Until now, we have used the builtin _Clojure(Script)_ toolchain to compile our
-source files to JavaScript. Now this is a time to understand how manage external
-and/or third party dependencies.
+Until now, we have used the builtin _Clojure(Script)_ toolchain to compile our source files to JavaScript. Now this is a time to understand how manage external and/or third party dependencies.
 
 
 ==== First project
 
-The best way to show how a tool works is by creating a toy project with it. In
-this case, we will create a small application that determines if a year is a
-leap year or not.
+The best way to show how a tool works is by creating a toy project with it. In this case, we will create a small application that determines if a year is a leap year or not.
 
 Let's start creating the project layout:
 
@@ -804,9 +666,7 @@ leapyears
 └── tools.clj
 ----
 
-The `deps.edn` file contains information about all the *packaged* dependencies
-needed to build or execute the application. Packaged dependencies are libraries
-packaged as jar files and uploaded to clojars/maven repository.
+The `deps.edn` file contains information about all the *packaged* dependencies needed to build or execute the application. Packaged dependencies are libraries packaged as jar files and uploaded to clojars/maven repository.
 
 [NOTE]
 ====
@@ -899,8 +759,7 @@ Then, write the following content into `target/public/index.html` file:
 </html>
 ----
 
-The next step consist in add some code to make the form interactive. Put the
-following code into the `src/leapyears/core.cljs`:
+The next step consist in add some code to make the form interactive. Put the following code into the `src/leapyears/core.cljs`:
 
 [source, clojure]
 ----
@@ -938,20 +797,14 @@ Now, we can compile the project with:
 clojure tools.clj watch
 ----
 
-Finally, open the `target/public/index.html` file in a browser. Typing a year in the textbox
-should display an indication of its leap year status.
+Finally, open the `target/public/index.html` file in a browser. Typing a year in the textbox should display an indication of its leap year status.
 
 
 ==== Adding native dependencies
 
-Until now we have used only the batteries included in the ClojureScript runtime,
-let improve our project including a native dependency. In this example we will
-use the link:https://github.com/funcool/cuerdas[Cuerdas] (a string manipulation
-library build especifically for Clojure(Script)).
+Until now we have used only the batteries included in the ClojureScript runtime, let improve our project including a native dependency. In this example we will use the link:https://github.com/funcool/cuerdas[Cuerdas] (a string manipulation library build especifically for Clojure(Script)).
 
-Add `funcool/cuerdas {:mvn/version "2.2.0"}` into the `:deps` section inside the
-`deps.edn` file. And add the corresponding modifications to the
-`leapyears/core.cljs` file:
+Add `funcool/cuerdas {:mvn/version "2.2.0"}` into the `:deps` section inside the `deps.edn` file. And add the corresponding modifications to the `leapyears/core.cljs` file:
 
 [source, clojure]
 ----
@@ -975,40 +828,25 @@ Add `funcool/cuerdas {:mvn/version "2.2.0"}` into the `:deps` section inside the
         (set! (.-innerHTML result) "NO")))))
 ----
 
-Now, if you run the build or watch command, the new declared dependency will be
-downloaded and the application will be compiled with this dependency included.
+Now, if you run the build or watch command, the new declared dependency will be downloaded and the application will be compiled with this dependency included.
 
-Clojure packages are often published on link:http://clojars.org[Clojars]. You can
-also find many third party libraries on the
-link:https://github.com/clojure/clojurescript/wiki#libraries[ClojureScript Wiki].
+Clojure packages are often published on link:http://clojars.org[Clojars]. You can also find many third party libraries on the link:https://github.com/clojure/clojurescript/wiki#libraries[ClojureScript Wiki].
 
 
 ==== External dependencies
 
-In some circumstances you may found yourself that you need some library but that
-does not exists in _ClojureScript_ but it is already implemented in javascript
-and you want to use it on your project.
+In some circumstances you may found yourself that you need some library but that does not exists in _ClojureScript_ but it is already implemented in javascript and you want to use it on your project.
 
-There are many ways that you can do it mainly depending on the library that you
-want to include. Many of that libraries are packaged and uploaded to clojars, so
-you can declare them in the `deps.edn` in the same way as native dependencies
-(with some peculirities in usage, see below).
+There are many ways that you can do it mainly depending on the library that you want to include. Many of that libraries are packaged and uploaded to clojars, so you can declare them in the `deps.edn` in the same way as native dependencies (with some peculirities in usage, see below).
 
 
 ==== Closure compatible module
 
-If you have a library that is written to be compatible with google closure
-module system and you want to include it on your project: put the source into
-the classpath (inside `src` or `vendor` directory in leapyears project) and
-access it like any other clojure namespace.
+If you have a library that is written to be compatible with google closure module system and you want to include it on your project: put the source into the classpath (inside `src` or `vendor` directory in leapyears project) and access it like any other clojure namespace.
 
-This is the most simplest case, because google closure modules are directly
-compatible and you can mix your clojure code with javascript code written using
-google closure module system without any additional steps.
+This is the most simplest case, because google closure modules are directly compatible and you can mix your clojure code with javascript code written using google closure module system without any additional steps.
 
-Reusing the leapyears project, lets implement the `leap?` function in
-a javascript using google closure module format. Start creating the
-directory structure:
+Reusing the leapyears project, lets implement the `leap?` function in a javascript using google closure module format. Start creating the directory structure:
 
 [source, bash]
 ----
@@ -1031,8 +869,7 @@ goog.scope(function() {
 });
 ----
 
-Now, if you open the repl, you can import the namespace and use the `isLeap`
-function
+Now, if you open the repl, you can import the namespace and use the `isLeap` function
 
 [source, clojure]
 ----
@@ -1045,25 +882,18 @@ function
 ;; => false
 ----
 
-NOTE: you can open the nodejs repl just executing `clj tools.clj repl` in the
-root of the project.
+NOTE: you can open the nodejs repl just executing `clj tools.clj repl` in the root of the project.
 
-NOTE: this is the approach used by many projects to implement some performance
-sensitive logic directly in javascript and export it in an easy way to
-ClojureScript
+NOTE: this is the approach used by many projects to implement some performance sensitive logic directly in javascript and export it in an easy way to ClojureScript
 
 
 ==== Global Export
 
-This is the most extended and the most reliable way to consume external
-javascript libraries from ClojureScript and it has many facilities.
+This is the most extended and the most reliable way to consume external javascript libraries from ClojureScript and it has many facilities.
 
-Let's play with that. Start creating a simple file using commonjs module format
-(pretty analogous to the previous example using google closure modules):
+Let's play with that. Start creating a simple file using commonjs module format (pretty analogous to the previous example using google closure modules):
 
-The fastest way to include a javascript library is looking if it is available in
-link:http://cljsjs.github.io/[CLJSJS]. If it is available, just include the
-dependency in the `deps.edn` file and use it.
+The fastest way to include a javascript library is looking if it is available in link:http://cljsjs.github.io/[CLJSJS]. If it is available, just include the dependency in the `deps.edn` file and use it.
 
 That libraries has two ways of use it, let's see some examples.
 
@@ -1094,24 +924,16 @@ Then, open the repl and try the following:
 ;; => "Monday, July 15, 2019 5:33 PM"
 ----
 
-Behind the scenes that packages uses the ClojureScript compiler facilities
-link:https://clojurescript.org/reference/compiler-options#foreign-libs[descibed
-here] for provide the compiler with enough information about the files and
-global exports to use.
+Behind the scenes that packages uses the ClojureScript compiler facilities link:https://clojurescript.org/reference/compiler-options#foreign-libs[descibed here] for provide the compiler with enough information about the files and global exports to use.
 
-So, if don't find a library in cljsjs, we can include it using the same
-facilities. Let's assume that moment is not available on cljsjs and we need it
-on our project.
+So, if don't find a library in cljsjs, we can include it using the same facilities. Let's assume that moment is not available on cljsjs and we need it on our project.
 
-For include an foreign dependency we need to pass `:foreign-libs` and `:externs`
-params to the ClojureScript compiler, and we have two ways:
+For include an foreign dependency we need to pass `:foreign-libs` and `:externs` params to the ClojureScript compiler, and we have two ways:
 
 - passing them to the `build` or `repl` functions.
 - inside the `deps.cljs` file located on the root of the classpath.
 
-The `deps.cljs` approach requires that files should be localted on the local
-directories, but the first approach allows specify directly external urls. We
-will use the first approach on our example.
+The `deps.cljs` approach requires that files should be localted on the local directories, but the first approach allows specify directly external urls. We will use the first approach on our example.
 
 This is how looks the `deps.edn` file with the changes applied:
 
@@ -1144,51 +966,31 @@ This is how looks the `deps.edn` file with the changes applied:
 ;; [...]
 ----
 
-Now, if you excute the repl, you will be able to import `vendor.moment` in the same way
-if you are using the cljsjs package.
+Now, if you excute the repl, you will be able to import `vendor.moment` in the same way if you are using the cljsjs package.
 
-Finally, there are the `:externs` option, that will be needed only for the
-production build, and the externs file consists in plain javascript files that
-declares the public API of the included foreign libraries and make them
-understandable to the google closure compiler.
+Finally, there are the `:externs` option, that will be needed only for the production build, and the externs file consists in plain javascript files that declares the public API of the included foreign libraries and make them understandable to the google closure compiler.
 
-The moment externs are available
-link:https://github.com/cljsjs/packages/blob/master/moment/resources/cljsjs/common/moment.ext.js[here]
-and if you include some library that you want to use, and then want to compile
-your app with advanced optimizations you will need to include a file similar to
-the moment.ext.js on the project and referenciate it with `:externs` option to
-the ClojureScript compiler.
+The moment externs are available link:https://github.com/cljsjs/packages/blob/master/moment/resources/cljsjs/common/moment.ext.js[here] and if you include some library that you want to use, and then want to compile your app with advanced optimizations you will need to include a file similar to the moment.ext.js on the project and referenciate it with `:externs` option to the ClojureScript compiler.
 
 More info link:https://clojurescript.org/reference/compiler-options#externs[on clojurescript.org].
 
 
 ==== ES6/CommonJS modules
 
-Google Closure Compiler has an advanced feature that allows convert from
-different module types (commonjs and ES) into google closure module
-type. Although this feature is still experimental. With simple modules it works,
-but with more complex modules (many submodules and directories) still doest
-not complies correctly.
+Google Closure Compiler has an advanced feature that allows convert from different module types (commonjs and ES) into google closure module type. Although this feature is still experimental. With simple modules it works, but with more complex modules (many submodules and directories) still doest not complies correctly.
 
-In any way I invite you to experiment with it. You can found more documentation
-on
-link:https://clojurescript.org/reference/javascript-module-support[clojurescript.org].
+In any way I invite you to experiment with it. You can found more documentation on link:https://clojurescript.org/reference/javascript-module-support[clojurescript.org].
 
-The best way to use ES6 and/or CommonJS module is combining a javascript bundler
-like _rollup_ or _webpack_ to generate a single build with external dependencies
-and thn use the *global exports* method to use it in ClojureScript. An example
-of this is explained link:https://clojurescript.org/guides/webpack[on clojurescript.org].
+The best way to use ES6 and/or CommonJS module is combining a javascript bundler like _rollup_ or _webpack_ to generate a single build with external dependencies and thn use the *global exports* method to use it in ClojureScript. An example of this is explained link:https://clojurescript.org/guides/webpack[on clojurescript.org].
 
 
 === Interactive development with Figwheel
 
-And finally we will introduce *figwheel*, that enables fully interactive,
-REPL-based and hot reloading enabled development environment.
+And finally we will introduce *figwheel*, that enables fully interactive, REPL-based and hot reloading enabled development environment.
 
 We will reuse the leapyears project structure for the following examples.
 
-NOTE: Although we use figwheel here for web application, it works in the same
-way on the application that targets nodejs as execution environment.
+NOTE: Although we use figwheel here for web application, it works in the same way on the application that targets nodejs as execution environment.
 
 As first step, we need to add *figwheel* dependency to the `deps.edn` file:
 
@@ -1214,43 +1016,29 @@ Then, add new task to the `tools.clj` script:
 ----
 
 
-And then, run `clojure tools.clj fighweel`. This will start the figwheel process
-that automatically will launch a http server that will serve the
-`target/public/` directory and index to `index.html` file.
+And then, run `clojure tools.clj fighweel`. This will start the figwheel process that automatically will launch a http server that will serve the `target/public/` directory and index to `index.html` file.
 
-If you update the code, that code will be automatically loaded to the browser,
-*without page reload*.
+If you update the code, that code will be automatically loaded to the browser, *without page reload*.
 
 For more info: link:https://figwheel.org/[figwheel.org].
 
 
 === Unit testing
 
-As you might expect, testing in _ClojureScript_ consists of the same concepts widely
-used by other language such as Clojure, Java, Python, JavaScript, etc.
+As you might expect, testing in _ClojureScript_ consists of the same concepts widely used by other language such as Clojure, Java, Python, JavaScript, etc.
 
-Regardless of the language, the main objective of unit testing is to run some test
-cases, verifying that the code under test behaves as expected and returns without
-raising unexpected exceptions.
+Regardless of the language, the main objective of unit testing is to run some test cases, verifying that the code under test behaves as expected and returns without raising unexpected exceptions.
 
-The immutablity of _ClojureScript_ data structures helps to make programs less error
-prone, and facilitates testing a little bit. Another advantage of _ClojureScript_ is
-that it tends to use plain data instead of complex objects. Building "mock" objects
-for testing is thus greatly simplified.
+The immutablity of _ClojureScript_ data structures helps to make programs less error prone, and facilitates testing a little bit. Another advantage of _ClojureScript_ is that it tends to use plain data instead of complex objects. Building "mock" objects for testing is thus greatly simplified.
 
 
 ==== First steps
 
-The "official" _ClojureScript_ testing framework is in the "cljs.test" namespace. It
-is a very simple library, but it should be more than enough for our purposes.
+The "official" _ClojureScript_ testing framework is in the "cljs.test" namespace. It is a very simple library, but it should be more than enough for our purposes.
 
-There are other libraries that offer additional features or directly different
-approaches to testing, such as
-link:https://github.com/clojure/test.check[test.check]. However, we will not cover
-them here.
+There are other libraries that offer additional features or directly different approaches to testing, such as link:https://github.com/clojure/test.check[test.check]. However, we will not cover them here.
 
-We will reuse the `leapyears` project structure and we will add testing to it. Let's create
-the test related files and directories:
+We will reuse the `leapyears` project structure and we will add testing to it. Let's create the test related files and directories:
 
 [source, bash]
 ----
@@ -1258,8 +1046,7 @@ mkdir -p test/leapyears/test
 touch test/leapyears/test/main.cljs
 ----
 
-Also we will need to create new tasks on our `tools.clj` file for build, watch and run
-tests:
+Also we will need to create new tasks on our `tools.clj` file for build, watch and run tests:
 
 [source, clojure]
 ----
@@ -1311,8 +1098,7 @@ Next, put some test code in the `test/leapyears/test/main.cljs` file:
 
 (set! *main-cli-fn* #(t/run-tests))
 
-;; This extension is required for correctly set the return code
-;; depending if the test passes or not.
+;; This extension is required for correctly set the return code depending if the test passes or not
 (defmethod t/report [:cljs.test/default :end-run-tests]
   [m]
   (if (t/successful? m)
@@ -1328,9 +1114,7 @@ The relevant part of that code snippet is:
   (t/is (= 1 2)))
 ----
 
-The `deftest` macro is a basic primitive for defining our tests. It takes a name as
-its first parameter, followed by one or multiple assertions using the `is` macro. In
-this example, we try to assert that `(= 1 2)` is true.
+The `deftest` macro is a basic primitive for defining our tests. It takes a name as its first parameter, followed by one or multiple assertions using the `is` macro. In this example, we try to assert that `(= 1 2)` is true.
 
 Let's try to run this:
 
@@ -1348,8 +1132,7 @@ Ran 1 tests containing 1 assertions.
 1 failures, 0 errors.
 ----
 
-You can see that the expected assert failure is successfully printed in the
-console. To fix the test, just change the `=` with `not=` and run the file again:
+You can see that the expected assert failure is successfully printed in the console. To fix the test, just change the `=` with `not=` and run the file again:
 
 [source, bash]
 ----
@@ -1362,9 +1145,7 @@ Ran 1 tests containing 1 assertions.
 0 failures, 0 errors.
 ----
 
-It is fine to test these kinds of assertions, but they are not very
-useful. Let's go to test some application code. For this, we will use a function
-to check if a year is a leap year or not:
+It is fine to test these kinds of assertions, but they are not very useful. Let's go to test some application code. For this, we will use a function to check if a year is a leap year or not:
 
 [source, clojure]
 ----
@@ -1381,22 +1162,16 @@ to check if a year is a leap year or not:
 ;; [...]
 ----
 
-Run the compiled file again to see that there are now two tests running.  The
-first test passes as before, and our two new leap year tests pass as well.
+Run the compiled file again to see that there are now two tests running.  The first test passes as before, and our two new leap year tests pass as well.
 
 
 ==== Async Testing
 
-One of the peculiarities of _ClojureScript_ is that it runs in an asynchronous,
-single-threaded execution environment, which has its challenges.
+One of the peculiarities of _ClojureScript_ is that it runs in an asynchronous, single-threaded execution environment, which has its challenges.
 
-In an async execution environment, we should be able to test asynchronous functions.
-To this end, the _ClojureScript_ testing library offers the `async` macro, allowing
-you to create tests that play well with asynchronous code.
+In an async execution environment, we should be able to test asynchronous functions. To this end, the _ClojureScript_ testing library offers the `async` macro, allowing you to create tests that play well with asynchronous code.
 
-First, we need to write a function that works in an asynchronous way. For this
-purpose, we will create the `async-leap?` predicate that will do the same operation
-but asychronously return a result using a callback:
+First, we need to write a function that works in an asynchronous way. For this purpose, we will create the `async-leap?` predicate that will do the same operation but asychronously return a result using a callback:
 
 [source, clojure]
 ----
@@ -1405,8 +1180,7 @@ but asychronously return a result using a callback:
   (js/setImmediate #(callback (util/isLeap year))))
 ----
 
-The JavaScript function `setImmediate` is used to emulate an asynchronous task, and
-the callback is executed with the result of that predicate.
+The JavaScript function `setImmediate` is used to emulate an asynchronous task, and the callback is executed with the result of that predicate.
 
 To test it, we should write a test case using the previously mentioned `async` macro:
 
@@ -1419,8 +1193,6 @@ To test it, we should write a test case using the previously mentioned `async` m
                               (done)))))
 ----
 
-The `done` function exposed by the `async` macro should be called after the
-asynchronous operation is finished and all assertions have run.
+The `done` function exposed by the `async` macro should be called after the asynchronous operation is finished and all assertions have run.
 
-It is very important to execute the `done` function only once. Omitting it or
-executing it twice may cause strange behavior and should be avoided.
+It is very important to execute the `done` function only once. Omitting it or executing it twice may cause strange behavior and should be avoided.
