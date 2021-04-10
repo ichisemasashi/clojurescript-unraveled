@@ -1,22 +1,22 @@
 === Getting Started with the Compiler
 
-At this point, you are surely very bored with the constant theoretical explanations about the language itself and will want to write and execute some code. The goal of this section is to provide a little practical introduction to the _ClojureScript_ compiler.
+この時点で、あなたはきっと、言語自体についての絶え間ない理論的な説明に非常に飽きていて、何かコードを書いて実行したいと思っていることでしょう。このセクションの目的は、_ClojureScript_ コンパイラを少し実用的に紹介することです。
 
-The _ClojureScript_ compiler takes the source code that has been split over numerous directories and namespaces and compiles it down to JavaScript. Today, JavaScript has a great number of different environments where it can be executed - each with its own peculiarities.
+_ClojureScript_ コンパイラは、数多くのディレクトリや名前空間に分割されたソースコードを、JavaScriptにコンパイルします。今日、JavaScriptには実行可能な環境が非常に多く存在します。- この章では、JavaScriptの使い方を説明します。
 
-This chapter intends to explain how to use _ClojureScript_ without any additional tooling. This will help you understand how the compiler works and how you can use it when other tooling is not available (such as link:http://leiningen.org/[leiningen] + link:https://github.com/emezeske/lein-cljsbuild[cljsbuild] or link:http://boot-clj.com/[boot]).
+この章では、_ClojureScript_ を追加のツールなしで使用する方法を説明します。これは、コンパイラがどのように動作するかを理解し、他のツール( link:http://leiningen.org/[leiningen] + link:https://github.com/emezeske/lein-cljsbuild[cljsbuild] or link:http://boot-clj.com/[boot] など)が利用できない場合に、どのように使用できるかを理解するのに役立ちます。
 
 
 ==== Execution environments
 
-What is an execution environment? An execution environment is an engine where JavaScript can be executed. For example, the most popular execution environment is a browser (Chrome, Firefox, ...) followed by the second most popular - link:https://nodejs.org/[nodejs].
+実行環境とは何ですか？実行環境とは、JavaScriptを実行するためのエンジンのことです。例えば、最も一般的な実行環境はブラウザ（Chrome、Firefox、...）で、次に一般的なのは link:https://nodejs.org/[nodejs]です。
 
-There are others, such as Rhino (JDK 6+), Nashorn (JDK 8+), QtQuick (QT),... but none of them have significant differences from the first two. So, _ClojureScript_ at the moment may compile code to run in the browser or in nodejs-like environments out of the box.
+他にもRhino (JDK 6+), Nashorn (JDK 8+), QtQuick (QT),...などがありますが、どれも最初の2つとは大きな違いはありません。つまり、現時点での _ClojureScript_ は、ブラウザやnodejsのような環境で実行するコードを箱から出してコンパイルすることができるのです。
 
 
 ==== Download the compiler
 
-The fastest way to obtain all the tooling needed for ClojureScript compilaition is installing the Clojure CLI Tools:
+ClojureScriptのコンパイルに必要なすべてのツールを入手する最も早い方法は、Clojure CLI Toolsをインストールすることです。
 
 [source, bash]
 ----
@@ -25,9 +25,9 @@ chmod +x linux-install-1.10.1.462.sh
 sudo ./linux-install-1.10.1.462.sh
 ----
 
-If you are using other operating system other than linux, refer to https://clojure.org/guides/getting_started page.
+Linux以外のOSを使用している場合は、https://clojure.org/guides/getting_started のページを参照してください。
 
-Although the _ClojureScript_ is self hosted, in this book we will use the JVM implementation, with in turn requires JDK8 or JDK11 installed. You can obtain it using your distribution default package manager or download it from link:https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html[Oracle] or link:https://www.azul.com/downloads/zulu-community/[Azul]
+_ClojureScript_ はセルフホスト型ですが、本書ではJVM実装を使用しますので、JDK8またはJDK11がインストールされている必要があります。ディストリビューションのデフォルトのパッケージマネージャーを使って入手するか、 link:https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html[Oracle] または link:https://www.azul.com/downloads/zulu-community/[Azul] からダウンロードすることができます。
 
 .Example installing it using a apt in a debian-like distribution
 [source, bash]
@@ -37,12 +37,11 @@ sudo apt-get install openjdk-8-jdk rlwrap
 
 ==== Compile for Node.js
 
-Let’s start with a practical example compiling code that will target *Node.js*
-(hereafter simply "nodejs"). For this example, you should have nodejs installed.
+まずは、*Node.js*（以下、単に「nodejs」）を対象としたコードをコンパイルする実践的な例をご紹介します。この例では、nodejsがインストールされている必要があります。
 
-There are different ways to install nodejs, but the recommended way is using nvm ("Node.js Version Manager"). You can read the instructions on how to install and use nvm on its link:https://github.com/creationix/nvm[home page].
+nodejsをインストールするにはさまざまな方法がありますが、推奨されるのはnvm（「Node.js Version Manager」）を使う方法です。nvmのインストールと使用方法については、 link:https://github.com/creationix/nvm[ホームページ] で説明されています。
 
-When you have installed nvm, follow installing the latest version of nodejs:
+nvmをインストールした後は、最新版のnodejsのインストールを行います。
 
 [source, shell]
 ----
@@ -50,7 +49,7 @@ nvm install v10.16.0
 nvm alias default v10.16.0
 ----
 
-You can test if *nodejs* is installed in your system with this command:
+このコマンドで、 *nodejs* がシステムにインストールされているかどうかを調べることができます。
 
 [source, shell]
 ----
@@ -61,9 +60,9 @@ v10.16.0
 
 ===== Create the example application
 
-For the first step of our practical example, we will create our application directory structure and populate it with example code.
+実践例の最初のステップとして、アプリケーションのディレクトリ構造を作成し、そこにサンプルコードを入力していきます。
 
-Start by creating the directory tree structure for our “hello world” application:
+まず、"hello world "アプリケーションのディレクトリ・ツリー構造を作成します。
 
 [source, bash]
 ----
@@ -71,7 +70,7 @@ mkdir -p myapp/src/myapp
 touch myapp/src/myapp/core.cljs
 ----
 
-Resulting in this directory tree:
+結果として、このようなディレクトリツリーになります。
 
 [source, text]
 ----
@@ -82,7 +81,7 @@ myapp
 ----
 
 
-Second, write the example code into the previously created `myapp/src/myapp/core.cljs` file:
+次に、先に作成した `myapp/src/myapp/core.cljs` ファイルにサンプルコードを書き込みます。
 
 [source, clojure]
 ----
@@ -98,9 +97,9 @@ Second, write the example code into the previously created `myapp/src/myapp/core
 (set! *main-cli-fn* -main)
 ----
 
-NOTE: It is very important that the declared namespace in the file exactly matches the directory structure. This is the way _ClojureScript_ structures its source code.
+注：ファイル内の宣言された名前空間が、ディレクトリ構造と正確に一致していることが非常に重要です。これは、 _ClojureScript_ がそのソースコードを構成する方法です。
 
-And finally, lets create the `myapp/deps.edn` declaring the clojure and clojurescript versions:
+そして最後に、clojureとclojurescriptのバージョンを宣言した`myapp/deps.edn`を作成します。
 
 [source, clojure]
 ----
@@ -112,9 +111,9 @@ And finally, lets create the `myapp/deps.edn` declaring the clojure and clojures
 
 ===== Compile the example application
 
-In order to compile that source code, we need a simple build script that tells the _ClojureScript_ compiler the source directory and the output file. _ClojureScript_ has a lot of other options, but at this moment we can ignore that.
+そのソースコードをコンパイルするためには、 _ClojureScript_ コンパイラにソースディレクトリと出力ファイルを伝える簡単なビルドスクリプトが必要です。 _ClojureScript_ には他にもたくさんのオプションがありますが、今のところは無視して構いません。
 
-Let’s create the `myapp/build.clj` file with the following content:
+次のような内容の`myapp/build.clj`ファイルを作ってみましょう。
 
 [source, clojure]
 ----
@@ -127,13 +126,13 @@ Let’s create the `myapp/build.clj` file with the following content:
                 :verbose true})
 ----
 
-This is a brief explanation of the compiler options used in this example:
+この例で使用されているコンパイラーオプションについて簡単に説明します。
 
-* The `:output-to` parameter indicates to the compiler the destination of the compiled code, in this case to the "main.js" file.
-* The `:main` property indicates to the compiler the namespace that will act as the entry point of your application when it's executed.
-* The `:target` property indicates the platform where you want to execute the compiled code. In this case, we are going to use *nodejs*. If you omit this parameter, the source will be compiled to run in the browser environment.
+* `:output-to` パラメータは、コンパイルされたコードの出力先をコンパイラに指示します。ここでは、"main.js "ファイルに出力されます。
+* `:main` プロパティは、アプリケーションが実行されたときにエントリポイントとして機能する名前空間をコンパイラに示します。
+* `:target` プロパティは、コンパイルしたコードを実行するプラットフォームを示します。ここでは、*nodejs* を使用する予定です。このパラメータを省略すると、ソースはブラウザ環境で実行されるようにコンパイルされます。
 
-To run the compilation, just execute the following command:
+コンパイルを実行するには、以下のコマンドを実行するだけです。
 
 [source, bash]
 ----
@@ -141,7 +140,7 @@ cd myapp
 clojure build.clj
 ----
 
-And when it finishes, execute the compiled file using *node*:
+そして、それが終了したら、 *node* を使ってコンパイルされたファイルを実行します。
 
 [source, shell]
 ----
@@ -152,9 +151,9 @@ Hello world!
 
 ==== Compile for the Browser
 
-In this section we are going to create an application similar to the "hello world" example from the previous section to run in the browser environment. The minimal requirement for this application is just a browser that can execute JavaScript.
+このセクションでは、前のセクションで紹介した「hello world」と同様のアプリケーションを、ブラウザ環境で実行するために作成します。このアプリケーションに最低限必要なのは、JavaScriptを実行できるブラウザだけです。
 
-The process is almost the same, and the directory structure is the same. The only things that changes is the entry point of the application and the build script. So, start re-creating the directory tree from previous example in a different directory.
+プロセスはほとんど同じで、ディレクトリ構造も同じです。変わるのは、アプリケーションのエントリーポイントと、ビルドスクリプトだけです。それでは、先ほどの例のディレクトリツリーを別のディレクトリに作り直してみましょう。
 
 [source, bash]
 ----
@@ -162,7 +161,7 @@ mkdir -p mywebapp/src/mywebapp
 touch mywebapp/src/mywebapp/core.cljs
 ----
 
-Resulting in this directory tree:
+結果として、このようなディレクトリツリーになります。
 
 [source, text]
 ----
@@ -172,7 +171,7 @@ mywebapp
         └── core.cljs
 ----
 
-Then, write new content to the `mywebapp/src/mywebapp/core.cljs` file:
+そして、 `mywebapp/src/mywebapp/core.cljs` ファイルに新しいコンテンツを書き込みます。
 
 [source, clojure]
 ----
@@ -183,12 +182,12 @@ Then, write new content to the `mywebapp/src/mywebapp/core.cljs` file:
 (println "Hello world!")
 ----
 
-In the browser environment we do not need a specific entry point for the application, so the entry point is the entire namespace.
+ブラウザ環境では、アプリケーションの特定のエントリーポイントを必要としないため、エントリーポイントは名前空間全体となります。
 
 
 ===== Compile the example application
 
-In order to compile the source code to run properly in a browser, overwrite the `mywebapp/build.clj` file with the following content:
+ソースコードをコンパイルしてブラウザで正しく動作させるためには、 `mywebapp/build.clj` ファイルを以下の内容で上書きしてください。
 
 [source, clojure]
 ----
@@ -202,15 +201,15 @@ In order to compile the source code to run properly in a browser, overwrite the 
                 :optimizations :none})
 ----
 
-This is a brief explanation of the compiler options we're using:
+ここでは、使用しているコンパイラオプションについて簡単に説明します。
 
-* The `:output-to` parameter indicates to the compiler the destination of the compiled code, in this case the "main.js" file.
-* The `:main` property indicates to the compiler the namespace that will act as the  entry point of your application when it's executed.
-* `:source-map` indicates the destination of the source map. (The source map connects the ClojureScript source to the generated JavaScript so that error messages can point you back to the original source.)
-* `:output-dir` indicates the destination directory for all file sources used in a compilation. It is just for making source maps work properly with the rest of the code, not only your source.
-* `:optimizations` indicates the compilation optimization. There are different values for this option, but that will be covered in subsequent sections in more detail.
+* `:output-to` パラメータは、コンパイラに対して、コンパイルされたコードの出力先を示します（ここでは "main.js" ファイル）。
+* `:main` プロパティは、アプリケーションが実行されたときにエントリポイントとして機能する名前空間をコンパイラに示します。
+* `:source-map` プロパティは、ソースマップの出力先を示します。(ソースマップはClojureScriptのソースと生成されたJavaScriptを接続し、エラーメッセージが元のソースを指し示すことができるようにします。)
+* `:output-dir` は、コンパイル時に使用するすべてのファイルソースの出力先ディレクトリを示します。これはソースマップを自分のソースだけでなく、残りのコードで正しく動作させるためのものです。
+* `:optimizations` は、コンパイル時の最適化を示します。このオプションにはさまざまな値がありますが、これについては後のセクションで詳しく説明します。
 
-To run the compilation, just execute the following command:
+コンパイルを実行するには、以下のコマンドを実行するだけです。
 
 [source, bash]
 ----
@@ -218,9 +217,9 @@ cd mywebapp;
 clojure build.clj
 ----
 
-This process can take some time, so do not worry; wait a little bit. The JVM bootstrap with the Clojure compiler is slightly slow. In the following sections, we will explain how to start a watch process to avoid constantly starting and stopping this slow process.
+このプロセスには時間がかかりますので、心配せずに少しだけ待ってください。ClojureコンパイラによるJVMブートストラップは若干遅いです。次のセクションでは、この遅いプロセスを常に開始したり停止したりするのを避けるために、ウォッチ・プロセスを開始する方法を説明します。
 
-While waiting for the compilation, let's create a dummy HTML file to make it easy to execute our example app in the browser. Create the _index.html_ file with the following content; it goes in the main _mywebapp_ directory.
+コンパイルを待つ間に、サンプルアプリをブラウザで簡単に実行できるように、ダミーのHTMLファイルを作成しましょう。以下の内容の _index.html_ ファイルを作成し、メインの _mywebapp_ ディレクトリに置きます。
 
 [source, html]
 ----
@@ -236,14 +235,14 @@ While waiting for the compilation, let's create a dummy HTML file to make it eas
 </html>
 ----
 
-Now, when the compilation finishes and you have the basic HTML file you can just open it with your favorite browser and take a look in the development tools console. The "Hello world!" message should appear there.
+コンパイルが終わり、基本的なHTMLファイルができあがったら、好きなブラウザで開いて、開発ツールのコンソールを見てみましょう。"Hello world!"というメッセージが表示されるはずです。
 
 
 ==== Watch process
 
-You may have already noticed the slow startup time of the _ClojureScript_ compiler. To solve this, the _ClojureScript_ standalone compiler comes with a tool to watch for changes in your source code, and re-compile modified files as soon as they are written to disk.
+_ClojureScript_ コンパイラの起動時間が遅いことにすでにお気づきかもしれません。この問題を解決するために、 _ClojureScript_ スタンドアロンコンパイラには、ソースコードの変更を監視し、変更されたファイルがディスクに書き込まれるとすぐに再コンパイルするツールが付属しています。
 
-Let's start converting our build.clj script to something that can accept arguments and execute different tasks. Let's create a `tools.clj` script file with the following content:
+それでは、build.cljスクリプトを、引数を受け取ってさまざまなタスクを実行できるものに変換してみましょう。次のような内容の `tools.clj` スクリプトファイルを作ってみましょう。
 
 [source, clojure]
 ----
@@ -277,23 +276,23 @@ Let's start converting our build.clj script to something that can accept argumen
 (task *command-line-args*)
 ----
 
-Now you can start the watch process with the following command:
+これで、以下のコマンドで監視プロセスを開始できます。
 
 [source, bash]
 ----
 clojure tools.clj watch
 ----
 
-Go back to the `mywebapp.core` namespace, and change the print text to `"Hello World, Again!"`.  You'll see that the file `src/mywebapp/core.cljs` the file is immediately recompiled, and if you reload `index.html` in your browser the new text is displayed in the developer console.
+名前空間 `mywebapp.core` に戻り、表示文字列を `"Hello World, Again!"` に変更します。 すると、ファイル `src/mywebapp/core.cljs` がすぐに再コンパイルされ、ブラウザで `index.html` をリロードすると、開発者コンソールに新しいテキストが表示されることがわかります。
 
-You also can start the simple build with:
+また、次のようにしてシンプルなビルドを開始することもできます。
 
 [source, bash]
 ----
 clojure tools.clj build
 ----
 
-And finally, if you execute the `build.clj` script with no params, a help message with available "tasks" will be printed:
+最後に、 `build.clj` スクリプトをパラメータなしで実行すると、利用可能な「タスク」を示すヘルプメッセージが表示されます。
 
 [source, bash]
 ----
@@ -304,44 +303,42 @@ Unknown or missing task. Choose one of: build, watch
 
 ==== Optimization levels
 
-The _ClojureScript_ compiler has different levels of optimization. Behind the scenes, those compilation levels are coming from the Google Closure Compiler.
+_ClojureScript_コンパイラには、さまざまな最適化のレベルがあります。舞台裏では、これらのコンパイルレベルは Google Closure Compiler から来ています。
 
-A simplified overview of the compilation process is:
+コンパイルプロセスの簡単な概要は以下の通りです。
 
-1. The reader reads the code and does some analysis. This compiler may raise some warnings during this phase.
-2. Then, the _ClojureScript_ compiler emits JavaScript code. The result is one JavaScript output file for each ClojureScript input file.
-3. The generated JavaScript files are passed through the Google Closure Compiler which, depending on the optimization level and other options (sourcemaps, output dir output to, ...), generates the final output file(s).
+1. リーダーはコードを読み、何らかの分析を行います。この段階でコンパイラはいくつかの警告を出すかもしれません。
+2. 次に、 _ClojureScript_ コンパイラがJavaScriptのコードを出力します。その結果、各ClojureScript入力ファイルに対して、1つのJavaScript出力ファイルが作成されます。
+3. 生成されたJavaScriptファイルは、Google Closure Compilerに渡され、最適化レベルやその他のオプション（ソースマップ、出力ディレクトリ、出力先など）に応じて、最終的な出力ファイルが生成されます。
 
-The final output format depends on the optimization level chosen:
+最終的な出力フォーマットは、選択した最適化レベルによって異なります。
 
 
 ===== none
 
-This optimization level causes the generated JavaScript to be written into separate output files for each namespace, without any additional transformations to the code.
+この最適化レベルでは、生成されたJavaScriptは、コードに追加の変換を加えることなく、名前空間ごとに別々の出力ファイルに書き込まれます。
 
 
 ===== whitespace
 
-This optimization level causes the generated JavaScript files to be concatenated into a single output file, in dependency order.  Line breaks and other whitespace are removed.
+この最適化レベルでは、生成されたJavaScriptファイルが、依存関係のある順に1つの出力ファイルに連結されます。 改行やその他のホワイトスペースは削除されます。
 
-This reduces compilation speed somewhat, resulting in a slower compilations. However, it is not terribly slow and it is quite usable for small-to-medium sized applications.
+これにより、コンパイル速度が多少低下します。しかし、ひどく遅いわけではないので、小～中規模のアプリケーションであれば十分に使用可能です。
 
 ===== simple
 
-The simple compilation level builds on the work from the `whitespace` optimization level, and additionally performs optimizations within expressions and functions, such as renaming local variables and function parameters to have shorter names.
+シンプルなコンパイルレベルでは、 `whitespace` 最適化レベルでの作業をベースに、ローカル変数や関数のパラメータの名前を短く変更するなど、式や関数内での最適化を追加で行います。
 
-Compilation with the `:simple` optimization always preserves the functionality of syntactically valid JavaScript, so it does not interfere with the interaction between the compiled _ClojureScript_ and other JavaScript.
+`:simple` の最適化によるコンパイルでは、構文的に有効な JavaScript の機能が常に維持されるので、コンパイルされた _ClojureScript_ と他の JavaScript との相互作用に支障をきたすことはありません。
 
 
 ===== advanced
 
-The advanced compilation level builds on the `simple` optimization level, and
-additionally performs more aggressive optimizations and dead code elimination. This
-results in a significantly smaller output file.
+アドバンスド・コンパイル・レベルは、 `simple` な最適化レベルをベースに、より積極的な最適化とデッドコードの排除を行います。これにより その結果、出力ファイルが大幅に小さくなります。
 
-The `:advanced` optimizations only work for a strict subset of JavaScript which follows the Google Closure Compiler rules.  _ClojureScript_ generates valid JavaScript within this strict subset, but if you are interacting with third party JavaScript code, some additional work is required to make everything work as expected.
+`:advanced` の最適化は、Google Closure Compilerのルールに従った厳格なJavaScriptのサブセットに対してのみ機能します。  _ClojureScript_ はこの厳密なサブセット内では有効なJavaScriptを生成しますが、サードパーティのJavaScriptコードとやり取りする場合には、すべてを期待通りに動作させるためにいくつかの追加作業が必要になります。
 
-This interaction with third party javascript libraries will be explained in later sections.
+このサードパーティ製の JavaScript ライブラリとの連携については、後のセクションで説明します。
 
 
 === Working with the REPL
@@ -354,23 +351,23 @@ http://www.alexeberts.com/exploring-the-clojurescript-repl/
 
 ==== Introduction
 
-Although you can create a source file and compile it every time you want to try something out in ClojureScript, it's easier to use the REPL. REPL stands for:
+ClojureScriptで何かを試したいときには、その都度ソースファイルを作成してコンパイルすることもできますが、REPLを使った方が簡単です。REPLは以下の略です。
 
-* Read - get input from the keyboard
-* Evaluate the input
-* Print the result
-* Loop back for more input
+* Read - キーボードから入力を得る
+* 入力を評価(Evaluate)する
+* 結果を表示(Print)する
+* 次の入力を得るためにループバック(Loop back)する
 
-In other words, the REPL lets you try out ClojureScript concepts and get immediate feedback.
+つまり、REPLを使えば、ClojureScriptのコンセプトを試して、すぐにフィードバックを得ることができます。
 
-_ClojureScript_ comes with support for executing the REPL in different execution environments, each of which has its own advantages and disadvantages. For example, you can run a REPL in nodejs but in that environment you don't have any access to the DOM.  Which REPL environment is best for you depends on your specific needs and requirements.
+_ClojureScript_ には、異なる実行環境でREPLを実行するためのサポートが付属しており、それぞれに長所と短所があります。例えば、nodejsでREPLを実行することができますが、その環境ではDOMにアクセスすることができません。 どのREPL環境が最適なのかは、特定のニーズや要求に依存します。
 
 
 ==== Nashorn REPL
 
-The Nashorn REPL is the easiest and perhaps most painless REPL environment because it does not require any special stuff.
+Nashorn REPLは、特別なものを必要としないため、最も簡単で、おそらく最も苦痛のないREPL環境です。
 
-Let’s start creating a new script file for our repl playground called `tools.clj` in a new directory (in our case `repl_playground/tools.clj`):
+まず、新しいディレクトリ（ここでは `repl_playground/tools.clj` ）に、`tools.clj` という repl playground 用の新しいスクリプトファイルを作成しましょう。
 
 [source, clojure]
 ----
@@ -395,7 +392,7 @@ Let’s start creating a new script file for our repl playground called `tools.c
 (task *command-line-args*)
 ----
 
-Create the `repl_playground/deps.edn` file with the following content (identical from previous examples):
+以下の内容の `repl_playground/deps.edn` ファイルを作成します（これまでの例と同じです）。
 
 [source, clojure]
 ----
@@ -404,7 +401,7 @@ Create the `repl_playground/deps.edn` file with the following content (identical
  :paths ["src"]}
 ----
 
-And now, we can execute the REPL:
+そして、これでREPLを実行することができます。
 
 [source, bash]
 ----
@@ -415,20 +412,20 @@ cljs.user=> (prn "Hello world")
 nil
 ----
 
-You may have noticed that in this example we have used `clj` command instead of `clojure`. That two commands are practically identical, the main difference is that `clj` executes `clojure` command wrapped in `rlwrap`. The `rlwrap` tool gives the "readline" capabilities which enables history, code navigation, and other shell-like features that will make your REPL experience much more pleasant.
+この例では、 `clojure` の代わりに `clj` コマンドを使用していることにお気づきでしょうか。この2つのコマンドは実質的に同じですが、主な違いは `clj` が `rlwrap` でラップされた `clojure` コマンドを実行することです。 `rrlwrap` ツールは、履歴やコードナビゲーション、その他のシェルのような機能を可能にする「readline」機能を提供し、REPLでの経験をより快適なものにしてくれます。
 
-If you don't have installed it previously, you can install it with `sudo apt install -y rlwrap`.
+まだインストールしていない場合は、 `sudo apt install -y rlwrap` でインストールできます。
 
-NOTE: This is a basic repl, in the following chapters we will explain how to have a more advanced repl experience with code-highlighting, code-completion and multiline edition.
+注: これは基本的なREPLです。次の章では、コードハイライト、コードコンプリート、マルチラインエディションなど、より高度なREPLを体験する方法を説明します。
 
 
 ==== Node.js REPL
 
-You must, of course, have nodejs installed on your system to use this REPL.
+このREPLを使うには、もちろんnodejsがシステムにインストールされている必要があります。
 
-You may be wondering why we might want a nodejs REPL, when we already have the nashorn REPL available which doesn't have any external dependencies. The answer is very simple: nodejs is the most used JavaScript execution environment on the backend, and it has a great number of community packages built around it.
+すでに外部依存のないnashorn REPLがあるのに、なぜnodejs REPLが必要なのかと思われるかもしれません。その答えはとても簡単で、nodejsはバックエンドで最も使われているJavaScript実行環境であり、その周りには多くのコミュニティパッケージが構築されているからです。
 
-The good news is that starting a nodejs REPL is very easy once you have it installed in your system. Start adding the following content into `tools.clj` script:
+良いニュースは、nodejsのREPLを始めるのは、一度システムにインストールしてしまえばとても簡単だということです。以下の内容を `tools.clj` スクリプトに追加してください。
 
 [source, clojure]
 ----
@@ -441,7 +438,7 @@ The good news is that starting a nodejs REPL is very easy once you have it insta
              :cache-analysis true))
 ----
 
-And start the REPL:
+そして、REPLを起動します。
 
 [source,bash]
 ----
@@ -455,9 +452,9 @@ nil
 
 ==== Browser REPL
 
-This REPL is the most laborious to get up and running. This is because it uses a browser for its execution environment and it has additional requirements.
+このREPLは、立ち上げるのに最も手間がかかる。これは、実行環境にブラウザを使用していることと、追加の要件があるためです。
 
-Let’s start by adding the following content to the `tools.clj` script file:
+まずは、 `tools.clj` スクリプトファイルに以下の内容を追加してみましょう。
 
 [source, clojure]
 ----
@@ -479,7 +476,7 @@ Let’s start by adding the following content to the `tools.clj` script file:
              :output-dir "out/browser"))
 ----
 
-The main difference with the previous examples, is that browser REPL requires that some code be execution in the browser before the REPL gets working. To do that, just re-create the application structure very similar to the one that we have used in previous sections:
+これまでの例との主な違いは、ブラウザREPLでは、REPLを動作させる前に、ブラウザで何らかのコードを実行する必要があることです。そのためには、これまでのセクションで使用してきたものとよく似たアプリケーション構造を再作成します。
 
 [source, bash]
 ----
@@ -487,7 +484,7 @@ mkdir -p src/myapp
 touch src/myapp/core.cljs
 ----
 
-Then, write new content to the `src/myapp/core.cljs` file:
+そして、 `src/myapp/core.cljs` ファイルに新しいコンテンツを書き込みます。
 
 [source, clojure]
 ----
@@ -502,7 +499,7 @@ Then, write new content to the `src/myapp/core.cljs` file:
 (println "Hello, world!")
 ----
 
-And finally, create the missing _index.html_ file that is going to be used as the entry point for running the browser side code of the REPL:
+そして最後に、REPLのブラウザ側のコードを実行するためのエントリーポイントとして使用される、欠落している _index.html_ ファイルを作成します。
 
 [source, html]
 ----
@@ -518,7 +515,7 @@ And finally, create the missing _index.html_ file that is going to be used as th
 </html>
 ----
 
-Well, that was a lot of setup! But trust us, it’s all worth it when you see it in action. To do that, just execute the `tools.clj` in the same way that we have done it in previous examples:
+さて、セットアップが大変でしたね。でも、実際に動いているところを見れば、その価値は十分にあると思います。そのためには、これまでの例と同じように、 `tools.clj` を実行してください。
 
 [source, bash]
 ----
@@ -529,7 +526,7 @@ ClojureScript 1.10.520
 cljs.user=>
 ----
 
-And finally, open your favourite browser and go to http://localhost:9001/. Once the page is loaded (the page will be blank), switch back to the console where you have run the REPL and you will see that it is up and running:
+そして最後に、お気に入りのブラウザを開き、http://localhost:9001/。ページが読み込まれたら（ページは真っ白になります）、REPLを実行したコンソールに切り替えると、起動していることが確認できます。
 
 [source, bash]
 ----
@@ -539,16 +536,16 @@ cljs.user=> (+ 14 28)
 42
 ----
 
-One of the big advantages of the browser REPL is that you have access to everything in the browser environment. For example, type `(js/alert "hello world")` in the REPL. This will cause the browser to display an alert box. Nice!
+ブラウザREPLの大きな利点の一つは、ブラウザ環境のすべてにアクセスできることです。例えば、REPLで `(js/alert "hello world")` と入力します。これにより、ブラウザにアラートボックスが表示されます。いいですねー。
 
-NOTE: This is just a preview of how to use the builtin REPL capabilities of the ClojureScript compiler. There are better and more user/developer friendly repl environments with code-highlighting, code-completion and multiline edition (and in case of web development, also with code hot reloading) that will be explained in the following chapters.
+注：これは、ClojureScriptコンパイラに組み込まれたREPL機能の使い方のプレビューに過ぎません。コードハイライト、コードコンプリート、マルチラインエディション（Web開発の場合は、コードのホットリロードも可能）など、よりユーザーや開発者に優しい複製環境がありますので、次の章で説明します。
 
 
 ==== Rebel Readline (REPL library)
 
-This is a library that adds more advanced features to the Clojure(Script) builtin REPL and enables code-highlighting, code-completion and multiline edition.
+これは、Clojure(Script)の組み込みREPLにさらに高度な機能を追加するライブラリで、コードハイライト、コードコンプリート、マルチラインエディションを可能にします。
 
-Let's start adding rebel dependency into `deps.edn` file:
+早速、`deps.edn`ファイルに反乱軍(rebel)の依存関係を追加してみましょう。
 
 [source, clojure]
 ----
@@ -559,7 +556,7 @@ Let's start adding rebel dependency into `deps.edn` file:
  :paths ["src"]}
 ----
 
-And adding the followin code to the `tools.clj` script file:
+そして、以下のコードを `tools.clj` スクリプトファイルに追加します。
 
 [source, clojure]
 ----
@@ -581,7 +578,7 @@ And adding the followin code to the `tools.clj` script file:
                :cache-analysis true)))
 ----
 
-And start the REPL:
+そして、REPLを起動します。
 
 [source, bash]
 ----
@@ -591,19 +588,19 @@ cljs.user=> (println)
 cljs.core/println: ([& objs])
 ----
 
-You can find that while you writing in the repl, it automatically suggest and shows se function signature that you want to execute.
+REPLで書いている間に、実行したい関数記号が自動的に提案され、表示されることがわかります。
 
-You can find more information about all rebel-readline capabilities on https://github.com/bhauman/rebel-readline
+rebel-readlineの全機能に関する詳細は、https://github.com/bhauman/rebel-readline でご覧いただけます。
 
 
 
 === The Closure Library
 
-The Google Closure Library is a javascript library developed by Google. It has a modular architecture, and provides cross-browser functions for DOM manipulations and events, ajax and JSON, and other features.
+Google Closure Libraryは、Googleが開発したjavascriptライブラリです。モジュール式のアーキテクチャを採用し、DOM操作やイベント、ajaxやJSONなどのクロスブラウザ機能を提供しています。
 
-The Google Closure Library is written specifically to take advantage of the Closure Compiler (which is used internally by the _ClojureScript_ compiler).
+Google Closure Libraryは、Closure Compiler（ _ClojureScript_ コンパイラが内部的に使用しているもの）を活用するために特別に書かれています。
 
-_ClojureScript_ is built on the Google Closure Compiler and Closure Library. In fact, _ClojureScript_ namespaces are Closure modules. This means that you can interact with the Closure Library very easily:
+_ClojureScript_ はGoogle Closure CompilerとClosure Libraryをベースに作られています。実際、 _ClojureScript_ の名前空間はClosureのモジュールです。これは、Closure Libraryと非常に簡単にやりとりできることを意味しています。
 
 [source, clojure]
 ----
@@ -613,9 +610,9 @@ _ClojureScript_ is built on the Google Closure Compiler and Closure Library. In 
 (def element (dom/getElement "body"))
 ----
 
-This code snippet shows how you can import the *dom* module of the Closure library and use a function declared in that module.
+このコードスニペットは、Closureライブラリの *dom* モジュールをインポートし、そのモジュールで宣言された関数を使用する方法を示しています。
 
-Additionally, the closure library exposes "special" modules that behave like a class or object. To use these features, you must use the `:import` directive in the `(ns ...)` form:
+さらに，closureライブラリは，クラスやオブジェクトのように振る舞う「特別な」モジュールを公開しています。これらの機能を使うには、 `(ns ...)` 形式の `:import` ディレクティブを使う必要があります。
 
 [source, clojure]
 ----
@@ -625,22 +622,22 @@ Additionally, the closure library exposes "special" modules that behave like a c
 (def instance (History.))
 ----
 
-In a _Clojure_ program, the `:import` directive is used for host (Java) interop to import Java classes.  If, however, you define types (classes) in _ClojureScript_, you should use the standard `:require` directive and not the `:import` directive.
+_Clojure_ のプログラムでは、ホスト(Java)のインターロップとして、Javaのクラスをインポートするために `:import` ディレクティブを使用します。 しかし、 _ClojureScript_ で型(クラス)を定義する場合には、`:import` ディレクティブではなく、標準の `:require` ディレクティブを使用する必要があります。
 
-You can found the reference to all namespaces in the closure library here:
+クロージャライブラリのすべての名前空間のリファレンスは、こちらをご覧ください。
 http://google.github.io/closure-library/api/
 
 
 === Dependency management
 
-Until now, we have used the builtin _Clojure(Script)_ toolchain to compile our source files to JavaScript. Now this is a time to understand how manage external and/or third party dependencies.
+これまでは、内蔵されている _Clojure(Script)_ ツールチェーンを使って、ソースファイルをJavaScriptにコンパイルしてきました。ここからは、外部やサードパーティの依存関係をどのように管理するかを理解する時期になります。
 
 
 ==== First project
 
-The best way to show how a tool works is by creating a toy project with it. In this case, we will create a small application that determines if a year is a leap year or not.
+あるツールがどのように機能するかを示す最良の方法は、そのツールを使ってトイプロジェクトを作成することです。今回は、ある年がうるう年かどうかを判断する小さなアプリケーションを作成します。
 
-Let's start creating the project layout:
+まず、プロジェクトのレイアウトを作成しましょう。
 
 [source, bash]
 ----
@@ -652,7 +649,7 @@ touch leapyears/tools.cljs
 touch leapyears/deps.edn
 ----
 
-The project has the following structure:
+このプロジェクトは以下のような構成になっています。
 
 ----
 leapyears
@@ -666,20 +663,20 @@ leapyears
 └── tools.clj
 ----
 
-The `deps.edn` file contains information about all the *packaged* dependencies needed to build or execute the application. Packaged dependencies are libraries packaged as jar files and uploaded to clojars/maven repository.
+`deps.edn` ファイルには、アプリケーションのビルドや実行に必要な、すべての *パッケージ化された* 依存関係の情報が含まれています。パッケージ化された依存関係とは、jarファイルとしてパッケージ化され、clojars/mavenリポジトリにアップロードされたライブラリのことです。
 
-[NOTE]
+[注釈]
 ====
-But ClojureScript can consume external code in many different ways:
+しかし、ClojureScriptは様々な方法で外部コードを消費することができます。
 
-- google closure library module
-- global export module
-- es6/commonjs module (experimental)
+- グーグルclosureライブラリ・モジュール
+- グローバル エクスポート モジュール
+- es6/commonjsモジュール(実験的)
 
-This will be explained in the following sections.
+これについては、次のセクションで説明します。
 ====
 
-Let's start with a simple `deps.edn` file:
+まずは、シンプルな`deps.edn`ファイルを作ってみましょう。
 
 [source, clojure]
 ----
@@ -690,7 +687,7 @@ Let's start with a simple `deps.edn` file:
  :paths ["src" "target"]}
 ----
 
-And simple build script (`tools.clj` file):
+そして、シンプルなビルドスクリプト（ `tools.clj` ファイル）。
 
 [source, clojure]
 ----
@@ -732,7 +729,7 @@ And simple build script (`tools.clj` file):
 (task *command-line-args*)
 ----
 
-Then, write the following content into `target/public/index.html` file:
+次に、 `target/public/index.html` ファイルに以下の内容を記述します。
 
 [source, html]
 ----
@@ -759,7 +756,7 @@ Then, write the following content into `target/public/index.html` file:
 </html>
 ----
 
-The next step consist in add some code to make the form interactive. Put the following code into the `src/leapyears/core.cljs`:
+次のステップでは、フォームをインタラクティブにするためのコードを追加します。以下のコードを `src/leapyears/core.cljs` に記述してください。
 
 [source, clojure]
 ----
@@ -790,21 +787,21 @@ The next step consist in add some code to make the form interactive. Put the fol
 (events/listen input "keyup" on-change)
 ----
 
-Now, we can compile the project with:
+これで、プロジェクトをコンパイルすることができます。
 
 [source, bash]
 ----
 clojure tools.clj watch
 ----
 
-Finally, open the `target/public/index.html` file in a browser. Typing a year in the textbox should display an indication of its leap year status.
+最後に、 `target/public/index.html` ファイルをブラウザで開きます。テキストボックスに年号を入力すると、その年がうるう年であるかどうかが表示されます。
 
 
 ==== Adding native dependencies
 
-Until now we have used only the batteries included in the ClojureScript runtime, let improve our project including a native dependency. In this example we will use the link:https://github.com/funcool/cuerdas[Cuerdas] (a string manipulation library build especifically for Clojure(Script)).
+これまでは、ClojureScriptランタイムに含まれるバッテリーのみを使用していましたが、ネイティブな依存関係を含むプロジェクトを改善しましょう。この例では、 link:https://github.com/funcool/cuerdas[Cuerdas]  (Clojure(Script)専用に構築された文字列操作ライブラリ)を使用します。
 
-Add `funcool/cuerdas {:mvn/version "2.2.0"}` into the `:deps` section inside the `deps.edn` file. And add the corresponding modifications to the `leapyears/core.cljs` file:
+`funcool/cuerdas {:mvn/version "2.2.0"}` を `deps.edn` ファイル内の `:deps` セクションに追加します。また、`leapyears/core.cljs` ファイルにも対応する修正を加えます。
 
 [source, clojure]
 ----
@@ -828,32 +825,32 @@ Add `funcool/cuerdas {:mvn/version "2.2.0"}` into the `:deps` section inside the
         (set! (.-innerHTML result) "NO")))))
 ----
 
-Now, if you run the build or watch command, the new declared dependency will be downloaded and the application will be compiled with this dependency included.
+これで、buildコマンドやwatchコマンドを実行すると、新しく宣言された依存関係がダウンロードされ、この依存関係が含まれた状態でアプリケーションがコンパイルされるようになります。
 
-Clojure packages are often published on link:http://clojars.org[Clojars]. You can also find many third party libraries on the link:https://github.com/clojure/clojurescript/wiki#libraries[ClojureScript Wiki].
+Clojureのパッケージは、しばしば link:http://clojars.org[Clojars] で公開されています。また、 link:https://github.com/clojure/clojurescript/wiki#libraries[ClojureScript Wiki] で多くのサードパーティライブラリを見つけることができます。
 
 
 ==== External dependencies
 
-In some circumstances you may found yourself that you need some library but that does not exists in _ClojureScript_ but it is already implemented in javascript and you want to use it on your project.
+いくつかの状況では、 _ClojureScript_ には存在しないが、javascriptにはすでに実装されているライブラリが必要で、それをプロジェクトで使用したいと思うことがあるかもしれません。
 
-There are many ways that you can do it mainly depending on the library that you want to include. Many of that libraries are packaged and uploaded to clojars, so you can declare them in the `deps.edn` in the same way as native dependencies (with some peculirities in usage, see below).
+これを行うには、主にインクルードしたいライブラリに応じて多くの方法があります。そのようなライブラリの多くはパッケージ化され、clojarsにアップロードされていますので、ネイティブの依存関係と同じように `deps.edn` で宣言することができます（使い方にはいくつかの特徴がありますが、以下を参照してください）。
 
 
 ==== Closure compatible module
 
-If you have a library that is written to be compatible with google closure module system and you want to include it on your project: put the source into the classpath (inside `src` or `vendor` directory in leapyears project) and access it like any other clojure namespace.
+google closure module systemと互換性があるように書かれたライブラリを持っていて、それをプロジェクトに含めたい場合は、ソースをクラスパスに入れ（leapyearsプロジェクトの `src` または `vendor` ディレクトリ内）、他のclojure名前空間と同様にアクセスします。
 
-This is the most simplest case, because google closure modules are directly compatible and you can mix your clojure code with javascript code written using google closure module system without any additional steps.
+google closure moduleは直接互換性があるので、追加のステップなしに、clojureのコードとgoogle closure module systemを使って書かれたjavascriptのコードを混ぜることができるからです。
 
-Reusing the leapyears project, lets implement the `leap?` function in a javascript using google closure module format. Start creating the directory structure:
+leapyearsプロジェクトを参考にして、google closure module形式を使ったjavascriptで、 `leap?` 関数を実装してみましょう。ディレクトリ構造の作成を開始します。
 
 [source, bash]
 ----
 touch src/leapyears/util.js
 ----
 
-And add the implementation using closure module format:
+そして、closureモジュール形式で実装を追加します。
 
 .src/leapyears/util.js
 [source, js]
@@ -869,7 +866,7 @@ goog.scope(function() {
 });
 ----
 
-Now, if you open the repl, you can import the namespace and use the `isLeap` function
+これで repl を開くと、名前空間をインポートして、`isLeap` 関数を使うことができます。
 
 [source, clojure]
 ----
@@ -882,29 +879,29 @@ Now, if you open the repl, you can import the namespace and use the `isLeap` fun
 ;; => false
 ----
 
-NOTE: you can open the nodejs repl just executing `clj tools.clj repl` in the root of the project.
+注: プロジェクトのルートで `clj tools.clj repl` を実行するだけで、nodejs repl を開くことができます。
 
-NOTE: this is the approach used by many projects to implement some performance sensitive logic directly in javascript and export it in an easy way to ClojureScript
+注: これは、パフォーマンスに敏感なロジックをjavascriptで直接実装し、それをClojureScriptに簡単にエクスポートするために、多くのプロジェクトで使用されている方法です。
 
 
 ==== Global Export
 
-This is the most extended and the most reliable way to consume external javascript libraries from ClojureScript and it has many facilities.
+これは、ClojureScriptから外部のjavascriptライブラリを消費するための、最も拡張された、最も信頼できる方法であり、多くの機能を備えています。
 
-Let's play with that. Start creating a simple file using commonjs module format (pretty analogous to the previous example using google closure modules):
+これで遊んでみましょう。まず、Commonjsモジュール形式のシンプルなファイルを作成します(google closureモジュールを使った前の例とよく似ています)。
 
-The fastest way to include a javascript library is looking if it is available in link:http://cljsjs.github.io/[CLJSJS]. If it is available, just include the dependency in the `deps.edn` file and use it.
+javascriptライブラリをインクルードする最も早い方法は、 link:http://cljsjs.github.io/[CLJSJS] で利用できるかどうかを調べることです。利用可能であれば、その依存関係を `deps.edn` ファイルに含めて使用します。
 
-That libraries has two ways of use it, let's see some examples.
+このライブラリには、2つの使用方法があります。
 
-Start adding `moment` dependency to `deps.edn` file:
+まず、`deps.edn` ファイルに `moment` の依存関係を追加します。
 
 [source, clojure]
 ----
 cljsjs/moment {:mvn/version "2.24.0-0"}
 ----
 
-Then, open the repl and try the following:
+その後、replを開いて以下を試してみてください。
 
 .using the `js/` special namespace
 [source, clojure]
@@ -924,18 +921,18 @@ Then, open the repl and try the following:
 ;; => "Monday, July 15, 2019 5:33 PM"
 ----
 
-Behind the scenes that packages uses the ClojureScript compiler facilities link:https://clojurescript.org/reference/compiler-options#foreign-libs[descibed here] for provide the compiler with enough information about the files and global exports to use.
+舞台裏では、パッケージはClojureScriptのコンパイラ機能 link:https://clojurescript.org/reference/compiler-options#foreign-libs[descripted here] を使って、コンパイラに使用するファイルやグローバルエクスポートに関する十分な情報を提供しています。
 
-So, if don't find a library in cljsjs, we can include it using the same facilities. Let's assume that moment is not available on cljsjs and we need it on our project.
+ですから、もしcljsjsにライブラリが見つからなくても、同じ機能を使ってそれをインクルードすることができます。例えば、momentがcljsjsにはなく、私たちのプロジェクトに必要だと仮定しましょう。
 
-For include an foreign dependency we need to pass `:foreign-libs` and `:externs` params to the ClojureScript compiler, and we have two ways:
+外部の依存関係をインクルードするためには、 `:foreign-libs` と `:externs` のパラメターをClojureScriptコンパイラに渡す必要がありますが、2つの方法があります。
 
-- passing them to the `build` or `repl` functions.
-- inside the `deps.cljs` file located on the root of the classpath.
+- それらを `build` または `repl` 関数に渡す。
+- クラスパスのルートにある `deps.cljs` ファイルの中に入れます。
 
-The `deps.cljs` approach requires that files should be localted on the local directories, but the first approach allows specify directly external urls. We will use the first approach on our example.
+`deps.cljs` では、ファイルをローカルディレクトリに置く必要がありますが、最初の方法では、外部URLを直接指定することができます。今回の例では、第一のアプローチを使用します。
 
-This is how looks the `deps.edn` file with the changes applied:
+変更を適用した `deps.edn` ファイルの外観は次のとおりです。
 
 [source, clojure]
 ----
@@ -966,40 +963,41 @@ This is how looks the `deps.edn` file with the changes applied:
 ;; [...]
 ----
 
-Now, if you excute the repl, you will be able to import `vendor.moment` in the same way if you are using the cljsjs package.
+replを実行すると、cljsjsパッケージを使用している場合と同じように、 `vendor.moment` をインポートできるようになります。
 
-Finally, there are the `:externs` option, that will be needed only for the production build, and the externs file consists in plain javascript files that declares the public API of the included foreign libraries and make them understandable to the google closure compiler.
+最後に、 `:externs` というオプションがありますが、これはプロダクションビルドの時にのみ必要になります。externsファイルは、プレーンなjavascriptファイルで構成されており、インクルードされた外部のライブラリのパブリックAPIを宣言し、google closureコンパイラが理解できるようにします。
 
-The moment externs are available link:https://github.com/cljsjs/packages/blob/master/moment/resources/cljsjs/common/moment.ext.js[here] and if you include some library that you want to use, and then want to compile your app with advanced optimizations you will need to include a file similar to the moment.ext.js on the project and referenciate it with `:externs` option to the ClojureScript compiler.
 
-More info link:https://clojurescript.org/reference/compiler-options#externs[on clojurescript.org].
+moment externsは link:https://github.com/cljsjs/packages/blob/master/moment/resources/cljsjs/common/moment.ext.js[こちら] で公開されています。使用したいライブラリをインクルードして、高度な最適化をしてアプリをコンパイルしたい場合は、プロジェクトにmoment.ext.jsのようなファイルをインクルードして、ClojureScriptコンパイラに `:externs` オプションで参照させる必要があります。
+
+詳しい情報は、 https://clojurescript.org/reference/compiler-options#externs[on clojurescript.org] をご覧ください。
 
 
 ==== ES6/CommonJS modules
 
-Google Closure Compiler has an advanced feature that allows convert from different module types (commonjs and ES) into google closure module type. Although this feature is still experimental. With simple modules it works, but with more complex modules (many submodules and directories) still doest not complies correctly.
+Google Closure Compilerには、異なるモジュールタイプ(commonjsやES)をGoogle Closureモジュールタイプに変換することができる高度な機能があります。しかし、この機能はまだ実験的なものです。単純なモジュールでは動作しますが、複雑なモジュール（多くのサブモジュールやディレクトリ）では、まだ正しく準拠していません。
 
-In any way I invite you to experiment with it. You can found more documentation on link:https://clojurescript.org/reference/javascript-module-support[clojurescript.org].
+いずれにしても、この機能を試してみてください。詳しいドキュメントは link:https://clojurescript.org/reference/javascript-module-support[clojurescript.org] でご覧いただけます。
 
-The best way to use ES6 and/or CommonJS module is combining a javascript bundler like _rollup_ or _webpack_ to generate a single build with external dependencies and thn use the *global exports* method to use it in ClojureScript. An example of this is explained link:https://clojurescript.org/guides/webpack[on clojurescript.org].
+ES6やCommonJSモジュールを使用するための最良の方法は、 _rollup_ や _webpack_ のようなjavascript bundlerを組み合わせて、外部依存性を持つ単一のビルドを生成し、次にClojureScriptでそれを使用するために *global exports* メソッドを使用することです。この例は、 link:https://clojurescript.org/guides/webpack[on clojurescript.org] で説明されています。
 
 
 === Interactive development with Figwheel
 
-And finally we will introduce *figwheel*, that enables fully interactive, REPL-based and hot reloading enabled development environment.
+そして最後に、完全にインタラクティブな、REPLベースの、ホットリロード可能な開発環境を実現する *figwheel* を紹介します。
 
-We will reuse the leapyears project structure for the following examples.
+以下の例では、leapyearsプロジェクトの構造を再利用しています。
 
-NOTE: Although we use figwheel here for web application, it works in the same way on the application that targets nodejs as execution environment.
+注：ここではfigwheelをWebアプリケーションに使用していますが、実行環境としてnodejsをターゲットにしたアプリケーションでも同じように動作します。
 
-As first step, we need to add *figwheel* dependency to the `deps.edn` file:
+最初のステップとして、 *figwheel* の依存関係を `deps.edn` ファイルに追加する必要があります。
 
 [source, clojure]
 ----
 com.bhauman/figwheel-main {:mvn/version "0.2.1"}
 ----
 
-Then, add new task to the `tools.clj` script:
+そして、 `tools.clj` スクリプトに新しいタスクを追加します。
 
 [source, clojure]
 ----
@@ -1016,29 +1014,29 @@ Then, add new task to the `tools.clj` script:
 ----
 
 
-And then, run `clojure tools.clj fighweel`. This will start the figwheel process that automatically will launch a http server that will serve the `target/public/` directory and index to `index.html` file.
+そして、 `clojure tools.clj fighweel` を実行します。これでfigwheelプロセスが起動し、自動的にhttpサーバーを立ち上げて、 `target/public/` ディレクトリと `index.html` ファイルへのインデックスを提供するようになります。
 
-If you update the code, that code will be automatically loaded to the browser, *without page reload*.
+コードを更新すると、そのコードが自動的にブラウザに読み込まれ、 *ページを再読み込みする必要はありません* 。
 
-For more info: link:https://figwheel.org/[figwheel.org].
+詳しくは、 link:https://figwheel.org/[figwheel.org] をご覧ください。
 
 
 === Unit testing
 
-As you might expect, testing in _ClojureScript_ consists of the same concepts widely used by other language such as Clojure, Java, Python, JavaScript, etc.
+ご想像のとおり、 _ClojureScript_ のテストは、Clojure、Java、Python、JavaScriptなどの他の言語で広く使われているのと同じコンセプトで構成されています。
 
-Regardless of the language, the main objective of unit testing is to run some test cases, verifying that the code under test behaves as expected and returns without raising unexpected exceptions.
+言語を問わず、ユニットテストの主な目的は、いくつかのテストケースを実行し、テスト対象のコードが期待通りに動作し、予期せぬ例外を発生させずに戻ってくることを検証することです。
 
-The immutablity of _ClojureScript_ data structures helps to make programs less error prone, and facilitates testing a little bit. Another advantage of _ClojureScript_ is that it tends to use plain data instead of complex objects. Building "mock" objects for testing is thus greatly simplified.
+_ClojureScript_ のデータ構造が不変であることは、プログラムがエラーを起こしにくくするのに役立ち、テストを少しだけ容易にします。 _ClojureScript_ のもう一つの利点は、複雑なオブジェクトではなく、普通のデータを使う傾向があることです。そのため、テスト用の「モック」オブジェクトの構築が非常に簡単です。
 
 
 ==== First steps
 
-The "official" _ClojureScript_ testing framework is in the "cljs.test" namespace. It is a very simple library, but it should be more than enough for our purposes.
+「公式」 _ClojureScript_ テストフレームワークは、「cljs.test」名前空間にあります。これは非常にシンプルなライブラリですが、私たちの目的には十分すぎるほどのものです。
 
-There are other libraries that offer additional features or directly different approaches to testing, such as link:https://github.com/clojure/test.check[test.check]. However, we will not cover them here.
+link:https://github.com/clojure/test.check[test.check] のように、追加の機能を提供したり、直接異なるアプローチでテストを行うライブラリもあります。しかし、ここではそれらを取り上げません。
 
-We will reuse the `leapyears` project structure and we will add testing to it. Let's create the test related files and directories:
+ここでは、 `leapyears` プロジェクトの構造を再利用し、そこにテストを追加していきます。テスト関連のファイルやディレクトリを作成しましょう。
 
 [source, bash]
 ----
@@ -1046,7 +1044,7 @@ mkdir -p test/leapyears/test
 touch test/leapyears/test/main.cljs
 ----
 
-Also we will need to create new tasks on our `tools.clj` file for build, watch and run tests:
+また、 `tools.clj` ファイルに、テストの構築、監視、実行のための新しいタスクを作成する必要があります。
 
 [source, clojure]
 ----
@@ -1084,7 +1082,7 @@ Also we will need to create new tasks on our `tools.clj` file for build, watch a
         (task args)))))
 ----
 
-Next, put some test code in the `test/leapyears/test/main.cljs` file:
+次に、 `test/leapyears/test/main.cljs` ファイルにテストコードを入れます。
 
 [source, clojure]
 ----
@@ -1098,7 +1096,7 @@ Next, put some test code in the `test/leapyears/test/main.cljs` file:
 
 (set! *main-cli-fn* #(t/run-tests))
 
-;; This extension is required for correctly set the return code depending if the test passes or not
+;; この拡張機能は、テストが成功したかどうかに応じてリターンコードを正しく設定するために必要です。
 (defmethod t/report [:cljs.test/default :end-run-tests]
   [m]
   (if (t/successful? m)
@@ -1106,7 +1104,7 @@ Next, put some test code in the `test/leapyears/test/main.cljs` file:
     (set! (.-exitCode js/process) 1)))
 ----
 
-The relevant part of that code snippet is:
+そのコードスニペットの関連部分は
 
 [source, clojure]
 ----
@@ -1114,9 +1112,9 @@ The relevant part of that code snippet is:
   (t/is (= 1 2)))
 ----
 
-The `deftest` macro is a basic primitive for defining our tests. It takes a name as its first parameter, followed by one or multiple assertions using the `is` macro. In this example, we try to assert that `(= 1 2)` is true.
+`deftest` マクロは、テストを定義するための基本的なプリミティブです。最初のパラメータとして名前を受け取り、続いて `is` マクロを使用した 1 つまたは複数のアサーションを受け取ります。この例では、 `(= 1 2)`  が真であることを主張しています。
 
-Let's try to run this:
+これを実行してみましょう。
 
 [source,bash]
 ----
@@ -1132,7 +1130,7 @@ Ran 1 tests containing 1 assertions.
 1 failures, 0 errors.
 ----
 
-You can see that the expected assert failure is successfully printed in the console. To fix the test, just change the `=` with `not=` and run the file again:
+期待していた assert の失敗がコンソールにうまく表示されているのがわかります。テストを修正するには、 `=` を `not=` に変更して、再度ファイルを実行してください。
 
 [source, bash]
 ----
@@ -1145,7 +1143,7 @@ Ran 1 tests containing 1 assertions.
 0 failures, 0 errors.
 ----
 
-It is fine to test these kinds of assertions, but they are not very useful. Let's go to test some application code. For this, we will use a function to check if a year is a leap year or not:
+この種のアサーションをテストするのは結構ですが、あまり役に立ちません。それでは、いくつかのアプリケーションコードをテストしてみましょう。ここでは、ある年がうるう年であるかどうかをチェックする関数を使用します。
 
 [source, clojure]
 ----
@@ -1162,16 +1160,16 @@ It is fine to test these kinds of assertions, but they are not very useful. Let'
 ;; [...]
 ----
 
-Run the compiled file again to see that there are now two tests running.  The first test passes as before, and our two new leap year tests pass as well.
+コンパイルしたファイルを再度実行すると、2つのテストが実行されていることがわかります。 最初のテストは以前と同様に通過し、2つの新しい閏年のテストも通過しました。
 
 
 ==== Async Testing
 
-One of the peculiarities of _ClojureScript_ is that it runs in an asynchronous, single-threaded execution environment, which has its challenges.
+_ClojureScript_ の特殊性の一つに、非同期、シングルスレッドの実行環境で動作することがあり、これには課題があります。
 
-In an async execution environment, we should be able to test asynchronous functions. To this end, the _ClojureScript_ testing library offers the `async` macro, allowing you to create tests that play well with asynchronous code.
+非同期実行環境では、非同期関数をテストできるようにしなければなりません。そのために、 _ClojureScript_ テストライブラリは  `async`  マクロを提供しており、非同期コードでうまく動作するテストを作成することができます。
 
-First, we need to write a function that works in an asynchronous way. For this purpose, we will create the `async-leap?` predicate that will do the same operation but asychronously return a result using a callback:
+まず、非同期的に動作する関数を書く必要があります。この目的のために、 `async-leap?` という述語を作ります。この述語は同じ操作を行いますが、コールバックを使って非同期に結果を返します。
 
 [source, clojure]
 ----
@@ -1180,9 +1178,9 @@ First, we need to write a function that works in an asynchronous way. For this p
   (js/setImmediate #(callback (util/isLeap year))))
 ----
 
-The JavaScript function `setImmediate` is used to emulate an asynchronous task, and the callback is executed with the result of that predicate.
+JavaScriptの関数 `setImmediate` を使って非同期タスクをエミュレートし、その述語の結果でコールバックを実行しています。
 
-To test it, we should write a test case using the previously mentioned `async` macro:
+これをテストするには、先に述べた `async` マクロを使ってテストケースを書く必要があります。
 
 [source, clojure]
 ----
@@ -1190,9 +1188,9 @@ To test it, we should write a test case using the previously mentioned `async` m
   (t/async done
     (async-leap? 1980 (fn [result]
                         (t/is (true? result))
-                              (done)))))
+                              (done))))) depending if the test passes or not.
 ----
 
-The `done` function exposed by the `async` macro should be called after the asynchronous operation is finished and all assertions have run.
+`async` マクロで公開される `done` 関数は、非同期操作が終了し、すべてのアサーションが実行された後に呼び出されるべきです。
 
-It is very important to execute the `done` function only once. Omitting it or executing it twice may cause strange behavior and should be avoided.
+`done` 関数は一度だけ実行することが非常に重要です。この関数を省略したり、2回実行したりすると、おかしな動作を引き起こす可能性があるので、避けるべきです。
