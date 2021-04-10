@@ -2129,7 +2129,7 @@ myapp
 (ns myapp.testproto)
 
 (defprotocol IProtocolName
-  "A docstring describing the protocol."
+  "プロトコルを記述したdocstring"
   (sample-method [this] "A doc string associated with this function."))
 ----
 
@@ -2142,7 +2142,7 @@ myapp
 [source, clojure]
 ----
 (defprotocol IInvertible
-  "This is a protocol for data types that are 'invertible'"
+  "「反転可能( 'invertible' )」なデータ型のためのプロトコル"
   (invert [this] "Invert the given item."))
 ----
 
@@ -2303,24 +2303,24 @@ _ClojureScript_ には、実行時のイントロスペクションを可能に�
 
 ==== Multimethods
 
-We have previously talked about protocols which solve a very common use case of polymorphism: dispatch by type. But in some circumstances, the protocol approach can be limiting. And here, *multimethods* come to the rescue.
+以前、ポリモーフィズムの非常に一般的な使用例である「型によるディスパッチ」を解決するプロトコルについて説明しました。しかし、状況によっては、プロトコルのアプローチには限界があります。ここで、 *multimethods* が救いの手を差し伸べます。
 
-These *multimethods* are not limited to type dispatch only; instead, they also offer dispatch by types of multiple arguments and by value. They also allow ad-hoc hierarchies to be defined. Also, like protocols, multimethods are an "Open System", so you or any third parties can extend a multimethod for new types.
+これらの *multimethods* は、型によるディスパッチだけではなく、複数の引数の型によるディスパッチや値によるディスパッチも提供します。また、その場限りの階層を定義することも可能です。また、マルチメソッドはプロトコルと同様に「オープンシステム」であり、ユーザーやサードパーティが新しい型のためにマルチメソッドを拡張することができます。
 
-The basic constructions of *multimethods* are the `defmulti` and `defmethod` forms. The `defmulti` form is used to create the multimethod with an initial dispatch function. This is a model of what it looks like:
+*multimethods* の基本的な構造は、 `defmulti` 形式と `defmethod` 形式です。 `defmulti` 形式は初期ディスパッチ関数を持つマルチメソッドを作成するために使用されます。これは、そのモデルとなるものです。
+
 
 [source, clojure]
 ----
 (defmulti say-hello
-  "A polymorphic function that return a greetings message
-  depending on the language key with default lang as `:en`"
+  "デフォルトの言語を `:en` とし、言語キーに応じて挨拶メッセージを返す多相性関数"
   (fn [param] (:locale param))
   :default :en)
 ----
 
-The anonymous function defined within the `defmulti` form is a dispatch function. It will be called in every call to the `say-hello` function and should return some kind of marker object that will be used for dispatch. In our example, it returns the contents of the `:locale` key of the first argument.
+`defmulti` フォーム内で定義された無名関数はディスパッチ関数です。この関数は、 `say-hello` 関数が呼び出されるたびに呼び出され、ディスパッチに使用される何らかのマーカーオブジェクトを返す必要があります。この例では、第一引数の `:locale` キーの内容を返しています。
 
-And finally, you should add implementations. That is done with the `defmethod` form:
+そして最後に、実装を追加する必要があります。これには `defmethod` という形式を使います。
 
 [source, clojure]
 ----
@@ -2333,7 +2333,7 @@ And finally, you should add implementations. That is done with the `defmethod` f
   (str "Hola " (:name person "Anónimo")))
 ----
 
-So, if you execute that function over a hash map containing the `:locale` and optionally the `:name` key, the multimethod will first call the dispatch function to determine the dispatch value, then it will search for an implementation for that value. If an implementation is found, the dispatcher will execute it. Otherwise, the dispatch will search for a default implementation (if one is specified) and execute it.
+つまり、`:locale` とオプションで `:name` キーを含むハッシュマップに対してこの関数を実行した場合、マルチメソッドはまずディスパッチ関数を呼び出してディスパッチ値を決定し、次にその値の実装を探します。実装が見つかった場合、ディスパッチャはそれを実行します。それ以外の場合は、（指定されていれば）デフォルトの実装を検索し、それを実行します。
 
 [source, clojure]
 ----
@@ -2347,21 +2347,21 @@ So, if you execute that function over a hash map containing the `:locale` and op
 ;; => "Hello Anonymous"
 ----
 
-If the default implementation is not specified, an exception will be raised notifying you that some value does not have an implementation for that multimethod.
+デフォルトの実装が指定されていない場合は、ある値がそのマルチメソッドの実装を持っていないことを通知する例外が発生します。
 
 
 ==== Hierarchies
 
-Hierarchies are _ClojureScript_’s way to let you build whatever relations that your domain may require. Hierarchies are defined in term of relations between named objects, such as symbols, keywords, or types.
+階層は、_ClojureScript_の方法で、あなたのドメインが必要とする関係を構築することができます。階層は、シンボル、キーワード、型など、名前の付いたオブジェクト間の関係で定義されます。
 
-Hierarchies can be defined globally or locally, depending on your needs. Like multimethods, hierarchies are not limited to a single namespace. You can extend a hierarchy from any namespace, not only from the one in which it is defined.
+階層は、必要に応じて、グローバルにもローカルにも定義できます。マルチメソッドのように、階層は単一のネームスペースに限定されません。階層は、定義されているネームスペースだけでなく、どのネームスペースからでも拡張できます。
 
-The global namespace is more limited, for good reasons. Keywords or symbols that are not namespaced can not be used in the global hierarchy. That behavior helps prevent unexpected situations when two or more third party libraries use the same symbol for different semantics.
+グローバルな名前空間はより限定的ですが、それには理由があります。名前空間でないキーワードやシンボルは、グローバル階層では使用できません。この動作により、複数のサードパーティライブラリが同じシンボルを異なるセマンティクスで使用するという予期せぬ事態を防ぐことができます。
 
 
 ===== Defining a hierarchy
 
-The hierarchy relations should be established using the `derive` function:
+階層関係は、 `derive` 関数を使って確立する必要があります。
 
 [source, clojure]
 ----
@@ -2369,16 +2369,16 @@ The hierarchy relations should be established using the `derive` function:
 (derive ::box ::shape)
 ----
 
-We have just defined a set of relationships between namespaced keywords. In this case the `::circle` is a child of `::shape`, and `::box` is also a child of `::shape`.
+名前付きのキーワードの関係を定義しました。この場合、`::circle` は `::shape` の子であり、`::box` は `::shape` の子でもあります。
 
-TIP: The `::circle` keyword syntax is a shorthand for `:current.ns/circle`. So if you are executing it in a REPL, `::circle` will be evaluated as `:cljs.user/circle`.
+ヒント: `::circle` キーワードの構文は、`:current.ns/circle` の省略形です。そのため、REPLで実行する場合、 `::circle` は `:cljs.user/circle` として評価されます。
 
 
 ===== Hierarchies and introspection
 
-_ClojureScript_ comes with a little toolset of functions that allows runtime introspection of globally or locally defined hierarchies. This toolset consists of three functions: `isa?`, `ancestors`, and `descendants`.
+_ClojureScript_には、グローバルまたはローカルに定義された階層を、実行時にイントロスペクションできるようにする関数の小さなツールセットが付属しています。このツールセットは3つの関数で構成されています。 `isa?` ,  `ancestors` ,  `descendants`  です。
 
-Let's see an example of how it can be used with the hierarchy defined in the previous example:
+前述の例で定義された階層を使って、どのように使用するかの例を見てみましょう。
 
 [source, clojure]
 ----
@@ -2398,7 +2398,7 @@ Let's see an example of how it can be used with the hierarchy defined in the pre
 
 ===== Locally defined hierarchies
 
-As we mentioned previously, in _ClojureScript_ you also can define local hierarchies. This can be done with the `make-hierarchy` function. Here is an example of how you can replicate the previous example using a local hierarchy:
+先に述べたように、 _ClojureScript_ ではローカルな階層を定義することもできます。これは `make-hierarchy` という関数を使って行うことができます。ここでは、ローカルな階層を使って、先ほどの例を再現してみましょう。
 
 [source, clojure]
 ----
@@ -2407,7 +2407,7 @@ As we mentioned previously, in _ClojureScript_ you also can define local hierarc
            (derive :circle :shape)))
 ----
 
-Now you can use the same introspection functions with that locally defined hierarchy:
+これで、ローカルに定義された階層で、同じイントロスペクション関数を使用することができます。
 
 [source, clojure]
 ----
@@ -2418,27 +2418,27 @@ Now you can use the same introspection functions with that locally defined hiera
 ;; => false
 ----
 
-As you can observe, in local hierarchies we can use normal (not namespace qualified) keywords, and if we execute the `isa?` without passing the local hierarchy parameter, it returns `false` as expected.
+ご覧のとおり、ローカル階層では、通常の（名前空間修飾されていない）キーワードを使用することができ、ローカル階層のパラメータを渡さずに `isa?` を実行すると、予想通り `false` を返します。
 
 
 ===== Hierarchies in multimethods
 
-One of the big advantages of hierarchies is that they work very well together with multimethods.  This is because multimethods by default use the `isa?` function for the last step of dispatching.
+階層構造の大きな利点の一つは、マルチメソッドとの相性が非常に良いことです。 これは、マルチメソッドがデフォルトでディスパッチの最後のステップに `isa?` 関数を使用するためです。
 
-Let's see an example to clearly understand what that means. First, we define the multimethod with the `defmulti` form:
+この意味を明確に理解するために、例を見てみましょう。まず、 `defmulti` という形式でマルチメソッドを定義します。
 
 [source, clojure]
 ----
 (defmulti stringify-shape
-  "A function that prints a human readable representation
-  of a shape keyword."
+  "shapeキーワードの人間が読める表現を表示する関数。"
   identity
   :hierarchy #'h)
 ----
 
-With the `:hierarchy` keyword parameter, we indicate to the multimethod what hierarchy we want to use; if it is not specified, the global hierarchy will be used.
+キーワードパラメータ `:hierarchy` を使って、使用したい階層をマルチメソッドに示します。指定されない場合は、グローバルな階層が使用されます。
 
-Second, we define an implementation for our multimethod using the `defmethod` form:
+
+次に、`defmethod` フォームを使用して、マルチメソッドの実装を定義します。
 
 [source, clojure]
 ----
@@ -2455,7 +2455,7 @@ Second, we define an implementation for our multimethod using the `defmethod` fo
   "Unexpected object")
 ----
 
-Now, let's see what happens if we execute that function with a box:
+では、その関数を:boxで実行するとどうなるか見てみましょう。
 
 [source, clojure]
 ----
@@ -2463,7 +2463,7 @@ Now, let's see what happens if we execute that function with a box:
 ;; => "A box shape"
 ----
 
-Now everything works as expected; the multimethod executes the direct matching implementation for the given parameter. Next, let's see what happens if we execute the same function but with the `:circle` keyword as the parameter which does not have the direct matching dispatch value:
+これで、すべてが期待通りに動作するようになりました。マルチメソッドは、与えられたパラメータに対して適合する実装を実行します。次に、同じ関数を実行しますが、適合するディスパッチ値を持たない `:circle` キーワードをパラメータとして使用した場合にどうなるかを見てみましょう。
 
 [source, clojure]
 ----
@@ -2471,9 +2471,9 @@ Now everything works as expected; the multimethod executes the direct matching i
 ;; => "A generic shape"
 ----
 
-The multimethod automatically resolves it using the provided hierarchy, and since `:circle` is a descendant of `:shape`, the `:shape` implementation is executed.
+マルチメソッドは提供された階層を使って自動的に解決します。そして、`:circle` は `:shape` の子孫なので、`:shape` の実装が実行されます。
 
-Finally, if you give a keyword that isn't part of the hierarchy, you get the `:default` implementation:
+最後に、階層に含まれていないキーワードを与えた場合は、`:default`の実装が実行されます。
 
 [source,clojure]
 ----
@@ -2484,33 +2484,33 @@ Finally, if you give a keyword that isn't part of the hierarchy, you get the `:d
 
 === Data types
 
-Until now, we have used maps, sets, lists, and vectors to represent our data. And in most cases, this is a really great approach. But sometimes we need to define our own types, and in this book we will call them *data types*.
+これまで私たちは、データを表現するのに、マップ、セット、リスト、ベクターなどを使ってきました。そして、ほとんどの場合、これは本当に素晴らしいアプローチだと思います。しかし、時には独自の型を定義する必要があります。本書では、それらを *データ型* と呼びます。
 
-A data type provides the following:
+データ型には次のような特徴があります。
 
-* A unique host-backed type, either named or anonymous.
-* The ability to implement protocols (inline).
-* Explicitly declared structure using fields or closures.
-* Map-like behavior (via records, see below).
+* 名前付きまたは匿名の、ホストに支持された固有の型。
+* プロトコルを実装する機能（インライン）。
+* フィールドやクロージャを使った明示的な構造宣言。
+* マップのような動作（レコードを介して、以下を参照）。
 
 
 ==== Deftype
 
-The most low-level construction in _ClojureScript_ for creating your own types is the `deftype` macro. As a demonstration, we will define a type called `User`:
+_ClojureScript_ で独自の型を作成するための最も低レベルな構造は、 `deftype` マクロです。デモとして、 `User` という型を定義してみましょう。
 
 [source, clojure]
 ----
 (deftype User [firstname lastname])
 ----
 
-Once the type has been defined, we can create an instance of our `User`. In the following example, the `.` after `User` indicates that we are calling a constructor.
+型が定義されると、 `User` のインスタンスを作成することができます。以下の例では、 `User` の後の `.` はコンストラクタを呼び出していることを示しています。
 
 [source, clojure]
 ----
 (def person (User. "Triss" "Merigold"))
 ----
 
-Its fields can be accessed using the prefix dot notation:
+そのフィールドには、プレフィックスのドット表記でアクセスできます。
 
 [source, clojure]
 ----
@@ -2518,9 +2518,9 @@ Its fields can be accessed using the prefix dot notation:
 ;; => "Triss"
 ----
 
-Types defined with `deftype` (and `defrecord`, which we will see later) create a host-backed class-like object associated with the current namespace. For convenience, _ClojureScript_ also defines a constructor function called `->User` that can be imported using the `:require` directive.
+`deftype` (と、後で説明する `defrecord` ) で定義された型は、現在の名前空間に関連付けられた、ホストバックされたクラスのようなオブジェクトを作成します。便宜上、 _ClojureScript_ では `->User` というコンストラクタ関数も定義しており、`:require` ディレクティブでインポートすることができます。
 
-We personally do not like this type of function, and we prefer to define our own constructors with more idiomatic names:
+個人的にはこのような関数は好きではありませんし、もっとわかりやすい名前で独自のコンストラクタを定義したいと思っています。
 
 [source, clojure]
 ----
@@ -2529,29 +2529,30 @@ We personally do not like this type of function, and we prefer to define our own
   (User. firstname lastname))
 ----
 
-We use this in our code instead of `->User`.
+このコードでは、`->User`の代わりにこれを使用しています。
 
 
 ==== Defrecord
 
-The record is a slightly higher-level abstraction for defining types in _ClojureScript_ and should be the preferred way to do it.
+レコードは、 _ClojureScript_ で型を定義するための、少し高いレベルの抽象化であり、好ましい方法です。
 
-As we know, _ClojureScript_ tends to use plain data types such as maps, but in most cases we need a named type to represent the entities of our application. Here come the records.
+ご存知のように、 _ClojureScript_ はマップなどのプレーンなデータ型を使う傾向にありますが、ほとんどの場合、アプリケーションのエンティティを表すために名前付きの型が必要です。ここで登場するのがレコードです。
 
-A record is a data type that implements the map protocol and therefore can be used like any other map.  And since records are also proper types, they support type-based polymorphism through protocols.
+レコードはマッププロトコルを実装したデータ型で、他のマップと同様に使用することができます。 また、レコードは適切な型でもあるので、プロトコルによる型ベースのポリモーフィズムをサポートしています。
 
-In summary: with records, we have the best of both worlds, maps that can play in different abstractions.
+まとめると、レコードを使うことで、異なる抽象度でプレイできるマップという、両方の世界の良いところを手に入れることができます。
 
-Let's start defining the `User` type but using records:
+それでは早速、レコードを使って `User` という型を定義してみましょう。
 
 [source, clojure]
 ----
 (defrecord User [firstname lastname])
 ----
 
-It looks really similar to the `deftype` syntax; in fact, it uses `deftype` behind the scenes as a low-level primitive for defining types.
+これは、 `deftype` 構文にとてもよく似ています。
+実際には、型を定義するための低レベルのプリミティブとして、舞台裏で `deftype` を使用しています。
 
-Now, look at the difference with raw types for access to its fields:
+では、フィールドにアクセスするための生の型との違いを見てみましょう。
 
 [source, clojure]
 ----
@@ -2564,7 +2565,7 @@ Now, look at the difference with raw types for access to its fields:
 ;; => "Yennefer"
 ----
 
-As we mentioned previously, records are maps and act like them:
+先に述べたように、レコードはマップであり、そのように動作します。
 
 [source, clojure]
 ----
@@ -2572,7 +2573,7 @@ As we mentioned previously, records are maps and act like them:
 ;; => true
 ----
 
-And like maps, they support extra fields that are not initially defined:
+また、マップと同様に、最初に定義されていない追加フィールドをサポートしています。
 
 [source, clojure]
 ----
@@ -2582,9 +2583,9 @@ And like maps, they support extra fields that are not initially defined:
 ;; => 92
 ----
 
-As we can see, the `assoc` function works as expected and returns a new instance of the same type but with new key value pair. But take care with `dissoc`! Its behavior with records is slightly different than with maps; it will return a new record if the field being dissociated is an optional field, but it will return a plain map if you dissociate a mandatory field.
+見ての通り、 `assoc` 関数は期待通りに動作し、同じ型で新しいキーバリューペアを持つ新しいインスタンスを返します。しかし、 `dissoc` には注意が必要です! レコードでの動作は、マップの場合とは少し異なります。dissocするフィールドがオプションフィールドの場合は新しいレコードを返しますが、必須フィールドを解散した場合はプレーンなマップを返します。
 
-Another difference with maps is that records do not act like functions:
+マップとのもうひとつの違いは、レコードが関数のようには動作しないことです。
 
 [source, clojure]
 ----
@@ -2597,7 +2598,7 @@ Another difference with maps is that records do not act like functions:
 ;; => person.User does not implement IFn protocol.
 ----
 
-For convenience, the `defrecord` macro, like `deftype`, exposes a `->User` function, as well as an additional `map->User` constructor function. We have the same opinion about that constructor as with `deftype` defined ones: we recommend defining your own instead of using the other ones. But as they exist, let’s see how they can be used:
+便宜上、`defrecord` マクロは `deftype` と同様に `->User` 関数を公開しており、さらに `map->User` コンストラクタ関数も公開しています。このコンストラクタについては、 `deftype` で定義されたものと同じ意見で、他のものを使うのではなく、自分で定義することをお勧めします。しかし、コンストラクタが存在する以上、それがどのように使われるのかを見てみましょう。
 
 [source, clojure]
 ----
@@ -2609,16 +2610,16 @@ For convenience, the `defrecord` macro, like `deftype`, exposes a `->User` funct
 
 ==== Implementing protocols
 
-Both type definition primitives that we have seen so far allow inline implementations for protocols (explained in a previous section). Let's define one for example purposes:
+これまで見てきた型定義プリミティブは、どちらもプロトコルのインライン実装を可能にしています（前のセクションで説明しました）。ここでは、例としてプロトコルを定義してみましょう。
 
 [source, clojure]
 ----
 (defprotocol IUser
-  "A common abstraction for working with user types."
+  "ユーザー型を扱うための共通の抽象化"
   (full-name [_] "Get the full name of the user."))
 ----
 
-Now, you can define a type with inline implementation for an abstraction, in our case the `IUser`:
+ここで、抽象化のためのインライン実装の型を定義することができます。ここでは、 `IUser` とします。
 
 [source, clojure]
 ----
@@ -2637,9 +2638,9 @@ Now, you can define a type with inline implementation for an abstraction, in our
 
 ==== Reify
 
-The `reify` macro is an _ad hoc constructor_ you can use to create objects without pre-defining a type.  Protocol implementations are supplied the same as `deftype` and `defrecord`, but in contrast, `reify` does not have accessible fields.
+`reify` マクロは、型を事前に定義せずにオブジェクトを作成するために使用できる _アドホックコンストラクタ_ です。 プロトコルの実装は `deftype` や `defrecord` と同じように提供されますが、対照的に `reify` はアクセス可能なフィールドを持ちません。
 
-This is how we can emulate an instance of the user type that plays well with the `IUser` abstraction:
+このようにして、`IUser`の抽象化と相性の良いユーザー型のインスタンスをエミュレートすることができます。
 
 [source, clojure]
 ----
@@ -2657,7 +2658,7 @@ This is how we can emulate an instance of the user type that plays well with the
 
 ==== Specify
 
-`specify!` is an advanced alternative to `reify`, allowing you to add protocol implementations to an existing JavaScript object.  This can be useful if you want to graft protocols onto a JavaScript library's components.
+`specify!` は `reify` に代わる高度な機能で、既存の JavaScript オブジェクトにプロトコルの実装を追加することができます。 これは、JavaScriptライブラリのコンポーネントにプロトコルを移植したい場合に便利です。
 
 [source, clojure]
 ----
@@ -2672,7 +2673,7 @@ This is how we can emulate an instance of the user type that plays well with the
 ;; => "my full name"
 ----
 
-`specify` is an immutable version of `specify!` that can be used on immutable, copyable values implementing `ICloneable` (e.g. ClojureScript collections).
+`specify` は `specify!` の不変バージョンで、`ICloneable` を実装した不変でコピー可能な値（ClojureScript のコレクションなど）に使用することができます。
 
 [source, clojure]
 ----
@@ -2691,34 +2692,34 @@ This is how we can emulate an instance of the user type that plays well with the
 ----
 
 
-=== Host interoperability
+=== Host interoperability (ホストの相互運用性)
 
-_ClojureScript_, in the same way as its brother Clojure, is designed to be a "guest" language. This means that the design of the language works well on top of an existing ecosystem such as JavaScript for _ClojureScript_ and the JVM for _Clojure_.
+_ClojureScript_ は、兄のClojureと同様に、「ゲスト」言語として設計されています。つまり、 _ClojureScript_ ではJavaScript、 _Clojure_ ではJVMといった、既存のエコシステムの上でうまく機能するように設計されています。
 
 
 ==== The types
 
-_ClojureScript_, unlike what you might expect, tries to take advantage of every type that the platform provides. This is a (perhaps incomplete) list of things that _ClojureScript_ inherits and reuses from the underlying platform:
+_ClojureScript_ は、皆さんが予想しているのとは異なり、プラットフォームが提供するすべての型を利用しようとします。以下は、 _ClojureScript_ が基礎となるプラットフォームから継承・再利用するものの（おそらく不完全な）リストです。
 
-* _ClojureScript_ strings are JavaScript *Strings*.
-* _ClojureScript_ numbers are JavaScript *Numbers*.
-* _ClojureScript_ `nil` is a JavaScript *null*.
-* _ClojureScript_ regular expressions are JavaScript `RegExp` instances.
-* _ClojureScript_ is not interpreted; it is always compiled down to JavaScript.
-* _ClojureScript_ allows easy call to platform APIs with the same semantics.
-* _ClojureScript_ data types internally compile to objects in JavaScript.
+* _ClojureScript_ の文字列は、JavaScript の *Strings* です。
+* _ClojureScript_ の数字は、JavaScript の *Numbers* です。
+* _ClojureScript_ `nil` は、JavaScript の *null* です。
+* _ClojureScript_ 正規表現は、JavaScript の `RegExp` インスタンスです。
+* _ClojureScript_ は解釈されず、常に JavaScript にコンパイルされます。
+* _ClojureScript_ は同じセマンティクスを持つプラットフォームの API を簡単に呼び出すことができます。
+* _ClojureScript_ のデータ型は、内部的には JavaScript のオブジェクトにコンパイルされます。
 
-On top of it, _ClojureScript_ builds its own abstractions and types that do not exist in the platform, such as Vectors, Maps, Sets, and others that are explained in preceding sections of this chapter.
+その上で、 _ClojureScript_ はプラットフォームには存在しない独自の抽象化と型を構築します。例えば、ベクターやマップ、セットなど、この章の前のセクションで説明されているものです。
 
 
 ==== Interacting with platform types
 
-_ClojureScript_ comes with a little set of special forms that allows it to interact with platform types such as calling object methods, creating new instances, and accessing object properties.
+_ClojureScript_ には、オブジェクトのメソッドを呼び出したり、新しいインスタンスを作成したり、オブジェクトのプロパティにアクセスしたりといった、プラットフォーム型との対話を可能にする特別なフォームの小さなセットが付属しています。
 
 
 ===== Access to the platform
 
-_ClojureScript_ has a special syntax for access to the entire platform environment through the `js/` special namespace. This is an example of an expression to execute JavaScript's built-in `parseInt` function:
+_ClojureScript_は、 `js/` という特別な名前空間を通して、プラットフォーム環境全体にアクセスするための特別な構文を持っています。これは、JavaScriptの組み込み関数である `parseInt` を実行するための式の例です。
 
 [source, clojure]
 ----
@@ -2729,28 +2730,28 @@ _ClojureScript_ has a special syntax for access to the entire platform environme
 
 ===== Creating new instances
 
-_ClojureScript_ has two ways to create instances:
+_ClojureScript_には、インスタンスを作成する2つの方法があります。
 
-Using the `new` special form
+`new`という特殊フォームを使う
 [source, clojure]
 ----
 (new js/RegExp "^foo$")
 ----
 
-Using the `.` special form
+`.` の特殊フォームを使用
 [source, clojure]
 ----
 (js/RegExp. "^foo$")
 ----
 
-The last one is the recommended way to create instances. We are not aware of any real differences between the two forms, but in the ClojureScript community, the last one is used most often.
+最後のものは、インスタンスを作成するのに推奨される方法です。この2つの形式の間に実際の違いがあることは知られていませんが、ClojureScriptコミュニティでは、最後のものが最もよく使われています。
 
 
 ===== Invoke instance methods
 
-To invoke methods of some object instance, as opposed to how it is done in JavaScript (e.g., `obj.method()`, the method name comes first like any other standard function in Lisp languages but with a little variation: the function name starts with special form `.`.
+あるオブジェクトのインスタンスのメソッドを呼び出すには、JavaScriptで行われている方法（例： `obj.method()` ）とは異なり、Lisp言語の他の標準的な関数と同じようにメソッド名が最初に来ますが、関数名が特別な形式 `.` で始まるという、少し変わった点があります。
 
-Let's see how we can call the `.test()` method of a regexp instance:
+では、正規表現インスタンスの `.test()` メソッドをどのように呼び出すかを見てみましょう。
 
 [source, clojure]
 ----
@@ -2760,7 +2761,7 @@ Let's see how we can call the `.test()` method of a regexp instance:
 ;; => true
 ----
 
-You can invoke instance methods on JavaScript objects. The first example follows the pattern you have seen; the last one is a shortcut:
+JavaScriptオブジェクトのインスタンスメソッドを呼び出すことができます。最初の例はこれまで見てきたパターンに従ったもので、最後の例はショートカットです。
 
 [source,clojure]
 ----
@@ -2773,7 +2774,7 @@ You can invoke instance methods on JavaScript objects. The first example follows
 
 ===== Access to object properties
 
-Access to an object's properties is really very similar to calling a method. The difference is that instead of using the `.` you use `.-`. Let's see an example:
+オブジェクトのプロパティへのアクセスは，メソッドを呼び出すのと非常によく似ています。違いは、 `.` を使う代わりに、 `.-` を使うことです。例を見てみましょう。
 
 [source, clojure]
 ----
@@ -2786,7 +2787,7 @@ Access to an object's properties is really very similar to calling a method. The
 
 ===== Property access shorthand
 
-Symbols with the `js/` prefix can contain dots to denote nested property access. Both of the following expressions invoke the same function:
+接頭辞が `js/` のシンボルには、ドットを含めることができ、入れ子になったプロパティアクセスを表します。次の式は，どちらも同じ関数を呼び出すものです。
 
 [source, clojure]
 ----
@@ -2795,7 +2796,7 @@ Symbols with the `js/` prefix can contain dots to denote nested property access.
 (js/console.log "Hello World")
 ----
 
-And both of the following expressions access the same property:
+また、以下の表現はどちらも同じプロパティにアクセスしています。
 
 [source, clojure]
 ----
@@ -2809,7 +2810,7 @@ js/Math.PI
 
 ===== JavaScript objects
 
-_ClojureScript_ has different ways to create plain JavaScript objects; each one has its own purpose. The basic one is the `js-obj` function. It accepts a variable number of pairs of keys and values and returns a JavaScript object:
+_ClojureScript_ には、プレーンなJavaScriptオブジェクトを作成するための様々な方法があり、それぞれが独自の目的を持っています。基本的なものは `js-obj` 関数です。この関数は可変数のキーと値のペアを受け取り、JavaScriptオブジェクトを返します。
 
 [source, clojure]
 ----
@@ -2817,23 +2818,23 @@ _ClojureScript_ has different ways to create plain JavaScript objects; each one 
 ;; => #js {:country "FR"}
 ----
 
-The return value can be passed to some kind of third party library that accepts a plain JavaScript object, but you can observe the real representation of the return value of this function. It is really another form for doing the same thing.
+この戻り値は、プレーンなJavaScriptオブジェクトを受け入れる何らかのサードパーティのライブラリに渡すことができますが、この関数の戻り値の実際の表現を観察することができます。これは実際には同じことをするための別のフォームです。
 
-Using the reader macro `#js` consists of prepending it to a ClojureScript map or vector, and the result will be transformed to plain JavaScript:
+リーダーマクロ `#js` を使うことは、ClojureScript のマップやベクターの前にそれを置くことであり、その結果はプレーンな JavaScript に変換されます。
 
 [source, clojure]
 ----
 (def myobj #js {:country "FR"})
 ----
 
-The translation of that to plain JavaScript is similar to this:
+これをプレーンなJavaScriptに変換すると、こんな感じになります。
 
 [source, javascript]
 ----
 var myobj = {country: "FR"};
 ----
 
-As explained in the previous section, you can also access the plain object properties using the `.-` syntax:
+前のセクションで説明したように、 `.-` 構文を使って、プレーンなオブジェクトのプロパティにアクセスすることもできます。
 
 [source, clojure]
 ----
@@ -2841,7 +2842,7 @@ As explained in the previous section, you can also access the plain object prope
 ;; => "FR"
 ----
 
-And as JavaScript objects are mutable, you can set a new value for some property using the `set!` function:
+また，JavaScriptのオブジェクトは可変型なので，`set!`関数を使って，あるプロパティに新しい値を設定することができます。
 
 [source, clojure]
 ----
@@ -2849,9 +2850,9 @@ And as JavaScript objects are mutable, you can set a new value for some property
 ----
 
 
-===== Conversions
+===== Conversions (変換)
 
-The inconvenience of the previously explained forms is that they do not make recursive transformations, so if you have nested objects, the nested objects will not be converted.  Consider this example that uses Clojurescript maps, then a similar one with JavaScript objects:
+先に説明したフォームの不都合な点は、再帰的な変換を行わないため、入れ子になったオブジェクトがある場合、入れ子になったオブジェクトは変換されないことです。 Clojurescriptのマップを使った例と、JavaScriptのオブジェクトを使った同様の例を考えてみましょう。
 
 [source, clojure]
 ----
@@ -2864,11 +2865,11 @@ The inconvenience of the previously explained forms is that they do not make rec
 ;; => #js {:country {:code "FR", :name "France"}
 (.-country js-obj)
 ;; => {:code "FR", :name "France"}
-(.-code (.-country js-obj)
+(.-code (.-country js-obj))
 ;; => nil
 ----
 
-To solve that use case, _ClojureScript_ comes with the `clj->js` and `js->clj` functions that transform Clojure collection types into JavaScript and back. Note that the conversion to ClojureScript changes the `:country` keyword to a string.
+このユースケースを解決するために、_ClojureScript_ には `clj->js` と `js->clj` という関数が用意されており、Clojure のコレクションタイプを JavaScript に変換して戻します。ClojureScriptへの変換では、`:country`キーワードが文字列に変更されることに注意してください。
 
 [source, clojure]
 ----
@@ -2878,7 +2879,7 @@ To solve that use case, _ClojureScript_ comes with the `clj->js` and `js->clj` f
 ;; => {"country" {:code "FR", :name "France"}}
 ----
 
-In the case of arrays, there is a specialized function `into-array` that behaves as expected:
+配列の場合には，特殊な関数 `into-array` があり，期待通りの動作をします．
 
 [source, clojure]
 ----
@@ -2889,7 +2890,7 @@ In the case of arrays, there is a specialized function `into-array` that behaves
 
 ===== Arrays
 
-In the previous example, we saw how we can create an array from an existing _ClojureScript_ collection. But there is another function for creating arrays: `make-array`.
+前の例では、既存の_ClojureScript_コレクションから配列を作成する方法を見ました。しかし、配列を作るための関数はもう一つあります。それが `make-array` です。
 
 .Creating a preallocated array with length 10
 [source, clojure]
@@ -2898,7 +2899,7 @@ In the previous example, we saw how we can create an array from an existing _Clo
 ;; => #js [nil nil nil nil nil nil nil nil nil nil]
 ----
 
-In _ClojureScript_, arrays also play well with sequence abstractions, so you can iterate over them or simply get the number of elements with the `count` function:
+_ClojureScript_ では、配列はシーケンスの抽象化にも対応しており、配列を反復処理したり、 `count` 関数で要素数を取得することができます。
 
 [source, clojure]
 ----
@@ -2906,7 +2907,7 @@ In _ClojureScript_, arrays also play well with sequence abstractions, so you can
 ;; => 10
 ----
 
-As arrays in the JavaScript platform are a mutable collection type, you can access a concrete index and set the value at that position:
+JavaScriptプラットフォームの配列は、変更可能なコレクション型であるため、具体的なインデックスにアクセスして、その位置に値を設定することができます。
 
 [source, clojure]
 ----
@@ -2916,7 +2917,7 @@ a
 ;; => #js [2 nil nil nil nil nil nil nil nil nil]
 ----
 
-Or access in an indexed way to get its values:
+あるいは、その値を取得するために、インデックス付きの方法でアクセスします。
 
 [source, clojure]
 ----
@@ -2924,7 +2925,7 @@ Or access in an indexed way to get its values:
 ;; => 2
 ----
 
-In JavaScript, array index access is equivalent to object property access, so you can use the same functions for interacting with plain objects:
+JavaScriptでは、配列のインデックスアクセスは、オブジェクトのプロパティにアクセスすることと同じなので、プレーンなオブジェクトを操作するのにも同じ関数を使うことができます。
 
 [source, clojure]
 ----
@@ -2944,21 +2945,21 @@ b
 
 === State management
 
-We've learned that one of ClojureScript's fundamental ideas is immutability. Both scalar values and collections are immutable in ClojureScript, except those mutable types present in the JS host like `Date`.
+ClojureScriptの基本的な考え方の1つに「不変性」があることを学びました。ClojureScriptでは、`Date`のようなJSホストに存在する可変型を除き、スカラ値もコレクションも不変です。
 
-Immutability has many great properties but we are sometimes faced with the need to model values that change over time. How can we achieve this if we can't change data structures in place?
+不変性には多くの優れた特性がありますが、時間とともに変化する値をモデル化する必要に迫られることがあります。その場でデータ構造を変更できない場合、どのようにしてこれを実現するのでしょうか。
 
 
 ==== Vars
 
-Vars can be redefined at will inside a namespace but there is no way to know *when* they change. The inability to redefine vars from other namespaces is a bit limiting; also, if we are modifying state, we're probably interested in knowing when it occurs.
+Varsは名前空間内で自由に再定義できますが、 *いつ* 変更されたのかを知る方法はありません。他の名前空間のvarsを再定義できないという、ちょっとした制限があります。また、状態を変更している場合、それがいつ発生したのかを知りたいと思うでしょう。
 
 
 ==== Atoms
 
-ClojureScript gives us the `Atom` type, which is an object containing a value that can be altered at will. Besides altering its value, it also supports observation through watcher functions that can be attached and detached from it and validation for ensuring that the value contained in the atom is always valid.
+ClojureScriptでは、自由に変更できる値を含むオブジェクトである `Atom` 型が用意されています。アトム型は、値を変更できるだけでなく、アトムに着脱可能なウォッチャー関数による観察や、アトムに含まれる値が常に有効であることを保証する検証(validation)もサポートしています。
 
-If we were to model an identity corresponding to a person called Ciri, we could wrap an immutable value containing Ciri's data in an atom. Note that we can get the atom's value with the `deref` function or using its shorthand `@` notation:
+Ciriという人に対応するIDをモデル化する場合、Ciriのデータを含む不変の値をアトムで包むことができます。なお、アトムの値を得るには、 `deref` 関数やその省略形である `@` 記法を使います。
 
 [source, clojure]
 ----
@@ -2972,7 +2973,7 @@ If we were to model an identity corresponding to a person called Ciri, we could 
 ;; {:name "Cirilla", :lastname "Fiona", :age 20}
 ----
 
-We can use the `swap!` function on an atom to alter its value with a function. Since Ciri's birthday is today, let's increment her age count:
+アトムの値を関数で変化させるには，アトムの`swap!`関数を使います．Ciriの誕生日は今日なので、彼女の年齢カウントを増やそう。
 
 [source, clojure]
 ----
@@ -2983,7 +2984,7 @@ We can use the `swap!` function on an atom to alter its value with a function. S
 ;; {:name "Cirilla", :lastname "Fiona", :age 21}
 ----
 
-The `reset!` functions replaces the value contained in the atom with a new one:
+関数 `reset!` は、アトムに含まれる値を新しい値に置き換えます。
 
 [source, clojure]
 ----
@@ -2994,9 +2995,9 @@ The `reset!` functions replaces the value contained in the atom with a new one:
 ;; {:name "Cirilla", :lastname "Fiona", :age 22}
 ----
 
-===== Observation
+===== Observation (観察)
 
-We can add and remove watcher functions for atoms. Whenever the atom's value is changed through a `swap!` or `reset!`, all the atom's watcher functions will be called. Watchers are added with the `add-watch` function. Notice that each watcher has a key associated (`:logger` in the example) to it which is later used to remove the watch from the atom.
+アトムのウォッチャー関数を追加したり削除したりすることができます。アトムの値が `swap!` や `reset!` によって変更されるたびに、アトムのすべてのウォッチャー関数が呼び出されます。ウォッチャーは `add-watch` 関数で追加されます。各ウォッチャーにはキー（例では `:logger` ）が関連付けられており、後でアトムからウォッチを削除するのに使用されることに注意してください。
 
 [source, clojure]
 ----
@@ -3019,9 +3020,9 @@ We can add and remove watcher functions for atoms. Whenever the atom's value is 
 
 ==== Volatiles
 
-Volatiles, like atoms, are objects containing a value that can be altered. However, they don't provide the observation and validation capabilities that atoms provide. This makes them slightly more performant and a more suitable mutable container to use inside stateful functions that don't need observation nor validation.
+volatileは、atomと同様に、変化させることのできる値を含むオブジェクトです。しかし、アトムのような観測や検証の機能はありません。そのため、パフォーマンスが若干高く、観測や検証を必要としないステートフルな関数の内部で使用するのに適した可変型コンテナとなっています。
 
-Their API closely resembles that of atoms. They can be dereferenced to grab the value they contain and support swapping and resetting with `vswap!` and `vreset!` respectively:
+そのAPIはatomとよく似ています。また、`vswap!`と`vreset!`でそれぞれスワップとリセットをサポートしています。
 
 [source, clojure]
 ----
@@ -3041,4 +3042,4 @@ Their API closely resembles that of atoms. They can be dereferenced to grab the 
 ;; {:name "Cirilla", :lastname "Fiona", :age 22}
 ----
 
-Note that another difference with atoms is that the constructor of volatiles uses a bang at the end. You create volatiles with `volatile!` and atoms with `atom`.
+atomとのもう一つの違いは、volatileのコンストラクタでは最後にbangを使うことです。volatileは `volatile!` で、原子は `atom` で作ります。
