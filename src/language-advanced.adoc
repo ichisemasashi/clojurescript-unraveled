@@ -2,7 +2,7 @@
 
 ==== Data transformation
 
-ClojureScript offers a rich vocabulary for data transformation in terms of the sequence abstraction, which makes such transformations highly general and composable. Let's see how we can combine several collection processing functions to build new ones. We will be using a simple problem throughout this section: splitting grape clusters, filtering out the rotten ones, and cleaning them. We have a collection of grape clusters like the following:
+ClojureScriptは、シーケンス抽象化の観点から、データ変換のための豊富な語彙を提供しており、このような変換を非常に汎用的かつ複合的に行うことができます。それでは、いくつかのコレクション処理関数を組み合わせて新しい関数を構築する方法を見てみましょう。このセクションでは、ブドウの房を分割し、腐ったもの(rotten)を取り除き、きれいにするという簡単な問題を取り上げます。以下のようなブドウの房のコレクションがあります。
 
 [source, clojure]
 ----
@@ -15,7 +15,7 @@ ClojureScript offers a rich vocabulary for data transformation in terms of the s
     :color :black}])
 ----
 
-We are interested in splitting the grape clusters into individual grapes, discarding the rotten ones and cleaning the remaining grapes so they are ready for eating. We are well-equipped in ClojureScript for this data transformation task; we could implement it using the familiar `map`, `filter` and `mapcat` functions:
+ブドウの房を個々のブドウに分割し、腐った(rotten)ブドウを捨て、残りのブドウをきれいにして食べられるようにすることに興味があります。ClojureScriptには、このデータ変換タスクのための十分な装備があります。おなじみの `map` 、 `filter` 、 `mapcat` 関数を使って実装できます。
 
 [source, clojure]
 ----
@@ -38,7 +38,7 @@ We are interested in splitting the grape clusters into individual grapes, discar
 ;; => ({rotten? false :clean? true} {:rotten? false :clean? true})
 ----
 
-In the above example we succintly solved the problem of selecting and cleaning the grapes, and we can even abstract such transformations by combining the `mapcat`, `filter` and `map` operations using partial application and function composition:
+上の例では、ブドウを選んできれいにするという問題を簡潔に解決しましたが、部分適用や関数合成を用いて、 `mapcat` 、 `filter` 、 `map` の各操作を組み合わせることで、このような変換を抽象化することもできます。
 
 [source, clojure]
 ----
@@ -52,14 +52,14 @@ In the above example we succintly solved the problem of selecting and cleaning t
 ;; => ({rotten? false :clean? true} {:rotten? false :clean? true})
 ----
 
-The code is very clean, but it has a few problems. For example, each call to `map`, `filter` and `mapcat` consumes and produces a sequence that, although lazy, generates intermediate results that will be discarded. Each sequence is fed to the next step, which also returns a sequence. Wouldn't be great if we could do the transformation in a single transversal of the `grape-cluster` collection?
+このコードはとてもきれいですが、いくつかの問題があります。例えば、 `map` 、 `filter` 、 `mapcat` の各呼び出しは、シーケンスを消費して生成します。このシーケンスは、遅延しているとはいえ、破棄される中間結果を生成します。各シーケンスは次のステップに供給され、これもシーケンスを返します。もし、この変換を `grape-cluster` コレクションの1回の横断で行うことができたら、素晴らしいと思いませんか？
 
-Another problem is that even though our `process-clusters` function works with any sequence, we can't reuse it with anything that is not a sequence. Imagine that instead of having the grape cluster collection available in memory it is being pushed to us asynchronously in a stream. In that situation we couldn't reuse `process-clusters` since usually `map`, `filter` and `mapcat` have concrete implementations depending on the type.
+もうひとつの問題は、 `process-cluster` 関数がどんなシーケンスでも動作するにもかかわらず、シーケンスではないものでは再利用できないことです。例えば、ブドウ クラスターのコレクションがメモリ上にあるのではなく、ストリームで非同期にプッシュされてきたとします。このような状況では、 `process-clusters` を再利用することはできません。なぜなら、通常、 `map` 、 `filter` 、 `mapcat` は、型に応じて具体的な実装を持っているからです。
 
 
 ==== Generalizing to process transformations
 
-The process of mapping, filtering or mapcatting isn't necessarily tied to a concrete type, but we keep reimplementing them for different types. Let's see how we can generalize such processes to be context independent. We'll start by implementing naive versions of `map` and `filter` first to see how they work internally:
+map、filter、mapcatなどの処理は、必ずしも具体的な型に結びついているわけではありませんが、私たちはさまざまな型のためにそれらを再実装し続けています。このような処理をコンテキストに依存しないように一般化する方法を見てみましょう。まず最初に、`map`と`filter`の素朴なバージョンを実装して、内部でどのように動作するかを見てみましょう。
 
 [source, clojure]
 ----
@@ -84,7 +84,7 @@ The process of mapping, filtering or mapcatting isn't necessarily tied to a conc
 ;; => (1)
 ----
 
-As we can see, they both assume that they receive a seqable and return a sequence. Like many recursive functions they can be implemented in terms of the already familiar `reduce` function. Note that functions that are given to reduce receive an accumulator and an input and return the next accumulator. We'll call these types of functions reducing functions from now on.
+見ての通り、これらはどちらもseqableを受け取り、シーケンスを返すことを前提としています。多くの再帰関数と同様に，すでにおなじみの `reduce` 関数を用いて実装することができます．reduceに与えられた関数は，アキュムレータと入力を受け取り，次のアキュムレータを返すことに注意してください。今後はこのような関数をreduce関数と呼ぶことにします。
 
 [source, clojure]
 ----
@@ -111,9 +111,9 @@ As we can see, they both assume that they receive a seqable and return a sequenc
 ;; => [1]
 ----
 
-We've made the previous versions more general since using `reduce` makes our functions work on any thing that is reducible, not just sequences. However you may have noticed that, even though `my-mapr` and `my-filterr` don't know anything about the source (`coll`) they are still tied to the output they produce (a vector) both with the initial value of the reduce (`[]`) and the hardcoded `conj` operation in the body of the reducing function. We could have accumulated results in another data structure, for example a lazy sequence, but we'd have to rewrite the functions in order to do so.
+以前のバージョンでは、 `reduce` を使うことで、配列だけでなく、還元可能なあらゆるものに対して関数が動作するようになっていたので、より一般的なものにしました。しかし、 `my-mapr` と `my-filterr` はソース( `coll` )について何も知らないにも関わらず、reduceの初期値( `[]` )とreduce関数の本体でハードコードされた `conj` 操作の両方で、生成される出力(ベクター)に結びついていることに気付いたかもしれません。結果を別のデータ構造、たとえば遅延シーケンスなどに蓄積することもできますが、そのためには関数を書き直さなければなりません。
 
-How can we make these functions truly generic? They shouldn't know about either the source of inputs they are transforming nor the output that is generated. Have you noticed that `conj` is just another reducing function? It takes an accumulator and an input and returns another accumulator. So, if we parameterise the reducing function that `my-mapr` and `my-filterr` use, they won't know anything about the type of the result they are building. Let's give it a shot:
+これらの関数を真の意味で汎用的にするにはどうすればよいでしょうか。これらの関数は、変換する入力のソースや生成される出力のことを知らないはずです。conj "が単なる還元関数であることに気づいたでしょうか？この関数はアキュムレータと入力を受け取り、別のアキュムレータを返します。ですから、 `my-mapr` や `my-filterr` が使用する還元関数をパラメータ化すれば、構築している結果の型については何もわかりません。試しにやってみましょう。
 
 [source, clojure]
 ----
@@ -142,9 +142,9 @@ How can we make these functions truly generic? They shouldn't know about either 
 ;; => [1]
 ----
 
-That's a lot of higher-order functions so let's break it down for a better understanding of what's going on. We'll examine how `my-mapt` works step by step. The mechanics are similar for `my-filtert`, so we'll leave it out for now.
+たくさんの高次関数があるので、何が起こっているのかを理解するために分解してみましょう。 `my-mapt` がどのように動作するかを順を追って見ていきます。 `my-filtert` についても仕組みは似ているので、今回は割愛します。
 
-First of all, `my-mapt` takes a mapping function; in the example we are giving it `inc` and getting another function back. Let's replace `f` with `inc` to see what we are building:
+まず、`my-mapt` はマッピング関数を受け取ります。例では `inc` を渡して、別の関数を返してもらっています。例では `inc` を与えて別の関数を返しています。`f` を `inc` に置き換えて、何を作っているのか見てみましょう。
 
 [source, clojure]
 ----
@@ -155,7 +155,7 @@ First of all, `my-mapt` takes a mapping function; in the example we are giving i
 ;;               ^^^
 ----
 
-The resulting function is still parameterised to receive a reducing function to which it will delegate, let's see what happens when we call it with `conj`:
+結果として得られる関数は、委譲先となるreducing関数を受け取るようにパラメータ化されていますが、これを `conj` で呼び出すとどうなるか見てみましょう。
 
 [source, clojure]
 ----
@@ -165,9 +165,9 @@ The resulting function is still parameterised to receive a reducing function to 
 ;;    ^^^^
 ----
 
-We get back a reducing function which uses `inc` to transform the inputs and the `conj` reducing function to accumulate the results. In essence, we have defined map as the transformation of a reducing function.  The functions that transform one reducing function into another are called transducers in ClojureScript.
+入力を変換するために `inc` を使用し、結果を蓄積するために `conj` を使用する還元関数が返されます。本質的には、還元関数の変換としてmapを定義しています。 ある還元関数を別の還元関数に変換する関数をClojureScriptではトランスデューサと呼びます。
 
-To ilustrate the generality of transducers, let's use different sources and destinations in our call to `reduce`:
+トランスデューサの一般性を説明するために、 `reduce` の呼び出しで異なるソースとデスティネーションを使用してみましょう。
 
 [source, clojure]
 ----
