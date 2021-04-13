@@ -178,9 +178,9 @@ map、filter、mapcatなどの処理は、必ずしも具体的な型に結び�
 ;; => "1"
 ----
 
-The transducer versions of `map` and `filter` transform a process that carries inputs from a source to a destination but don't know anything about where the inputs come from and where they end up. In their implementation they contain the _essence_ of what they accomplish, independent of context.
+`map` と `filter` のトランスデューサバージョンは、入力をソースからデスティネーションに運ぶプロセスを変換しますが、入力がどこから来て出力がどこに終わるのかについては何も知りません。トランスデューサの実装では、コンテキストに依存せず、何を達成するかのエッセンスが含まれています。
 
-Now that we know more about transducers we can try to implement our own version of `mapcat`. We already have a fundamental piece of it: the `map` transducer. What `mapcat` does is map a function over an input and flatten the resulting structure one level. Let's try to implement the catenation part as a transducer:
+トランスデューサについての知識が深まったところで、自分のバージョンの `mapcat` を実装してみましょう。基本的な部分はすでに持っています。それは `map` トランスデューサです。 `mapcat` が行うことは、入力に対して関数をマッピングし、結果として得られる構造を1レベル平坦化することです。では、トランスデューサとして結合(cat)の部分を実装してみましょう。
 
 [source, clojure]
 ----
@@ -193,7 +193,7 @@ Now that we know more about transducers we can try to implement our own version 
 ;; => [0 1 2 3 4 5]
 ----
 
-The `my-cat` transducer returns a reducing function that catenates its inputs into the accumulator. It does so reducing the `input` reducible with the `rfn` reducing function and using the accumulator (`acc`) as the initial value for such reduction. `mapcat` is simply the composition of `map` and `cat`. The order in which transducers are composed may seem backwards but it'll become clear in a moment.
+`my-cat` トランスデューサは、入力をアキュムレータに結合(cat)する還元関数を返します。これは、還元関数 `rfn` で還元可能な `input` を還元し、その還元の初期値としてアキュムレータ ( `acc` ) を使用します。`mapcat` は `map` と `cat` を単純に組み合わせたものである。トランスデューサを構成する順序は後ろ向きに見えるかもしれませんが、すぐに明らかになります。
 
 [source, clojure]
 ----
