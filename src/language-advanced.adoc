@@ -214,7 +214,7 @@ map、filter、mapcatなどの処理は、必ずしも具体的な型に結び�
 
 ==== Transducers in ClojureScript core
 
-Some of the ClojureScript core functions like `map`, `filter` and `mapcat` support an arity 1 version that returns a transducer. Let's revisit our definition of `process-cluster` and define it in terms of transducers:
+`map` ,  `filter` ,  `mapcat` などの ClojureScript コア関数の中には、トランスデューサを返す引数が1つの バージョンをサポートしているものがあります。では、先ほどの `process-cluster` の定義をもう一度見直して、トランスデューサの観点から定義してみましょう。
 
 [source, clojure]
 ----
@@ -225,13 +225,13 @@ Some of the ClojureScript core functions like `map`, `filter` and `mapcat` suppo
     (map clean-grape)))
 ----
 
-A few things changed since our previous definition `process-clusters`. First of all, we are using the transducer-returning versions of `mapcat`, `filter` and `map` instead of partially applying them for working on sequences.
+前回の定義 `process-clusters` からいくつかの点が変更されました。まず、 `mapcat` ,  `filter` ,  `map`  をシーケンスの処理に部分的に適用するのではなく、トランスデューサを返すバージョンを使用しています。
 
-Also you may have noticed that the order in which they are composed is reversed, they appear in the order they are executed. Note that all `map`, `filter` and `mapcat` return a transducer. `filter` transforms the reducing function returned by `map`, applying the filtering before proceeding; `mapcat` transforms the reducing function returned by `filter`, applying the mapping and catenation before proceeding.
+また、気付いたかもしれませんが、これらの構成順は逆で、実行された順に並びます。すべての `map`, `filter`, `mapcat` はトランスデューサを返すことに注意してほしい。`filter` は `map` が返す還元関数を変換し、処理を進める前にフィルタリングを適用します。`mapcat` は `filter` が返す還元関数を変換し、処理を進める前にmapとcatを適用します。
 
-One of the powerful properties of transducers is that they are combined using regular function composition.  What's even more elegant is that the composition of various transducers is itself a transducer! This means that our `process-cluster` is a transducer too, so we have defined a composable and context-independent algorithmic transformation.
+トランスデューサの強力な特性の1つは、通常の関数合成を使って組み合わせられることです。 さらにエレガントなのは、さまざまなトランスデューサの組み合わせは、それ自体がトランスデューサであるということです。このことは、私たちの `process-cluster` もトランスデューサであることを意味します。つまり、私たちは合成可能でコンテキストに依存しないアルゴリズム変換を定義したことになります。
 
-Many of the core ClojureScript functions accept a transducer, let's look at some examples with our newly created `process-cluster`:
+ClojureScriptのコア関数の多くはトランスデューサを受け入れるので、新しく作成した `process-cluster` でいくつかの例を見てみましょう。
 
 [source, clojure]
 ----
@@ -245,7 +245,7 @@ Many of the core ClojureScript functions accept a transducer, let's look at some
 ;; => [{:rotten? false, :clean? true} {:rotten? false, :clean? true}]
 ----
 
-Since using `reduce` with the reducing function returned from a transducer is so common, there is a function for reducing with a transformation called `transduce`. We can now rewrite the previous call to `reduce` using `transduce`:
+トランスデューサーから返された還元関数で `reduce` を使用することは非常に一般的なので、 `transduce` と呼ばれる変換で還元するための関数があります。先ほどの `reduce` の呼び出しを `transduce` を使って書き換えることができます。
 
 [source, clojure]
 ----
@@ -256,7 +256,7 @@ Since using `reduce` with the reducing function returned from a transducer is so
 
 ==== Initialisation
 
-In the last example we provided an initial value to the `transduce` function (`[]`) but we can omit it and get the same result:
+先の例では、 `transduce` 関数に初期値（ `[]` ）を与えましたが、これを省略しても同じ結果が得られます。
 
 [source, clojure]
 ----
@@ -264,7 +264,7 @@ In the last example we provided an initial value to the `transduce` function (`[
 ;; => [{:rotten? false, :clean? true} {:rotten? false, :clean? true}]
 ----
 
-What's going on here? How can `transduce` know what initial value use as an accumulator when we haven't specified it? Try calling `conj` without any arguments and see what happens:
+ここで何が起こっているのでしょうか？初期値を指定していないのに、 `transduce` はどの初期値をアキュムレータとして使うかをどうやって知ることができるのでしょうか？引数なしで `conj` を呼んでみて、何が起こるか見てみましょう。
 
 [source, clojure]
 ----
@@ -272,7 +272,7 @@ What's going on here? How can `transduce` know what initial value use as an accu
 ;; => []
 ----
 
-The `conj` function has a arity 0 version that returns an empty vector but is not the only reducing function that supports arity 0. Let's explore some others:
+関数 `conj` には、空のベクトルを返す引数の数が0のバージョンがありますが、引数の数が0をサポートする還元関数はこれだけではありません。
 
 [source, clojure]
 ----
@@ -289,7 +289,7 @@ The `conj` function has a arity 0 version that returns an empty vector but is no
 ;; => true
 ----
 
-The reducing function returned by transducers must support the arity 0 as well, which will typically delegate to the transformed reducing function. There is no sensible implementation of the arity 0 for the transducers we have implemented so far, so we'll simply call the reducing function without arguments. Here's how our modified `my-mapt` could look like:
+トランスデューサが返す還元関数は、引数の数が0の場合もサポートしていなければならず、通常は変換された還元関数に委ねられます。これまでに実装したトランスデューサには、引数の数が0の適切な実装がありませんので、単に引数なしで還元関数を呼び出します。修正した `my-mapt` は以下のようになります。
 
 [source, clojure]
 ----
@@ -297,12 +297,12 @@ The reducing function returned by transducers must support the arity 0 as well, 
   [f]
   (fn [rfn]
     (fn
-      ([] (rfn))                ;; arity 0 that delegates to the reducing fn
+      ([] (rfn))                ;; 引数の数0で、還元関数fnに委ねる。
       ([acc input]
         (rfn acc (f input))))))
 ----
 
-The call to the arity 0 of the reducing function returned by a transducer will call the arity 0 version of every nested reducing function, eventually calling the outermost reducing function. Let's see an example with our already defined `process-clusters` transducer:
+トランスデューサが返す還元関数の引数の数が0のものへの呼び出しは，入れ子になったすべての還元関数の引数の数が0であるバージョンを呼び出し，最終的には一番外側の還元関数を呼び出します．既に定義されている `process-clusters` トランスデューサを使って例を見てみましょう。
 
 [source, clojure]
 ----
@@ -310,12 +310,12 @@ The call to the arity 0 of the reducing function returned by a transducer will c
 ;; => []
 ----
 
-The call to the arity 0 flows through the transducer stack, eventually calling `(conj)`.
+引数の数が0の呼び出しはトランスデューサ・スタックを流れ、最終的には `(conj)` を呼び出します。
 
 
 ==== Stateful transducers
 
-So far we've only seen purely functional transducer; they don't have any implicit state and are very predictable. However, there are many data transformation functions that are inherently stateful, like `take`. `take` receives a number `n` of elements to keep and a collection and returns a collection with at most `n` elements.
+これまでのところ、純粋な関数型トランスデューサしか見ていません。これらのトランスデューサは暗黙的な状態を持たず、非常に予測可能です。しかし， `take` のように，本質的にステートフルなデータ変換関数は数多く存在します． `take` は保持する要素の数 `n` とコレクションを受け取り、最大で `n` 個の要素を持つコレクションを返します。
 
 [source, clojure]
 ----
@@ -323,7 +323,7 @@ So far we've only seen purely functional transducer; they don't have any implici
 ;; => (0 1 2 3 4 5 6 7 8 9)
 ----
 
-Let's step back for a bit and learn about the early termination of the `reduce` function. We can wrap an accumulator in a type called `reduced` for telling `reduce` that the reduction process should terminate immediately. Let's see an example of a reduction that aggregates the inputs in a collection and finishes as soon as there are 10 elements in the accumulator:
+少し戻って、 `reduce` 関数の早期終了について学んでみましょう。アキュムレータを `reduced` という型でラップして、`reduce` にリダクション処理がすぐに終了するように指示することができます。コレクションの入力を集約し、アキュムレータに10個の要素が入ったらすぐに終了させるリダクションの例を見てみましょう。
 
 [source, clojure]
 ----
@@ -336,9 +336,9 @@ Let's step back for a bit and learn about the early termination of the `reduce` 
 ;; => [0 1 2 3 4 5 6 7 8 9]
 ----
 
-Since transducers are modifications of reducing functions they also use `reduced` for early termination.  Note that stateful transducers may need to do some cleanup before the process terminates, so they must support an arity 1 as a "completion" step. Usually, like with arity 0, this arity will simply delegate to the transformed reducing function's arity 1.
+トランスデューサは還元関数の修正であるため、早期終了のために `reduced` も使用します。 ステートフルなトランスデューサは、プロセスが終了する前に何らかのクリーンアップを行う必要があるかもしれないことに注意してください。したがって、「補完」ステップとして引数の数が1の場合をサポートしなければなりません。通常、引数の数が0の場合と同様に、この引数の数は単純に変換された還元関数の引数の数が1の場合に委ねられます。
 
-Knowing this we are able to write stateful transducers like `take`. We'll be using mutable state internally for tracking the number of inputs we have seen so far, and wrap the accumulator in a `reduced` as soon as we've seen enough elements:
+これを知っていれば、 `take` のようなステートフルなトランスデューサを書くことができます。これまでに見た入力の数を追跡するために、内部的にmutable stateを使用し、十分な数の要素を見たらすぐにアキュムレータを `reduced` でラップすることになります。
 
 [source, clojure]
 ----
@@ -360,9 +360,9 @@ Knowing this we are able to write stateful transducers like `take`. We'll be usi
               result)))))))
 ----
 
-This is a simplified version of the `take` function present in ClojureScript core. There are a few things to note here so let's break it up in pieces to understand it better.
+これは、ClojureScriptコアに存在する `take` 関数の簡略化したものです。ここでは注意すべき点がいくつかありますので、理解を深めるために分割して説明します。
 
-The first thing to notice is that we are creating a mutable value inside the transducer. Note that we don't create it until we receive a reducing function to transform. If we created it before returning the transducer we couldn't use `my-take` more than once. Since the transducer is handed a reducing function to transform each time it is used, we can use it multiple times and the mutable variable will be created in every use.
+まず最初に気づくことは、トランスデューサの中にミュータブルな値を作成していることです。変換するための還元関数を受け取るまではそれを作成していないことに注意してください。もしトランスデューサを返す前に作成していたら、 `my-take` を何度も使うことはできません。トランスデューサは使用されるたびに変換するための還元関数が渡されるので、複数回使用することができ、使用するたびに変異可能な変数が作成されます。
 
 [source, clojure]
 ----
@@ -381,7 +381,7 @@ The first thing to notice is that we are creating a mutable value inside the tra
 ;; => [0 1 2 3 4]
 ----
 
-Let's now dig into the reducing function returned from `my-take`. First of all we `deref` the volatile to get the number of elements that remain to be taken and decrement it to get the next remaining value.  If there are still remaining items to take, we call `rfn` passing the accumulator and input; if not, we already have the final result.
+それでは、 `my-take` から返される還元関数を見てみましょう。まず最初に volatile を `deref` して、取るべき要素の数を取得し、それをデクリメントして次の残りの値を取得します。 取るべき項目が残っていれば、アキュムレータと入力を渡して `rfn` を呼び出します。そうでなければ、すでに最終的な結果が出ています。
 
 [source, clojure]
 ----
@@ -395,7 +395,7 @@ Let's now dig into the reducing function returned from `my-take`. First of all w
 ))
 ----
 
-The body of `my-take` should be obvious by now. We check whether there are still items to be processed using the next remainder (`nr`) and, if not, wrap the result in a `reduced` using the `ensure-reduced` function. `ensure-reduced` will wrap the value in a `reduced` if it's not reduced already or simply return the value if it's already reduced. In case we are not done yet, we return the accumulated `result` for further processing.
+`my-take` の本体はもう明らかでしょう。次の残り（ `nr` ）を使って処理すべき項目がまだあるかどうかをチェックし、ない場合は `ensure-reduced` 関数を使って結果を `reduced` で囲みます。 `ensure-reduced` は、値がまだ還元されていなければ `reduced` で囲み、すでに還元されていれば単に値を返します。まだ終わっていない場合には、さらなる処理のために累積した `result` を返します。
 
 [source, clojure]
 ----
@@ -404,7 +404,7 @@ The body of `my-take` should be obvious by now. We check whether there are still
   result)
 ----
 
-We've seen an example of a stateful transducer but it didn't do anything in its completion step. Let's see an example of a transducer that uses the completion step to flush an accumulated value. We'll implement a simplified version of `partition-all`, which given a `n` number of elements converts the inputs in vectors of size `n`. For understanding its purpose better let's see what the arity 2 version gives us when providing a number and a collection:
+ステートフルなトランスデューサの例を見てきましたが、完了ステップでは何もしていませんでした。ここでは、完了ステップを使用して累積値をフラッシュするトランスデューサの例を見てみましょう。ここでは， `n` 個の要素が与えられたときに，入力を `n` 個のサイズのベクトルに変換する `partition-all` の簡易版を実装します．目的をよりよく理解するために，数値とコレクションを与えたときに，引数の数が2つのバージョンがどのような結果になるかを見てみましょう．
 
 [source, clojure]
 ----
@@ -412,7 +412,7 @@ We've seen an example of a stateful transducer but it didn't do anything in its 
 ;; => ((0 1 2) (3 4 5) (6 7 8) (9))
 ----
 
-The transducer returning function of `partition-all` will take a number `n` and return a transducer that groups inputs in vectors of size `n`. In the completion step it will check if there is an accumulated result and, if so, add it to the result. Here's a simplified version of ClojureScript core `partition-all` function, where `array-list` is a wrapper for a mutable JavaScript array:
+`partition-all` のトランスデューサを返す関数は，数 `n` を受け取り，入力をサイズ `n` のベクトルにグループ化するトランスデューサを返します．補完ステップでは，累積した結果があるかどうかをチェックし，あればそれを結果に追加します．ここでは、ClojureScriptのコアである `partition-all` 関数の簡略化したバージョンを紹介します。ここで、 `array-list` は変更可能なJavaScript配列のラッパーです。
 
 [source, clojure]
 ----
