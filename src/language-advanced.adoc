@@ -1195,9 +1195,9 @@ ISeqable
 
 ===== Collection traits
 
-There are some qualities that not all collections have, such as being countable in constant time or being reversible. These traits are splitted into different protocols since not all of them make sense for every collection. For illustrating these protocols we'll use the `Pair` type we defined earlier.
+すべてのコレクションが持っているわけではない性質があります。例えば、一定時間で数えられることや、可逆的であることなどです。これらの特性は、すべてのコレクションで意味があるわけではないので、異なるプロトコルに分割されます。これらのプロトコルを説明するために、先に定義した `Pair` 型を使用します。
 
-For collections that can be counted in constant time using the `count` function we can implement the `ICounted` protocol. It should be easy to implement it for the `Pair` type:
+`ICounted` プロトコルは、 `count` 関数を用いて一定時間内に数えることができるコレクションに対して実装することができます。これを `Pair` 型に実装するのは簡単なはずです。
 
 [source, clojure]
 ----
@@ -1212,7 +1212,7 @@ For collections that can be counted in constant time using the `count` function 
 ;; => 2
 ----
 
-Some collection types such as vectors and lists can be indexed by a number using the `nth` function. If our types are indexed we can implement the `IIndexed` protocol:
+ベクトルやリストなどのコレクション型の中には， `nth` 関数を用いて数値によるインデックスを作成できるものがあります．インデックス付きの型であれば、 `IIndexed` プロトコルを実装することができます。
 
 [source, clojure]
 ----
@@ -1254,9 +1254,9 @@ TODO: IReversible?
 
 ==== Associative
 
-There are many data structures that are associative: they map keys to values. We've encountered a few of them already and we know many functions for working with them like `get`, `assoc` or `dissoc`. Let's explore the protocols that these functions build upon.
+データ構造の中には，キーと値を対応させる「連想」を利用したものがたくさんあります．すでにいくつかのデータ構造を見てきましたし、 `get` 、 `assoc` 、 `dissoc` など、これらのデータ構造を扱う関数もたくさん知っています。これらの関数の基礎となるプロトコルを調べてみましょう。
 
-First of all, we need a way to look up keys on an associative data structure. The `ILookup` protocol defines a function for doing so, let's add the ability to look up keys in our `Pair` type since it is an associative data structure that maps the indices 0 and 1 to values.
+まず最初に，連想データ構造のキーを検索する方法が必要です． `ILookup` プロトコルはそのための関数を定義しています。ここでは、インデックス0と1を値にマッピングする連想データ構造である `Pair` 型のキーを検索する機能を追加してみましょう。
 
 [source, clojure]
 ----
@@ -1284,7 +1284,7 @@ First of all, we need a way to look up keys on an associative data structure. Th
 ;; => :default
 ----
 
-For using `assoc` on a data structure it must implement the `IAssociative` protocol. For our `Pair` type only 0 and 1 will be allowed as keys for associating values. `IAssociative` also has a function for asking whether a key is present or not.
+データ構造で `assoc` を使用するには、`IAssociative` プロトコルを実装する必要があります。我々の `Pair` 型では，値を関連付けるためのキーとして0と1のみが許可されます．また， `IAssociative` には，キーが存在するかどうかを問い合わせる機能があります．
 
 [source, clojure]
 ----
@@ -1315,7 +1315,7 @@ For using `assoc` on a data structure it must implement the `IAssociative` proto
 ;; Error: Can only assoc to 0 and 1 keys
 ----
 
-The complementary function for `assoc` is `dissoc` and it's part of the `IMap` protocol. It doesn't make much sense for our `Pair` type but we'll implement it nonetheless. Dissociating 0 or 1 will mean putting a `nil` in such position and invalid keys will be ignored.
+`assoc` を補完する関数は `dissoc` で、 `IMap` プロトコルの一部です。私たちの `Pair` 型にはあまり意味がありませんが、それでも実装してみましょう。0や1をdissocさせると、その位置に `nil` を置くことになり、無効なキーは無視されます。
 
 [source, clojure]
 ----
@@ -1343,7 +1343,7 @@ The complementary function for `assoc` is `dissoc` and it's part of the `IMap` p
 ;; => #<Pair ,>
 ----
 
-Associative data structures are made of key and value pairs we can call entries. The `key` and `val` functions allow us to query the key and value of such entries and they are built upon the `IMapEntry` protocol. Let's see a few examples of `key` and `val` and how map entries can be used to build up maps:
+連想データ構造は、エントリと呼ばれるキーと値のペアで構成されます。関数 `key` と `val` は、このようなエントリのキーと値を問い合わせることができ、`IMapEntry` プロトコルに基づいて構築されています。 `key` と `val` のいくつかの例と、マップエントリを使ってどのようにマップを構築するかを見てみましょう。
 
 [source, clojure]
 ----
@@ -1357,7 +1357,7 @@ Associative data structures are made of key and value pairs we can call entries.
 ;; => {:foo :bar, :baz :xyz}
 ----
 
-Pairs can be map entries too, we treat their first element as the key and the second as the value:
+Pairもマップエントリになりますが、その場合は最初の要素をキー、2番目の要素を値として扱います。
 
 [source, clojure]
 ----
